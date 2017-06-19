@@ -3,6 +3,7 @@ package me.masonic.mc;
 import me.masonic.mc.Function.InvIcon;
 import me.masonic.mc.Function.Menu;
 import me.masonic.mc.Function.Secure;
+import me.masonic.mc.Hook.HookPapi;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
@@ -26,6 +27,9 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        new HookPapi(this).hook(); //Hook Papi
+
         getServer().getPluginManager().registerEvents(new Menu(), this);
         getServer().getPluginManager().registerEvents(new Secure(), this);
         getServer().getPluginManager().registerEvents(new InvIcon(), this);

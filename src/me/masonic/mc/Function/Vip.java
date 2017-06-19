@@ -12,12 +12,23 @@ import java.util.HashMap;
  */
 public class Vip {
     private static HashMap<String, Integer> VIPMAP = new HashMap<>();
+    private static HashMap<String, String> VIPMAP_NAME = new HashMap<>();
+
     static {
         VIPMAP.put("default", 0);
         VIPMAP.put("VIP", 1);
-        VIPMAP.put("VIP+", 2);
-        VIPMAP.put("SVIP", 3);
+        VIPMAP.put("SVIP", 2);
+        VIPMAP.put("SVIP+", 3);
+
+        VIPMAP_NAME.put("default", "§8无");
+        VIPMAP_NAME.put("VIP", "§2Vip");
+        VIPMAP_NAME.put("SVIP", "§6Svip");
+        VIPMAP_NAME.put("SVIP+", "§cSvip+");
+
     }
+
+
+
 
     public static String getVipRank(Player p) {
         String res = "default";
@@ -28,4 +39,9 @@ public class Vip {
         }
         return res;
     }
+
+    public static String getVipRank$Formatted(Player p) {
+        return VIPMAP_NAME.get(getVipRank(p));
+    }
+
 }
