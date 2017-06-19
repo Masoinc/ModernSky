@@ -12,5 +12,7 @@
     <orderEntry type="library" name="gtm" level="project" />
     <orderEntry type="library" name="PermissionsEX-1.23.4" level="project" />
     <orderEntry type="library" name="PlaceholderAPI" level="project" />
+    <orderEntry type="library" name="askyblock" level="project" />
+    <orderEntry type="library" name="Advanced Abilities" level="project" />
   </component>
 </module>
