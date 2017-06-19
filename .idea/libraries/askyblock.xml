@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="askyblock">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/askyblock.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

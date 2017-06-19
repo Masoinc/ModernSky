@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class Core extends JavaPlugin {
 
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/gtm";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/sky_1";
     private static final String UNAME = "mc";
     private static final String UPASSWORD = "492357816";
     private static Connection connection;

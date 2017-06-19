@@ -20,7 +20,17 @@ public class HookPapi extends EZPlaceholderHook {
         if (identifier.equals("getVipRank")) {
             return Vip.getVipRank$Formatted(p);
         }
+        //%ModernSky_getVipExpi%
+        if (identifier.equals("getVipExpi")) {
+            try {
+                return Vip.getVip$Expiration(p);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
+
     }
 
     public HookPapi(Core Plugin) {

@@ -53,9 +53,9 @@ public class SqlUtility {
                 return 0;
             }
             return rs.getInt(1);
-
         }
         return 0;
     }
+
 }
 
