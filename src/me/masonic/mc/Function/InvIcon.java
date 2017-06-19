@@ -61,6 +61,10 @@ public class InvIcon implements Listener {
             switch (e.getItemDrop().getItemStack().getItemMeta().getDisplayName()) {
                 case "§7§l手机":
                     e.setCancelled(true);
+                    break;
+                case "§2§l随身背包":
+                    e.setCancelled(true);
+                    break;
                 default:
             }
         }
