@@ -26,7 +26,7 @@ public class MskyVip implements CommandExecutor {
                     p.sendMessage("§8[ §ModernSky §8] §7指令有误");
                     return true;
                 case 3:
-                    int days = Integer.getInteger(args[2]);
+                    int days = Integer.parseInt(args[2]);
                     int kita = days / 15;
                     switch (args[0]) {
                         case "vip":

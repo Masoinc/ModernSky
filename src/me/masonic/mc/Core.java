@@ -1,5 +1,6 @@
 package me.masonic.mc;
 
+import me.masonic.mc.Cmd.MskyVip;
 import me.masonic.mc.Function.InvIcon;
 import me.masonic.mc.Function.Menu;
 import me.masonic.mc.Function.Secure;
@@ -35,6 +36,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Menu(), this);
         getServer().getPluginManager().registerEvents(new Secure(), this);
         getServer().getPluginManager().registerEvents(new InvIcon(), this);
+        this.getCommand("mskyvip").setExecutor(new MskyVip());
 
         try { //初始化驱动
             Class.forName("com.mysql.jdbc.Driver");
