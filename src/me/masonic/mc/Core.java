@@ -3,7 +3,9 @@ package me.masonic.mc;
 import me.masonic.mc.Function.InvIcon;
 import me.masonic.mc.Function.Menu;
 import me.masonic.mc.Function.Secure;
+import me.masonic.mc.Hook.HookAdvancedAbility;
 import me.masonic.mc.Hook.HookPapi;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
@@ -52,8 +54,9 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
-
+        HookAdvancedAbility hk = new HookAdvancedAbility();
+        hk.updateConfig();
+        this.getLogger().info("修复 AdvancedAbility 配置文件任务已完成。");
     }
 
     public static void main(String[] args) {
