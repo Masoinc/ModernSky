@@ -45,7 +45,7 @@ public class InvIcon implements Listener {
                     e.setCancelled(true);
                     ((Player) e.getWhoClicked()).performCommand("backpack");
                     break;
-                case "§7§l手机":
+                case "§7§l菜单":
                     e.setCancelled(true);
                     ((Player) e.getWhoClicked()).performCommand("bs mskycore");
                     break;
@@ -59,7 +59,7 @@ public class InvIcon implements Listener {
         if (e.getItemDrop().getItemStack().hasItemMeta()
                 && e.getItemDrop().getItemStack().getItemMeta().hasDisplayName()) {
             switch (e.getItemDrop().getItemStack().getItemMeta().getDisplayName()) {
-                case "§7§l手机":
+                case "§7§l菜单":
                     e.setCancelled(true);
                     break;
                 case "§2§l随身背包":
