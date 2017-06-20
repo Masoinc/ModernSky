@@ -23,17 +23,18 @@ public class MskyVip implements CommandExecutor {
             Player p = (Player) commandSender;
             switch (args.length) {
                 case 0:
-                    p.sendMessage("§8[ §ModernSky §8] §7指令有误");
+                    p.sendMessage("§8[ §6ModernSky §8] §7指令有误");
                     return true;
                 case 3:
                     int days = Integer.parseInt(args[2]);
                     int kita = days / 15;
+                    Player pr;
                     switch (args[0]) {
                         case "vip":
-                            Player pr = Bukkit.getPlayer(args[1]);
+                            pr = Bukkit.getPlayer(args[1]);
                             if (Vip.getVipRank(pr).equals("SVIP") || Vip.getVipRank(pr).equals("SVIP+")) {
-                                pr.sendMessage("§8[ §ModernSky §8] §7已开通Svip或Svip+");
-                                p.sendMessage("§8[ §ModernSky §8] §7已开通Svip或Svip+");
+                                pr.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
+                                p.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
                                 return true;
                             }
                             try {
@@ -46,7 +47,7 @@ public class MskyVip implements CommandExecutor {
                                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv1 " + kita);
 
 
-                                        pr.sendMessage("§8[ §ModernSky §8] §7已续费§2 Vip §7感谢您的支持");
+                                        pr.sendMessage("§8[ §6ModernSky §8] §7已续费§2 Vip §7感谢您的支持");
 
                                         SqlUtility.uploadIntValue(pr, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
                                     }
@@ -54,8 +55,19 @@ public class MskyVip implements CommandExecutor {
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
+                            return true;
                         case "svip":
+                            pr = Bukkit.getPlayer(args[1]);
+                            if ( Vip.getVipRank(pr).equals("SVIP+")) {
+                                pr.sendMessage("§8[ §6ModernSky §8] §7已开通Svip+");
+                                p.sendMessage("§8[ §6ModernSky §8] §7已开通Svip+");
+                                return true;
+                            }
                         case "svip+":
+
+                        default:
+                            p.sendMessage("§8[ §6ModernSky §8] §7指令有误");
+                            return true;
                     }
             }
         } else {
