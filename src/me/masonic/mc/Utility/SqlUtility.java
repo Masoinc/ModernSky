@@ -29,13 +29,16 @@ public class SqlUtility {
     }
 
     public static void createColumn(Player p, String sheet) throws SQLException {
-        String sql = "INSERT INTO " + sheet + " (id) VALUES (?``);";
+        String sql = "INSERT INTO " + sheet + " (id) VALUES (?);";
         statement = Core.getConnection().prepareStatement(sql);
         statement.setObject(1, p.getName());
         statement.executeUpdate();
     }
 
     public static void uploadIntValue(Player p, String sheet, String column, int value) throws SQLException {
+        if (!getIfExist(p, sheet)) {
+            createColumn(p, sheet);
+        }
         String sql = "UPDATE " + sheet + " SET " + column + " = ? WHERE id = ?;";
         statement = Core.getConnection().prepareStatement(sql);
         statement.setObject(1, value);
