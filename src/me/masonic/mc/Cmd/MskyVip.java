@@ -34,11 +34,9 @@ public class MskyVip implements CommandExecutor {
                             switch (Vip.getVipRank(pr)) {
                                 case "SVIP+":
                                     pr.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
-                                    p.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
                                     return true;
                                 case "SVIP":
                                     pr.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
-                                    p.sendMessage("§8[ §6ModernSky §8] §7已开通Svip或Svip+");
                                     return true;
                                 case "VIP":
                                     try {
@@ -78,12 +76,12 @@ public class MskyVip implements CommandExecutor {
                                     return true;
                             }
 
+
                         case "svip":
                             switch (Vip.getVipRank(pr)) {
                                 // SVIP+
                                 case "SVIP+":
                                     pr.sendMessage("§8[ §6ModernSky §8] §7已开通Svip+");
-                                    p.sendMessage("§8[ §6ModernSky §8] §7已开通Svip+");
                                     return true;
                                 //SVIP -> SVIP
                                 case "SVIP":
@@ -120,10 +118,18 @@ public class MskyVip implements CommandExecutor {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv2 " + kita);
 
 
-                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip§7升级为§6Svip§7 ，§7感谢您的支持");
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§6 Svip §7 ，§7感谢您的支持");
 
                                             SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * (days + daysbonus)));
                                             return true;
+                                        } else {
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add svip");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv2 " + kita);
+
+
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§6 Svip §7 ，§7感谢您的支持");
+
+                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                         }
                                     } catch (SQLException e) {
                                         e.printStackTrace();
@@ -132,10 +138,10 @@ public class MskyVip implements CommandExecutor {
                                 //DEFAULT -> SVIP
                                 default:
 
-                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add vip");
-                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv1 " + kita);
+                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add svip");
+                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv2 " + kita);
 
-                                    pr.sendMessage("§8[ §6ModernSky §8] §7已开通§2 Vip ，§7感谢您的支持");
+                                    pr.sendMessage("§8[ §6ModernSky §8] §7已开通§6 Svip ，§7感谢您的支持");
                                     try {
                                         SqlUtility.createColumn(p, "vip");
                                         SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
@@ -159,9 +165,18 @@ public class MskyVip implements CommandExecutor {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv3 " + kita);
 
 
-                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip§7升级为§cSvip+§7 ，§7感谢您的支持");
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
                                             SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * (days + daysbonus)));
+                                            return true;
+                                        } else {
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add svip+");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv3 " + kita);
+
+
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§c Svip+ §7 ，§7感谢您的支持");
+
+                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 *  days));
                                             return true;
                                         }
                                     } catch (SQLException e) {
@@ -180,10 +195,19 @@ public class MskyVip implements CommandExecutor {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv3 " + kita);
 
 
-                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§6 SVip§7升级为§cSvip+§7 ，§7感谢您的支持");
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§6 SVip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
                                             SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * (days + daysbonus)));
                                             return true;
+                                        } else {
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add svip+");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv3 " + kita);
+
+
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已由§6 SVip §7升级为§c Svip+ §7 ，§7感谢您的支持");
+
+                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+
                                         }
                                     } catch (SQLException e) {
                                         e.printStackTrace();
@@ -205,6 +229,15 @@ public class MskyVip implements CommandExecutor {
 
                                             SqlUtility.uploadIntValue(pr, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
                                             return true;
+                                        } else {
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + pr.getName() + " group add svip+");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + pr.getName() + " kitvipv3 " + kita);
+
+
+                                            pr.sendMessage("§8[ §6ModernSky §8] §7已开通§c Svip+ §7，§7感谢您的支持");
+
+                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
+
                                         }
                                     } catch (SQLException e) {
                                         e.printStackTrace();
