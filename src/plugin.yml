@@ -8,3 +8,6 @@ commands:
   mskyvip:
     description: vip
     usage: /mskyvip
+  mskydr:
+    description: DailyReward
+    usage: /mskydr

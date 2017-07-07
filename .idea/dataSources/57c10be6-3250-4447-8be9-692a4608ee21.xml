@@ -14,18 +14,27 @@
     <schema id="8" parent="1" name="mysql"/>
     <schema id="9" parent="1" name="performance_schema"/>
     <schema id="10" parent="1" name="sys"/>
-    <table id="11" parent="2" name="vip"/>
-    <column id="12" parent="11" name="id">
+    <schema id="11" parent="1" name="gtm_gang"/>
+    <schema id="12" parent="1" name="msky_2"/>
+    <schema id="13" parent="1" name="sky_1_aa"/>
+    <schema id="14" parent="1" name="sky_1_pex"/>
+    <table id="15" parent="2" name="vip"/>
+    <table id="16" parent="2" name="vipdaily"/>
+    <column id="17" parent="15" name="id">
       <Position>1</Position>
       <DataType>varchar(16)|0</DataType>
     </column>
-    <column id="13" parent="11" name="expiration">
+    <column id="18" parent="15" name="expiration">
       <Position>2</Position>
       <DataType>int(10)|0</DataType>
     </column>
-    <column id="14" parent="11" name="rank">
-      <Position>3</Position>
-      <DataType>varchar(10)|0</DataType>
+    <column id="19" parent="16" name="id">
+      <Position>1</Position>
+      <DataType>varchar(16)|0</DataType>
+    </column>
+    <column id="20" parent="16" name="cooldown">
+      <Position>2</Position>
+      <DataType>int(3)|0</DataType>
     </column>
   </database-model>
 </dataSource>

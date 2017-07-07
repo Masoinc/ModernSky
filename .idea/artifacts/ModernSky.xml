@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="ModernSky">
-    <output-path>E:/Minecraft/现代空岛v2.0/plugins</output-path>
+    <output-path>E:/Minecraft/粘液空岛v2.0/plugins</output-path>
     <root id="archive" name="ModernSky.jar">
       <element id="module-output" name="ModernSky" />
       <element id="library" level="project" name="gtm" />
