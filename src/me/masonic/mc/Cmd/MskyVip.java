@@ -26,9 +26,6 @@ public class MskyVip implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender instanceof Player && commandSender.isOp()) {
             Player p = (Player) commandSender;
-
-
-
             switch (args.length) {
                 case 0:
                     p.sendMessage("§8[ §6ModernSky §8] §7指令有误");
