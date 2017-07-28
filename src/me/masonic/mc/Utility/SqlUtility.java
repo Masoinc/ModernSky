@@ -23,7 +23,7 @@ public class SqlUtility {
             return false;
         }
         while (rs.next()) {
-            return rs.getInt(1) == 1;
+            return rs.getInt(1) >= 1;
         }
         return false;
     }
@@ -35,9 +35,18 @@ public class SqlUtility {
         statement.executeUpdate();
     }
 
+    public static void createColumnWithVip(Player p, String sheet, int value) throws SQLException {
+        String sql = "INSERT INTO " + sheet + " (id,expiration) VALUES (?,?);";
+        statement = Core.getConnection().prepareStatement(sql);
+        statement.setObject(1, p.getName());
+        statement.setObject(2, value);
+        statement.executeUpdate();
+    }
+
     public static void uploadIntValue(Player p, String sheet, String column, int value) throws SQLException {
         if (!getIfExist(p, sheet)) {
-            createColumn(p, sheet);
+            createColumnWithVip(p, sheet, value);
+            return;
         }
         String sql = "UPDATE " + sheet + " SET " + column + " = ? WHERE id = ?;";
         statement = Core.getConnection().prepareStatement(sql);
