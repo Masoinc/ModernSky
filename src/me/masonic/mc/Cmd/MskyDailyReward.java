@@ -32,8 +32,6 @@ public class MskyDailyReward implements CommandExecutor {
                 Core.getEconomy().depositPlayer(p, 500);
                 p.sendMessage(Core.getPrefix() + "§6500 §7黑币已发放至银行账户");
             }
-            ;
-
 
         } catch (SQLException e) {
             e.printStackTrace();
