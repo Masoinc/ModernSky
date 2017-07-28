@@ -99,7 +99,6 @@ public class Vip implements Listener {
         e.setJoinMessage("§8[§6+§8] §7" + e.getPlayer().getName());
         switch (getVipRank(p)) {
             case "default":
-
                 return;
             case "VIP":
                 List<String> v1msg = Arrays.asList(

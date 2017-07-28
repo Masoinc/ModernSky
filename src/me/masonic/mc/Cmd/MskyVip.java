@@ -1,12 +1,17 @@
 package me.masonic.mc.Cmd;
 
+import me.masonic.mc.Core;
 import me.masonic.mc.Function.Vip;
 import me.masonic.mc.Utility.SqlUtility;
+import me.masonic.mc.Utility.TimeUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.sql.SQLException;
 
@@ -14,7 +19,7 @@ import java.sql.SQLException;
  * Mason Project
  * 2017-6-20-0020
  */
-public class MskyVip implements CommandExecutor {
+public class MskyVip implements CommandExecutor, Listener {
 
     //mskyvip vip id days
     @Override
@@ -41,7 +46,7 @@ public class MskyVip implements CommandExecutor {
                                 case "VIP":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         // VIP -> VIP
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
@@ -87,7 +92,7 @@ public class MskyVip implements CommandExecutor {
                                 case "SVIP":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
                                                 SqlUtility.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
@@ -109,7 +114,7 @@ public class MskyVip implements CommandExecutor {
                                 case "VIP":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
                                             int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
@@ -156,7 +161,7 @@ public class MskyVip implements CommandExecutor {
                                 case "VIP":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
                                             int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 3;
@@ -176,7 +181,7 @@ public class MskyVip implements CommandExecutor {
 
                                             pr.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 *  days));
+                                            SqlUtility.uploadIntValue(pr, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                             return true;
                                         }
                                     } catch (SQLException e) {
@@ -186,7 +191,7 @@ public class MskyVip implements CommandExecutor {
                                 case "SVIP":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
                                             int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
@@ -216,7 +221,7 @@ public class MskyVip implements CommandExecutor {
                                 case "SVIP+":
                                     try {
                                         if (!SqlUtility.getIfExist(pr, "vip")) {
-                                            SqlUtility.createColumn(pr,"vip");
+                                            SqlUtility.createColumn(pr, "vip");
                                         }
                                         if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
                                                 SqlUtility.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
@@ -269,6 +274,34 @@ public class MskyVip implements CommandExecutor {
         } else {
             commandSender.sendMessage("§8[ §6ModernSky §8] §7权限不足");
             return true;
+        }
+    }
+
+    private void expiredCheck(Player p, String rank) {
+        try {
+            // 已过期
+            int expitime = SqlUtility.getIntValue(p, "vip", "expiration");
+            if (expitime != 0 && expitime < TimeUtility.getCurrentSTime()) {
+                p.sendMessage(Core.getPrefix() + "您的 §6" + rank + " 已过期，过期后无法享受VIP特权");
+                p.sendMessage(Core.getPrefix() + "请及时续费，感谢您的支持");
+                SqlUtility.uploadIntValue(p, "vip", "expiration", 0);
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " group remove " + rank);
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @EventHandler
+    private void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        switch (Vip.getVipRank(p)) {
+            case "VIP":
+                expiredCheck(p,"VIP");
+            case "SVIP":
+                expiredCheck(p,"SVIP");
+            case "SVIP+":
+                expiredCheck(p,"SVIP+");
         }
     }
 }

@@ -3,6 +3,6 @@
 # ModernXraft Specific Version
 
 SQL:
-  URL: "jdbc:mysql://127.0.0.1:3306/msky_2"
+  URL: "jdbc:mysql://127.0.0.1:3306/msky_1"
   UNAME: "mc"
   UPASSWORD: "492357816"

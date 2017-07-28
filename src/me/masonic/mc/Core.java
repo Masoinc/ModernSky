@@ -1,11 +1,9 @@
 package me.masonic.mc;
 
+import me.masonic.mc.Cmd.MskyMsg;
 import me.masonic.mc.Cmd.MskyDailyReward;
 import me.masonic.mc.Cmd.MskyVip;
-import me.masonic.mc.Function.InvIcon;
-import me.masonic.mc.Function.Menu;
-import me.masonic.mc.Function.Secure;
-import me.masonic.mc.Function.Vip;
+import me.masonic.mc.Function.*;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -82,11 +80,14 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Secure(), this);
         getServer().getPluginManager().registerEvents(new InvIcon(), this);
         getServer().getPluginManager().registerEvents(new Vip(), this);
+        getServer().getPluginManager().registerEvents(new MskyVip(), this);
+        getServer().getPluginManager().registerEvents(new Ban(), this);
     }
 
     private void registerCmd() {
         this.getCommand("mskyvip").setExecutor(new MskyVip());
         this.getCommand("mskydr").setExecutor(new MskyDailyReward());
+        this.getCommand("mskymsg").setExecutor(new MskyMsg());
     }
 
     private void registerEconomy() {

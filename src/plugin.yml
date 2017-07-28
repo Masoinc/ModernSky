@@ -11,3 +11,6 @@ commands:
   mskydr:
     description: DailyReward
     usage: /mskydr
+  mskymsg:
+    description: Message
+    usage: /mskymsg
