@@ -1,6 +1,6 @@
 package me.masonic.mc.Function;
 
-import me.masonic.mc.Utility.Utility;
+import me.masonic.mc.Utility.PermissionUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -15,7 +15,7 @@ public class Menu implements Listener {
     void onSneak(PlayerToggleSneakEvent e) {
         if (!e.isSneaking()) {
             if (e.getPlayer().getLocation().getPitch() == -90) {
-                Utility.runOp(e.getPlayer(), "bs mskycore");
+                PermissionUtil.runOp(e.getPlayer(), "bs mskycore");
             }
         }
 
@@ -25,7 +25,7 @@ public class Menu implements Listener {
     void onCommand(PlayerCommandPreprocessEvent e) {
         if (e.getMessage().equals("/help")) {
             e.setCancelled(true);
-            Utility.runOp(e.getPlayer(),"bs mskycore");
+            PermissionUtil.runOp(e.getPlayer(),"bs mskycore");
         }
     }
 

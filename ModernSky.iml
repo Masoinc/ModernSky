@@ -7,14 +7,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="spigot-api-1.11.2-R0.1-SNAPSHOT-shaded" level="project" />
-    <orderEntry type="library" name="gtm" level="project" />
-    <orderEntry type="library" name="gtm" level="project" />
-    <orderEntry type="library" name="PermissionsEX-1.23.4" level="project" />
-    <orderEntry type="library" name="PlaceholderAPI" level="project" />
-    <orderEntry type="library" name="askyblock" level="project" />
-    <orderEntry type="library" name="Advanced Abilities" level="project" />
-    <orderEntry type="library" name="Vault" level="project" />
-    <orderEntry type="library" name="EssentialsX-2.0.1" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../SlimeFun-CN/lib/CS-CoreLib v1.5.16.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.45-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="BSP-PlayerShops" level="project" />
   </component>
 </module>

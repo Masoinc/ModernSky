@@ -1,6 +1,6 @@
 package me.masonic.mc.Function;
 
-import me.masonic.mc.Utility.SqlUtility;
+import me.masonic.mc.Utility.SqlUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -64,9 +64,9 @@ public class Vip implements Listener {
         }
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        if (SqlUtility.getIfExist(p, "vipdaily")) {//存在
+        if (SqlUtil.getIfExist(p, "vipdaily")) {//存在
 
-            if (SqlUtility.getIntValue(p, "vipdaily", "cooldown") == day) {//已领过
+            if (SqlUtil.getIntValue(p, "vipdaily", "cooldown") == day) {//已领过
                 return;
             }
             //+每日奖励
@@ -74,17 +74,17 @@ public class Vip implements Listener {
             p.sendMessage("§8[ §6ModernSky §8] §7您的每日奖励已发放，请进入§6 补给箱 §7菜单领取");
 
             //设置冷却
-            SqlUtility.uploadIntValue(p, "vipdaily", "cooldown", day);
+            SqlUtil.uploadIntValue(p, "vipdaily", "cooldown", day);
             return;
         }
         //不存在
-        SqlUtility.createColumn(p, "vipdaily");
+        SqlUtil.createColumn(p, "vipdaily");
 
 
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + p.getName() + " " + VIPMAP_DAILY.get(getVipRank(p)) + " 1");
         p.sendMessage("§8[ §6ModernSky §8] §7您的每日奖励已发放，请进入§6 补给箱 §7菜单领取");
 
-        SqlUtility.uploadIntValue(p, "vipdaily", "cooldown", day);
+        SqlUtil.uploadIntValue(p, "vipdaily", "cooldown", day);
 
     }
 
@@ -152,10 +152,10 @@ public class Vip implements Listener {
 
 
     public static String getVip$Expiration(Player p) throws SQLException {
-        if (SqlUtility.getIfExist(p, "vip")) {
-            return SqlUtility.getIntValue(p, "vip", "expiration") == 0 ?
+        if (SqlUtil.getIfExist(p, "vip")) {
+            return SqlUtil.getIntValue(p, "vip", "expiration") == 0 ?
                     "§30 §7天 §30 §7小时" :
-                    getCoolDown$Formatted(SqlUtility.getIntValue(p, "vip", "expiration") - System.currentTimeMillis() / 1000);
+                    getCoolDown$Formatted(SqlUtil.getIntValue(p, "vip", "expiration") - System.currentTimeMillis() / 1000);
 
         }
         return "§30 §7天 §30 §7小时";

@@ -1,8 +1,9 @@
 package me.masonic.mc;
 
-import me.masonic.mc.Cmd.MskyMsg;
-import me.masonic.mc.Cmd.MskyDailyReward;
-import me.masonic.mc.Cmd.MskyVip;
+//import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
+
+import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
+import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
@@ -11,9 +12,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Logger;
 
 /**
@@ -34,24 +33,25 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        CSCoreLibLoader loader = new CSCoreLibLoader(this);
+        if (loader.load()) {
+            plugin = this;
+            this.logger = this.getLogger();
 
-        plugin = this;
-        this.logger = this.getLogger();
+            new HookPapi(this).hook(); //Hook Papi
 
-        new HookPapi(this).hook(); //Hook Papi
+            registerEvents();
+            registerCmd();
+            registerEconomy();
 
-        registerEvents();
-        registerCmd();
-        registerEconomy();
+            if (!this.getDataFolder().exists()) {
+                this.getDataFolder().mkdirs();
+            }
 
-        if (!this.getDataFolder().exists()) {
-            this.getDataFolder().mkdirs();
+            loadFiles();
+
+            registerSQL();
         }
-
-        loadFiles();
-
-        registerSQL();
-
     }
 
     @Override
@@ -82,12 +82,17 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Vip(), this);
         getServer().getPluginManager().registerEvents(new MskyVip(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
+        getServer().getPluginManager().registerEvents(new Ban(), this);
     }
 
     private void registerCmd() {
         this.getCommand("mskyvip").setExecutor(new MskyVip());
         this.getCommand("mskydr").setExecutor(new MskyDailyReward());
         this.getCommand("mskymsg").setExecutor(new MskyMsg());
+        this.getCommand("mskysf").setExecutor(new MskySlimeFun());
+        this.getCommand("mskysign").setExecutor(new MskySign());
+        this.getCommand("mskybs").setExecutor(new MskyBackShop());
+        this.getCommand("mskyaa").setExecutor(new MskyAdvancedAbility());
     }
 
     private void registerEconomy() {
@@ -110,9 +115,29 @@ public class Core extends JavaPlugin {
         }
         try { //初始化数据库, catch exceptions
             connection = DriverManager.getConnection(URL, UNAME, UPASSWORD); //启动链接，链接名 conc
-
+            initSQL();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private void initSQL() throws SQLException {
+        Statement stmt = getConnection().createStatement();
+        ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE 'sign';");
+        boolean empty = true;
+        while(rs.next()) {
+            // ResultSet processing here
+            empty = false;
+        }
+
+        if(empty) {
+            // Empty result set
+            Statement stmt2 = getConnection().createStatement();
+            stmt2.addBatch("CREATE TABLE IF NOT EXISTS `" + MskySign.getSheetName() + "` (`user_name` VARCHAR(32) NOT NULL,`user_uuid` VARCHAR(40) NOT NULL, `" + MskySign.getColSign() + "` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+            stmt2.addBatch("alter table " + MskySign.getSheetName() + " add primary key(" + MskySign.getColUserUuid() + ");");
+            stmt2.executeBatch();
+            stmt2.close();
         }
 
     }
@@ -126,7 +151,4 @@ public class Core extends JavaPlugin {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
 }

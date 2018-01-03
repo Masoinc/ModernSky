@@ -35,9 +35,9 @@ public class Ban implements Listener {
             priority = EventPriority.HIGH
     )
     private void onClick(PlayerInteractEvent e) {
-        if (e.getClickedBlock() != null &&
-                e.getClickedBlock().getType() == Material.FENCE ||
-                e.getClickedBlock().getType() == Material.NETHER_FENCE) {
+        if (e.hasBlock() && !(e.getClickedBlock() == null && e.getClickedBlock().getType().equals(Material.AIR)) &&
+                (e.getClickedBlock().getType() == Material.FENCE ||
+                        e.getClickedBlock().getType() == Material.NETHER_FENCE)) {
             if (System.currentTimeMillis() - SPAM_MAP.getOrDefault(e.getPlayer(), System.currentTimeMillis() - 2000) < CLICK_SPAM_DELAY) {
                 e.getPlayer().sendMessage(Core.getPrefix() + "你点击的太快了");
                 e.setCancelled(true);

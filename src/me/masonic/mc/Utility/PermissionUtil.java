@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
  * Mason Project
  * 2017-6-17-0017
  */
-public class Utility {
+public class PermissionUtil {
     public static void runOp(Player p, String cmd) {
         if (p.isOp()) {
             p.performCommand(cmd);

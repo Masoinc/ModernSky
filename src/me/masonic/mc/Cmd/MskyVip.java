@@ -2,8 +2,8 @@ package me.masonic.mc.Cmd;
 
 import me.masonic.mc.Core;
 import me.masonic.mc.Function.Vip;
-import me.masonic.mc.Utility.SqlUtility;
-import me.masonic.mc.Utility.TimeUtility;
+import me.masonic.mc.Utility.SqlUtil;
+import me.masonic.mc.Utility.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -65,12 +65,12 @@ public class MskyVip implements CommandExecutor, Listener {
                                     return true;
                                 case "VIP":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
                                         // VIP -> VIP
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
-                                                SqlUtility.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0 &&
+                                                SqlUtil.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add vip");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv1 " + kita);
@@ -78,7 +78,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已续费§2 Vip §7，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (SqlUtil.getIntValue(p, "vip", "expiration") + 86400 * days));
                                             return true;
                                         }
                                     } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                     precv.sendMessage("§8[ §6ModernSky §8] §7已开通§2 Vip §7，感谢您的支持");
                                     try {
-                                        SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                        SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
@@ -110,11 +110,11 @@ public class MskyVip implements CommandExecutor, Listener {
                                 //SVIP -> SVIP
                                 case "SVIP":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
-                                                SqlUtility.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0 &&
+                                                SqlUtil.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv2 " + kita);
@@ -122,7 +122,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已续费§6 Svip §7，感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (SqlUtil.getIntValue(p, "vip", "expiration") + 86400 * days));
                                             return true;
                                         }
                                     } catch (SQLException e) {
@@ -132,11 +132,11 @@ public class MskyVip implements CommandExecutor, Listener {
                                 //VIP -> SVIP
                                 case "VIP":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
-                                            int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0) {
+                                            int daysbonus = (int) (SqlUtil.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv2 " + kita);
@@ -144,7 +144,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§6 Svip §7 ，感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
                                             return true;
                                         } else {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip");
@@ -153,7 +153,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§6 Svip §7 ，感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                         }
                                     } catch (SQLException e) {
                                         e.printStackTrace();
@@ -167,7 +167,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                     precv.sendMessage("§8[ §6ModernSky §8] §7已开通§6 Svip ，§7感谢您的支持");
                                     try {
-                                        SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                        SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
@@ -178,11 +178,11 @@ public class MskyVip implements CommandExecutor, Listener {
                             switch (Vip.getVipRank(precv)) {
                                 case "VIP":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
-                                            int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 3;
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0) {
+                                            int daysbonus = (int) (SqlUtil.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 3;
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv3 " + kita);
@@ -190,7 +190,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
                                             return true;
                                         } else {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
@@ -199,7 +199,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§2 Vip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                             return true;
                                         }
                                     } catch (SQLException e) {
@@ -208,11 +208,11 @@ public class MskyVip implements CommandExecutor, Listener {
                                     return true;
                                 case "SVIP":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0) {
-                                            int daysbonus = (int) (SqlUtility.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0) {
+                                            int daysbonus = (int) (SqlUtil.getIntValue(p, "vip", "expiration") - (System.currentTimeMillis() / 1000)) / 2;
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv3 " + kita);
@@ -220,7 +220,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§6 SVip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days + daysbonus));
                                             return true;
                                         } else {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
@@ -229,7 +229,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已由§6 SVip §7升级为§c Svip+ §7 ，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
 
                                         }
                                     } catch (SQLException e) {
@@ -238,11 +238,11 @@ public class MskyVip implements CommandExecutor, Listener {
                                     return true;
                                 case "SVIP+":
                                     try {
-                                        if (!SqlUtility.getIfExist(precv, "vip")) {
-                                            SqlUtility.createColumn(precv, "vip");
+                                        if (!SqlUtil.getIfExist(precv, "vip")) {
+                                            SqlUtil.createColumn(precv, "vip");
                                         }
-                                        if (SqlUtility.getIntValue(p, "vip", "expiration") != 0 &&
-                                                SqlUtility.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
+                                        if (SqlUtil.getIntValue(p, "vip", "expiration") != 0 &&
+                                                SqlUtil.getIntValue(p, "vip", "expiration") > (System.currentTimeMillis() / 1000)) {
 
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr give " + precv.getName() + " kitvipv3 " + kita);
@@ -250,7 +250,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已续费§c Svip+ §7，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (SqlUtil.getIntValue(p, "vip", "expiration") + 86400 * days));
                                             return true;
                                         } else {
                                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + precv.getName() + " group add svip+");
@@ -259,7 +259,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                             precv.sendMessage("§8[ §6ModernSky §8] §7已开通§c Svip+ §7，§7感谢您的支持");
 
-                                            SqlUtility.uploadIntValue(precv, "vip", "expiration", (SqlUtility.getIntValue(p, "vip", "expiration") + 86400 * days));
+                                            SqlUtil.uploadIntValue(precv, "vip", "expiration", (SqlUtil.getIntValue(p, "vip", "expiration") + 86400 * days));
 
                                         }
                                     } catch (SQLException e) {
@@ -272,7 +272,7 @@ public class MskyVip implements CommandExecutor, Listener {
 
                                     precv.sendMessage("§8[ §6ModernSky §8] §7已开通§c Svip+ ，§7感谢您的支持");
                                     try {
-                                        SqlUtility.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
+                                        SqlUtil.uploadIntValue(precv, "vip", "expiration", (int) ((System.currentTimeMillis() / 1000) + 86400 * days));
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
@@ -297,7 +297,7 @@ public class MskyVip implements CommandExecutor, Listener {
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " group remove svip");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " group remove svip+");
         try {
-            SqlUtility.uploadIntValue(p, "vip", "expiration", 0);
+            SqlUtil.uploadIntValue(p, "vip", "expiration", 0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -306,11 +306,11 @@ public class MskyVip implements CommandExecutor, Listener {
     private void expiredCheck(Player p, String rank) {
         try {
             // 已过期
-            int expitime = SqlUtility.getIntValue(p, "vip", "expiration");
-            if (expitime != 0 && expitime < TimeUtility.getCurrentSTime()) {
+            int expitime = SqlUtil.getIntValue(p, "vip", "expiration");
+            if (expitime != 0 && expitime < TimeUtil.getCurrentSTime()) {
                 p.sendMessage(Core.getPrefix() + "您的 §6" + rank + " 已过期，过期后无法享受VIP特权");
                 p.sendMessage(Core.getPrefix() + "请及时续费，感谢您的支持");
-                SqlUtility.uploadIntValue(p, "vip", "expiration", 0);
+                SqlUtil.uploadIntValue(p, "vip", "expiration", 0);
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " group remove " + rank);
             }
         } catch (SQLException e1) {

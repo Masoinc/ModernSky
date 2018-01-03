@@ -1,5 +1,5 @@
 name: ModernSky
-softdepend: [CS-CoreLib]
+
 main: me.masonic.mc.Core
 
 version: 1.0
@@ -17,12 +17,3 @@ commands:
   mskysf:
     description: Slimefun
     usage: /mskysf
-  mskysign:
-    description: Sign
-    usage: /mskysign
-  mskybs:
-    description: BlackShop
-    usage: /mskybs
-  mskyaa:
-    description: AdvancedAbility
-    usage: /mskyaa

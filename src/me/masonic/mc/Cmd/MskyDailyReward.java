@@ -1,7 +1,7 @@
 package me.masonic.mc.Cmd;
 
 import me.masonic.mc.Core;
-import me.masonic.mc.Utility.SqlUtility;
+import me.masonic.mc.Utility.SqlUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static me.masonic.mc.Utility.TimeUtility.getCurrentSTime;
+import static me.masonic.mc.Utility.TimeUtil.getCurrentSTime;
 
 
 /**
@@ -50,7 +50,7 @@ public class MskyDailyReward implements CommandExecutor {
 
     private static long getDailyRewardCD(Player p) throws SQLException {
 
-        if (!SqlUtility.getIfExist(p, "dailyreward")) {
+        if (!SqlUtil.getIfExist(p, "dailyreward")) {
             return 0;
         }
 
@@ -70,7 +70,7 @@ public class MskyDailyReward implements CommandExecutor {
     private static boolean setDailyRewardCD(Player p) throws SQLException {
 
         //无记录
-        if (!SqlUtility.getIfExist(p, SHEET_NAME)) {
+        if (!SqlUtil.getIfExist(p, SHEET_NAME)) {
             String sql = "INSERT INTO dailyreward (id,lastget) VALUES (?," + getCurrentSTime(86400) + ");";
             PreparedStatement statement = Core.getConnection().prepareStatement(sql);
             statement = Core.getConnection().prepareStatement(sql);
