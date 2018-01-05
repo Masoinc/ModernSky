@@ -18,7 +18,7 @@ public class MskyAdvancedAbility implements CommandExecutor {
                 case 1:
                     switch (args[0]) {
                         case "open":
-                            if (ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) >= 150) {
+                            if (ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) >= 120) {
                                 PermissionUtil.runOp(p,"aa menu");
                             } else {
                                 p.sendMessage(Core.getPrefix() + "你还没有解锁被动天赋呢，加油升级吧！");

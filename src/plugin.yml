@@ -1,5 +1,5 @@
 name: ModernSky
-softdepend: [CS-CoreLib]
+softdepend: [CS-CoreLib, PlayerPoints]
 main: me.masonic.mc.Core
 
 version: 1.0

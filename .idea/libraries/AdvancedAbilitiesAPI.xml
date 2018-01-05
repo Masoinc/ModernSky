@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AdvancedAbilitiesAPI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/AdvancedAbilitiesAPI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

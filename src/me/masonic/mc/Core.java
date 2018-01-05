@@ -8,8 +8,10 @@ import me.masonic.mc.Function.*;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.black_ixx.playerpoints.PlayerPoints;
 
 import java.io.File;
 import java.sql.*;
@@ -31,6 +33,8 @@ public class Core extends JavaPlugin {
 
     private static final String PLUGIN_PREFIX = "§8[ §6ModernSky §8] §7";
 
+    private PlayerPoints playerPoints;
+
     @Override
     public void onEnable() {
         CSCoreLibLoader loader = new CSCoreLibLoader(this);
@@ -51,9 +55,21 @@ public class Core extends JavaPlugin {
             loadFiles();
 
             registerSQL();
+
+            hookPlayerPoints();
+
         }
     }
+    private boolean hookPlayerPoints() {
+        final Plugin plugin = this.getServer().getPluginManager().getPlugin("PlayerPoints");
+        playerPoints = PlayerPoints.class.cast(plugin);
+        return playerPoints != null;
+    }
 
+    public PlayerPoints getPlayerPoints() {
+        return playerPoints;
+    }
+    
     @Override
     public void onDisable() {
     }
@@ -83,6 +99,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MskyVip(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
+        getServer().getPluginManager().registerEvents(new Sidebar(this), this);
     }
 
     private void registerCmd() {

@@ -20,11 +20,18 @@ public class MskyBackShop implements CommandExecutor {
             switch (args.length) {
                 case 1:
                     switch (args[0]) {
-                        case "open":
-                            if (ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) >= 100) {
+                        case "openbs":
+                            if (ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) >= 200) {
                                 PermissionUtil.runOp(p,"playershop");
                             } else {
                                 p.sendMessage(Core.getPrefix() + "你还没有解锁黑市商店呢，加油升级吧！");
+                            }
+                            return true;
+                        case "openps":
+                            if (ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) >= 30) {
+                                PermissionUtil.runOp(p,"bs itemshops");
+                            } else {
+                                p.sendMessage(Core.getPrefix() + "你还没有解锁物资回收系统呢，加油升级吧！");
                             }
                             return true;
                     }

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SlimeFun[CN]">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/SlimeFun[CN].jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

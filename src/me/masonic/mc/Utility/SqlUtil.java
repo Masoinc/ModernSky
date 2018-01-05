@@ -68,7 +68,7 @@ public class SqlUtil {
 
 //        String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + p.getDisplayName() + "' LIMIT 1;";
         String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + p.getDisplayName() + "' LIMIT 1;";
-        p.sendMessage(sql);
+
         statement = Core.getConnection().prepareStatement(sql);
         ResultSet rs = statement.executeQuery();
 
@@ -76,7 +76,6 @@ public class SqlUtil {
             return false;
         }
         while (rs.next()) {
-            p.sendMessage(Integer.toString(rs.getInt(1)));
             return rs.getInt(1) >= 1;
         }
         return false;
@@ -95,7 +94,6 @@ public class SqlUtil {
 
         String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + uid.toString() + "' LIMIT 1;";
         statement = Core.getConnection().prepareStatement(sql);
-        Bukkit.getPlayer(uid).sendMessage(sql);
         ResultSet rs = statement.executeQuery();
         if (rs.wasNull()) {
             return false;
