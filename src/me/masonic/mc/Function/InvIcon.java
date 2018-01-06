@@ -3,6 +3,7 @@ package me.masonic.mc.Function;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.masonic.mc.Core;
 import me.masonic.mc.Utility.PermissionUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,8 @@ public class InvIcon implements Listener {
         ItemMeta bmeta = backpack.getItemMeta();
         bmeta.setDisplayName("§8[ §2随身背包 §8]");
         List<String> lores = Arrays.asList(
+                "",
+                "§7◇ 你的背包目前有: §3" + PermissionUtil.getBackPackPage(Bukkit.getPlayer(p)) + " §7页",
                 "",
                 "§7◇ 个人专属的随身背包",
                 "§7◇ 空岛等级达到 §350 §7级时开启",

@@ -58,8 +58,11 @@ public class Core extends JavaPlugin {
 
             hookPlayerPoints();
 
+            new Sidebar(this).sendSchedulely();
+
         }
     }
+
     private boolean hookPlayerPoints() {
         final Plugin plugin = this.getServer().getPluginManager().getPlugin("PlayerPoints");
         playerPoints = PlayerPoints.class.cast(plugin);
@@ -69,7 +72,7 @@ public class Core extends JavaPlugin {
     public PlayerPoints getPlayerPoints() {
         return playerPoints;
     }
-    
+
     @Override
     public void onDisable() {
     }
@@ -143,18 +146,31 @@ public class Core extends JavaPlugin {
         Statement stmt = getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE 'sign';");
         boolean empty = true;
-        while(rs.next()) {
+        while (rs.next()) {
             // ResultSet processing here
             empty = false;
         }
 
-        if(empty) {
+        if (empty) {
             // Empty result set
             Statement stmt2 = getConnection().createStatement();
             stmt2.addBatch("CREATE TABLE IF NOT EXISTS `" + MskySign.getSheetName() + "` (`user_name` VARCHAR(32) NOT NULL,`user_uuid` VARCHAR(40) NOT NULL, `" + MskySign.getColSign() + "` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
             stmt2.addBatch("alter table " + MskySign.getSheetName() + " add primary key(" + MskySign.getColUserUuid() + ");");
             stmt2.executeBatch();
             stmt2.close();
+        }
+
+        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE 'package'");
+        boolean package_empty = true;
+        while (package_rs.next()) {
+            package_empty = false;
+        }
+        if (package_empty) {
+            Statement stmt3 = getConnection().createStatement();
+            stmt3.addBatch("CREATE TABLE IF NOT EXISTS `" + MskySign.getSheetName() + "` (`user_name` VARCHAR(32) NOT NULL,`user_uuid` VARCHAR(40) NOT NULL, `" + MskySign.getColSign() + "` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+            stmt3.addBatch("alter table " + MskySign.getSheetName() + " add primary key(" + MskySign.getColUserUuid() + ");");
+            stmt3.executeBatch();
+            stmt3.close();
         }
 
     }
