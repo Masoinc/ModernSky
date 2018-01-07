@@ -13,6 +13,27 @@ public class SqlUtil {
     private static PreparedStatement statement;
 
     /**
+     * 执行语句
+     *
+     * @param query 要执行的MySQL语句
+     *
+     */
+
+    public static void update(String query) {
+        PreparedStatement statement = null;
+
+        try {
+            statement = Core.getConnection().prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException var7) {
+            var7.printStackTrace();
+        } finally {
+            closeResources((ResultSet)null, statement);
+        }
+
+    }
+
+    /**
      * 获取语句的查询结果
      *
      * @param query 要执行的MySQL语句

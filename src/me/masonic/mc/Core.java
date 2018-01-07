@@ -15,6 +15,7 @@ import org.black_ixx.playerpoints.PlayerPoints;
 
 import java.io.File;
 import java.sql.*;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 /**
@@ -154,25 +155,27 @@ public class Core extends JavaPlugin {
         if (empty) {
             // Empty result set
             Statement stmt2 = getConnection().createStatement();
-            stmt2.addBatch("CREATE TABLE IF NOT EXISTS `" + MskySign.getSheetName() + "` (`user_name` VARCHAR(32) NOT NULL,`user_uuid` VARCHAR(40) NOT NULL, `" + MskySign.getColSign() + "` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
-            stmt2.addBatch("alter table " + MskySign.getSheetName() + " add primary key(" + MskySign.getColUserUuid() + ");");
+            String sql = "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt2.addBatch(MessageFormat.format(sql, MskySign.getSheetName(), MskySign.getColUserName(), MskySign.getColUserUuid(), MskySign.getColSign()));
+            sql = "alter table {0} add primary key({1});";
+            stmt2.addBatch(String.format(sql, MskySign.getSheetName(), MskySign.getColUserUuid()));
             stmt2.executeBatch();
             stmt2.close();
         }
 
-        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE 'package'");
+        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Exploration.getSheet() + "'");
         boolean package_empty = true;
         while (package_rs.next()) {
             package_empty = false;
         }
         if (package_empty) {
             Statement stmt3 = getConnection().createStatement();
-            stmt3.addBatch("CREATE TABLE IF NOT EXISTS `" + MskySign.getSheetName() + "` (`user_name` VARCHAR(32) NOT NULL,`user_uuid` VARCHAR(40) NOT NULL, `" + MskySign.getColSign() + "` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8");
-            stmt3.addBatch("alter table " + MskySign.getSheetName() + " add primary key(" + MskySign.getColUserUuid() + ");");
+            String sql = "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}`  NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt3.addBatch(MessageFormat.format(sql, Exploration.getSheet(), Exploration.getColUserName(), Exploration.getColUserUuid(), Exploration.getColExplore()));
+            stmt3.addBatch("alter table " + Exploration.getSheet() + " add primary key(" + Exploration.getColUserUuid() + ");");
             stmt3.executeBatch();
             stmt3.close();
         }
-
     }
 
     private void loadFiles() {

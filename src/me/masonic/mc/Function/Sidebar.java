@@ -51,7 +51,6 @@ public class Sidebar implements Listener {
                 "§8[ModernSky] alpha v0.0.1"));
 
         return info;
-
     }
 
     public void sendSchedulely() {
