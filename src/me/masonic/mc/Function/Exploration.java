@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 // 关于MessageFormat的用法
@@ -63,18 +65,37 @@ public class Exploration {
     }
 
     public static Exploration EXP_RANK0 = new Exploration("§7无", 0, 0.00);
-    public static Exploration EXP_RANK1 = new Exploration("§2探索者", 10, 0.05);
-    public static Exploration EXP_RANK2 = new Exploration("§3探索先导", 60, 0.07);
-    public static Exploration EXP_RANK3 = new Exploration("§6狩魔猎人", 350, 0.09);
-    public static Exploration EXP_RANK4 = new Exploration("§d狩魔宗师", 750, 0.11);
-    public static Exploration EXP_RANK5 = new Exploration("§c魔物杀手", 1200, 0.15);
+    private static Exploration EXP_RANK1 = new Exploration("§2探索者", 10, 0.05);
+    private static Exploration EXP_RANK2 = new Exploration("§3探索先导", 60, 0.07);
+    private static Exploration EXP_RANK3 = new Exploration("§6狩魔猎人", 350, 0.09);
+    private static Exploration EXP_RANK4 = new Exploration("§d狩魔宗师", 750, 0.11);
+    private static Exploration EXP_RANK5 = new Exploration("§c魔物杀手", 1200, 0.15);
+
+    public static List<Exploration> EXPLORATION_LIST = new ArrayList<>();
+    static {
+        EXPLORATION_LIST.add(EXP_RANK0);
+        EXPLORATION_LIST.add(EXP_RANK1);
+        EXPLORATION_LIST.add(EXP_RANK2);
+        EXPLORATION_LIST.add(EXP_RANK3);
+        EXPLORATION_LIST.add(EXP_RANK4);
+        EXPLORATION_LIST.add(EXP_RANK5);
+    }
+    public static Exploration getExplorationRank(Player p) {
+        Exploration rank = EXP_RANK0;
+        for (Exploration ranks : EXPLORATION_LIST) {
+            if (Exploration.getExploreValue(p) >= ranks.getExplore_value()) {
+                rank = ranks;
+            }
+        }
+        return rank;
+    }
 
     public static String getExploreTag(Player p) {
         return (getExploreValue(p) > 10 ?
                 (getExploreValue(p) > 60 ?
                         (getExploreValue(p) > 350 ?
                                 (getExploreValue(p) > 750 ?
-                                        (getExploreValue(p) > 1200 ? "§c魔物杀手" : "§d狩魔宗师") : "§6狩魔猎人") : "§3探索先导") : "§2探索者") : "§7无");
+                                        (getExploreValue(p) > 1200 ? EXP_RANK5.getTagname() : EXP_RANK4.getTagname()) : EXP_RANK3.getTagname()) : EXP_RANK2.getTagname()) : EXP_RANK1.getTagname()) : EXP_RANK0.getTagname());
     }
 
     public static int getExploreValue(Player p) {
