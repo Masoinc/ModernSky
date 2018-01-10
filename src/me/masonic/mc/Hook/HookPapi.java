@@ -38,6 +38,10 @@ public class HookPapi extends EZPlaceholderHook {
         if (identifier.equals("getExploreTag")) {
             return String.valueOf(Exploration.getExploreTag(p));
         }
+        //%ModernSky_getExplorePrefix%
+        if (identifier.equals("getExplorePrefix")) {
+            return String.valueOf(Exploration.getExplorePrefix(p));
+        }
         return null;
 
     }

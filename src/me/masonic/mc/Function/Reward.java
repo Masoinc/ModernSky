@@ -145,5 +145,8 @@ public class Reward {
         for (String item : reward.items.keySet()) {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
         }
+        if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
+            Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());
+        }
     }
 }

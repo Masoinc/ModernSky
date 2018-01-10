@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../SlimeFun-CN/lib/CS-CoreLib v1.5.16.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.45-bin.jar!/" />
@@ -26,11 +17,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="BSP-PlayerShops" level="project" />
-    <orderEntry type="library" name="denizen-1.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="MCRMB-GBK-1.1.2-BETA-b6fe9f6" level="project" />
-    <orderEntry type="library" name="PlayerPoints_2.1.5_Mcrmb1.0.9及以上专用(20170129)" level="project" />
-    <orderEntry type="library" name="Lottery-1.15-CRACKED" level="project" />
-    <orderEntry type="library" name="CosmicChest (2)-CRACKED" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

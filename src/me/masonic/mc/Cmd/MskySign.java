@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
 
+import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Function.Reward;
+import me.masonic.mc.Utility.PermissionUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import me.masonic.mc.Utility.TimeUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -72,7 +74,7 @@ public class MskySign implements CommandExecutor {
      * @param signed 是否已签到
      * @param today  是否是今日
      */
-    private ItemStack getIcon(int date, Boolean signed, Boolean today) {
+    private ItemStack getIcon(int date, Boolean signed, Boolean today, List<String> addition_lores) {
         ItemStack icon = new ItemStack(signed ? Material.MAP : Material.EMPTY_MAP);
         ItemMeta meta = icon.getItemMeta();
         meta.setDisplayName("§8[ §6" + date + " §7日" + (today ? (signed ? "·已签到" : "·点击签到") : (signed ? "·已领取" : "")) + " §8]");
@@ -82,7 +84,12 @@ public class MskySign implements CommandExecutor {
         if (Reward.getSignLore(date) != null) {
             lores.addAll(Reward.getSignLore(date));
         }
-        lores.add("");
+        if (!addition_lores.isEmpty()) {
+            lores.addAll(addition_lores);
+        } else {
+            lores.add("");
+        }
+
         lores.add("§8[ ModernSky ] reward");
         meta.setLore(lores);
         if (today) {
@@ -132,24 +139,33 @@ public class MskySign implements CommandExecutor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        List<String> lores = new ArrayList<>();
+        if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
+            lores.add("");
+            lores.add("§7▽ " + Exploration.getExplorationRank(p).getTagname() + " §7额外签到奖励:");
+            lores.add("§7○ §3黑币§7 x §6" + Exploration.getExplorationRank(p).getSign_additional_money());
+            lores.add("");
+        }
         {
             assert exist != null;
             // 存在记录
             if (exist) {
                 ResultSet sign = SqlUtil.getResults("SELECT " + COL_SIGN + " FROM " + SHEET + " WHERE " + COL_USER_UUID + " = '" + p.getUniqueId().toString() + "' LIMIT 1;");
                 assert sign != null;
-                result = gson.fromJson(sign.getString( 1), new TypeToken<ArrayList<String>>() {
+                result = gson.fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
                 }.getType());
 
                 SUM_OF_SIGN = result.size();
+
+
                 // 往日签到
                 {
+
                     for (int i$ = 1; i$ < TimeUtil.getDayOfMonth(); i$++) {
                         if (i$ == current_date) {
                             continue;
                         }
-                        menu.addItem(i$ - 1, getIcon(i$, result.contains(Integer.toString(i$)), false));
+                        menu.addItem(i$ - 1, getIcon(i$, result.contains(Integer.toString(i$)), false, lores));
                         menu.addMenuClickHandler(i$ - 1, new ChestMenu.MenuClickHandler() {
                             @Override
                             public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -163,7 +179,7 @@ public class MskySign implements CommandExecutor {
                 {
                     // 今天已签到
                     if (result.contains(Integer.toString(current_date))) {
-                        menu.addItem(current_date - 1, getIcon(current_date, true, true));
+                        menu.addItem(current_date - 1, getIcon(current_date, true, true, lores));
                         menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                             @Override
                             public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -173,7 +189,7 @@ public class MskySign implements CommandExecutor {
                         });
                         // 今天未签到
                     } else {
-                        menu.addItem(current_date - 1, getIcon(current_date, false, true));
+                        menu.addItem(current_date - 1, getIcon(current_date, false, true, lores));
                         menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                             @Override
                             public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -188,7 +204,7 @@ public class MskySign implements CommandExecutor {
                                     // 给予奖励
                                     p.sendMessage(Core.getPrefix() + "签到奖励已发放~");
                                     Reward.sendReward(p, current_date);
-                                    menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true));
+                                    menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true, new ArrayList<>()));
                                     menu.addMenuClickHandler(current_date - 1, (player, i, itemStack, clickAction) -> false);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
@@ -208,7 +224,7 @@ public class MskySign implements CommandExecutor {
                         if (i$ == current_date) {
                             continue;
                         }
-                        menu.addItem(i$ - 1, getIcon(i$, false, false));
+                        menu.addItem(i$ - 1, getIcon(i$, false, false, lores));
                         menu.addMenuClickHandler(i$ - 1, new ChestMenu.MenuClickHandler() {
                             @Override
                             public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -219,7 +235,8 @@ public class MskySign implements CommandExecutor {
                 }
                 // 今日签到及写入记录操作
                 {
-                    menu.addItem(current_date - 1, getIcon(current_date, false, true));
+                    menu.addItem(current_date - 1, getIcon(current_date, false, true, new ArrayList<>()));
+                    List<String> finalLores = lores;
                     menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                         @Override
                         public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -240,7 +257,7 @@ public class MskySign implements CommandExecutor {
                             // 给予奖励
                             p.sendMessage(Core.getPrefix() + "签到奖励已发放~");
                             Reward.sendReward(p, current_date);
-                            menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true));
+                            menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true, finalLores));
                             menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                                 @Override
                                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
@@ -259,7 +276,7 @@ public class MskySign implements CommandExecutor {
             ItemStack stat = new ItemStack(Material.ENCHANTED_BOOK);
             ItemMeta meta = stat.getItemMeta();
             meta.setDisplayName("§8[ §6签到统计 §8]");
-            List<String> lores = Arrays.asList(
+            lores = Arrays.asList(
                     "",
                     "§7◇ 本月已累计签到 §3" + SUM_OF_SIGN + " §7天",
                     "",
@@ -289,13 +306,24 @@ public class MskySign implements CommandExecutor {
             });
         }
 
+        // 返回
+        menu.addItem(49, new CustomItem(new MaterialData(Material.REDSTONE, (byte) 0), "§8[ §c返回 §8]"));
+        menu.addMenuClickHandler(49, new ChestMenu.MenuClickHandler() {
+
+            @Override
+            public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
+                PermissionUtil.runOp(p, "bs mskycore");
+                return false;
+            }
+        });
+
         // 累签奖励
         {
             MyItemsAPI mapi = MyItemsAPI.getInstance();
             ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem("head_chest");
             ItemMeta meta = base.getItemMeta();
             meta.setDisplayName("§8[ §7连续签到 §63 §7天奖励 §8]");
-            List<String> lores = Arrays.asList(
+            lores = Arrays.asList(
                     "",
                     "§7▽ 可领取的奖励:",
                     "§7○ §3黑币 §7x §6600",

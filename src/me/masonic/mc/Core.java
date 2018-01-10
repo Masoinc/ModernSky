@@ -2,9 +2,11 @@ package me.masonic.mc;
 
 //import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 
+import com.zaxxer.hikari.HikariDataSource;
 import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
+import me.masonic.mc.Function.Package;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -123,23 +125,36 @@ public class Core extends JavaPlugin {
 
     private void registerSQL() {
 
-        String URL = this.getConfig().getString("SQL.URL");
-        String UNAME = this.getConfig().getString("SQL.UNAME");
-        String UPASSWORD = this.getConfig().getString("SQL.UPASSWORD");
-
-        try { //初始化驱动
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("jdbc driver unavailable!");
-            return;
-        }
-        try { //初始化数据库, catch exceptions
-            connection = DriverManager.getConnection(URL, UNAME, UPASSWORD); //启动链接，链接名 conc
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/msky_core");
+        ds.setUsername("mc");
+        ds.setPassword("492357816");
+        ds.addDataSourceProperty("cachePrepStmts", "true");
+        ds.addDataSourceProperty("prepStmtCacheSize", "250");
+        ds.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        try {
+            connection = ds.getConnection();
             initSQL();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+//        String URL = this.getConfig().getString("SQL.URL");
+//        String UNAME = this.getConfig().getString("SQL.UNAME");
+//        String UPASSWORD = this.getConfig().getString("SQL.UPASSWORD");
+//
+//        try { //初始化驱动
+//            Class.forName("com.mysql.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//            System.err.println("jdbc driver unavailable!");
+//            return;
+//        }
+//        try { //初始化数据库, catch exceptions
+//            connection = DriverManager.getConnection(URL, UNAME, UPASSWORD); //启动链接，链接名 conc
+//            initSQL();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -163,19 +178,34 @@ public class Core extends JavaPlugin {
             stmt2.close();
         }
 
-        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Exploration.getSheet() + "'");
-        boolean package_empty = true;
-        while (package_rs.next()) {
-            package_empty = false;
+        ResultSet explore_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Exploration.getSheet() + "'");
+        boolean explore_empty = true;
+        while (explore_rs.next()) {
+            explore_empty = false;
         }
 
-        if (package_empty) {
+        if (explore_empty) {
             Statement stmt3 = getConnection().createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(6) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
             stmt3.addBatch(MessageFormat.format(sql, Exploration.getSheet(), Exploration.getColUserName(), Exploration.getColUserUuid(), Exploration.getColExplore()));
             stmt3.addBatch("alter table " + Exploration.getSheet() + " add primary key(" + Exploration.getColUserUuid() + ");");
             stmt3.executeBatch();
             stmt3.close();
+        }
+
+        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Package.getSHEET() + "'");
+        boolean package_empty = true;
+        while (package_rs.next()) {
+            package_empty = false;
+        }
+
+        if (package_empty) {
+            Statement stmt4 = getConnection().createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire(), Package.getColType()));
+            stmt4.addBatch("alter table " + Package.getSHEET() + " add primary key(" + Package.getColUserUuid() + ");");
+            stmt4.executeBatch();
+            stmt4.close();
         }
     }
 
