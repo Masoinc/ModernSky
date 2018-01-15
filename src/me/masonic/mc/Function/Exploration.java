@@ -125,7 +125,7 @@ public class Exploration {
 //                    return 0;
 //                }
             } else {
-                String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUE(''{4}'', ''{5}'', {6})";
+                String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUE(''{4}'', ''{5}'', ''{6}'')";
                 sql = MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPLORE, p.getUniqueId().toString(), p.getPlayerListName(), 0);
                 SqlUtil.update(sql);
             }

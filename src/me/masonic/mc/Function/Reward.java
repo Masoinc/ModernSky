@@ -139,14 +139,18 @@ public class Reward {
         }
 
         if (reward.getPoint() != 0) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "b give " + p.getPlayerListName() + " " + Integer.toString(reward.getPoint()));
+            Core.getPlayerPoints().getAPI().give(p.getUniqueId(), reward.getPoint());
         }
 
         for (String item : reward.items.keySet()) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
         }
         if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
             Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());
+        }
+        if (!Package.isExpired(p)) {
+            Exploration.setExploreValue(p, Exploration.getExploreValue(p) + 10);
+            p.sendMessage(Core.getPrefix()+"签到获得了 §610 §7点探索值");
         }
     }
 }

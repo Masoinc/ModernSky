@@ -44,7 +44,7 @@ public class Sidebar implements Listener {
                 "§8-> §8[ §6" + Core.getEconomy().getBalance(p) + " §7黑币 §8]",
                 "§0",
                 "§6◇ §7尘晶余额:    ",
-                "§8-> §8[ §3" + Core.getInstance().getPlayerPoints().getAPI().look(p.getUniqueId()) + "§7 枚 §8]",
+                "§8-> §8[ §3" + Core.getPlayerPoints().getAPI().look(p.getUniqueId()) + "§7 枚 §8]",
                 "",
                 "§8-> §8[ §7空岛等级: §6Lv."+ ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId())+" §8]",
                 "§9",

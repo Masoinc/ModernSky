@@ -10,6 +10,7 @@ import me.masonic.mc.Function.Package;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +28,7 @@ import java.util.logging.Logger;
 public class Core extends JavaPlugin {
 
     private static Core plugin;
+    private static Plugin core;
 
     private static Economy economy = null;
 
@@ -36,7 +38,9 @@ public class Core extends JavaPlugin {
 
     private static final String PLUGIN_PREFIX = "§8[ §6ModernSky §8] §7";
 
-    private PlayerPoints playerPoints;
+    private static PlayerPoints playerPoints;
+
+    public static Server server = null;
 
     @Override
     public void onEnable() {
@@ -72,7 +76,7 @@ public class Core extends JavaPlugin {
         return playerPoints != null;
     }
 
-    public PlayerPoints getPlayerPoints() {
+    public static PlayerPoints getPlayerPoints() {
         return playerPoints;
     }
 
@@ -92,6 +96,13 @@ public class Core extends JavaPlugin {
         return plugin;
     }
 
+    public static Plugin getPlugin() {
+        return core;
+    }
+
+    public Core getCore() {
+        return this;
+    }
 
     public static Connection getConnection() {
         return connection;
@@ -106,6 +117,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
+        getServer().getPluginManager().registerEvents(new Package(this), this);
     }
 
     private void registerCmd() {
@@ -116,6 +128,7 @@ public class Core extends JavaPlugin {
         this.getCommand("mskysign").setExecutor(new MskySign());
         this.getCommand("mskybs").setExecutor(new MskyBackShop());
         this.getCommand("mskyaa").setExecutor(new MskyAdvancedAbility());
+        this.getCommand("mskypac").setExecutor(new MskyPackage());
     }
 
     private void registerEconomy() {
@@ -201,8 +214,8 @@ public class Core extends JavaPlugin {
 
         if (package_empty) {
             Statement stmt4 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire(), Package.getColType()));
+            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL, `{5}` VARCHAR(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire(), Package.getColType(), Package.getColRecord()));
             stmt4.addBatch("alter table " + Package.getSHEET() + " add primary key(" + Package.getColUserUuid() + ");");
             stmt4.executeBatch();
             stmt4.close();

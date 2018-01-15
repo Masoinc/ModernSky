@@ -26,3 +26,6 @@ commands:
   mskyaa:
     description: AdvancedAbility
     usage: /mskyaa
+  mskypac:
+    description: Package
+    usage: /mskypac

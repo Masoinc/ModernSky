@@ -139,6 +139,7 @@ public class MskySign implements CommandExecutor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         List<String> lores = new ArrayList<>();
         if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
             lores.add("");
@@ -146,6 +147,7 @@ public class MskySign implements CommandExecutor {
             lores.add("§7○ §3黑币§7 x §6" + Exploration.getExplorationRank(p).getSign_additional_money());
             lores.add("");
         }
+
         {
             assert exist != null;
             // 存在记录

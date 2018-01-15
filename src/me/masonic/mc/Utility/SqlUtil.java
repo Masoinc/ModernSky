@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class SqlUtil {
@@ -40,8 +42,9 @@ public class SqlUtil {
      * @return 获取的结果
      */
     public static ResultSet getResults(String query) throws SQLException {
-        ResultSet set = statement.executeQuery(query);
-        boolean empty = true;
+        Statement stmt = Core.getConnection().createStatement();
+        ResultSet set = stmt.executeQuery(query);
+
         while( set.next() ) {
             return set;
         }
@@ -78,32 +81,6 @@ public class SqlUtil {
     }
 
     /**
-     * 判断MySQL数据表中是否有某个玩家的记录
-     *
-     * @param p      玩家对象
-     * @param sheet  要查询的数据表名
-     * @param column 要查询的列名
-     * @return true或false
-     */
-    public static boolean ifExist(Player p, String sheet, String column) throws SQLException {
-
-//        String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + p.getDisplayName() + "' LIMIT 1;";
-        String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + p.getDisplayName() + "' LIMIT 1;";
-
-        statement = Core.getConnection().prepareStatement(sql);
-        ResultSet rs = statement.executeQuery();
-
-        if (rs.wasNull()) {
-            return false;
-        }
-        while (rs.next()) {
-            return rs.getInt(1) >= 1;
-        }
-        return false;
-    }
-
-
-    /**
      * 判断MySQL数据表中是否有某个UUID的记录
      *
      * @param uid    玩家的UUID
@@ -113,32 +90,9 @@ public class SqlUtil {
      */
     public static boolean ifExist(UUID uid, String sheet, String column) throws SQLException {
 
-        String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = '" + uid.toString() + "' LIMIT 1;";
-        statement = Core.getConnection().prepareStatement(sql);
-        ResultSet rs = statement.executeQuery();
-        if (rs.wasNull()) {
-            return false;
-        }
-        while (rs.next()) {
-            return rs.getInt(1) >= 1;
-        }
-        return false;
-    }
-
-    /**
-     * 判断MySQL数据表中是否有某个玩家的记录
-     *
-     * @param pname  玩家的名称
-     * @param sheet  要查询的数据表名
-     * @param column 要查询的列名
-     * @return true或false
-     */
-    public static boolean ifExist(String pname, String sheet, String column) throws SQLException {
-
-        String sql = "SELECT COUNT(*) FROM " + sheet + " WHERE " + column + " = ? LIMIT 1;";
-        statement = Core.getConnection().prepareStatement(sql);
-        statement.setObject(1, pname);
-        ResultSet rs = statement.executeQuery();
+        String sql = "SELECT COUNT(*) FROM {0} WHERE {1} = ''{2}'' LIMIT 1;";
+        Statement stmt = Core.getConnection().createStatement();
+        ResultSet rs = stmt.executeQuery(MessageFormat.format(sql, sheet, column, uid));
         if (rs.wasNull()) {
             return false;
         }

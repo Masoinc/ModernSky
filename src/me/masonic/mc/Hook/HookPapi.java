@@ -1,8 +1,10 @@
 package me.masonic.mc.Hook;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Core;
+import me.masonic.mc.Function.Package;
 import me.masonic.mc.Function.Vip;
 import org.bukkit.entity.Player;
 
@@ -42,6 +44,11 @@ public class HookPapi extends EZPlaceholderHook {
         if (identifier.equals("getExplorePrefix")) {
             return String.valueOf(Exploration.getExplorePrefix(p));
         }
+        //%ModernSky_getPackageState%
+        if (identifier.equals("getPackageState")) {
+            return String.valueOf(Package.getPackageState(p));
+        }
+
         return null;
 
     }
