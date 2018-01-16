@@ -26,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.sql.*;
+import java.text.MessageFormat;
 import java.util.*;
 
 public class MskySign implements CommandExecutor {
@@ -35,6 +36,7 @@ public class MskySign implements CommandExecutor {
     private final static String COL_USER_NAME = "user_name";
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_SIGN = "sign_record";
+    private final static String COL_SIGN_KITS = "sign_kits";
     private final static String SHEET = "sign";
 
     private static int SUM_OF_SIGN = 0;
@@ -52,6 +54,10 @@ public class MskySign implements CommandExecutor {
 
     public static String getColSign() {
         return COL_SIGN;
+    }
+
+    public static String getColSignKits() {
+        return COL_SIGN_KITS;
     }
 
     public static String getSheetName() {
@@ -152,6 +158,13 @@ public class MskySign implements CommandExecutor {
             assert exist != null;
             // 存在记录
             if (exist) {
+                if (current_date == 1) {
+
+                    p.sendMessage("cleared");
+                    String sql = "DELETE from {0} WHERE {1} = ''{2}'';";
+                    SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+                }
+
                 ResultSet sign = SqlUtil.getResults("SELECT " + COL_SIGN + " FROM " + SHEET + " WHERE " + COL_USER_UUID + " = '" + p.getUniqueId().toString() + "' LIMIT 1;");
                 assert sign != null;
                 result = gson.fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
@@ -347,7 +360,6 @@ public class MskySign implements CommandExecutor {
                         } else {
 
                         }
-
                     } else {
                         p.sendMessage(Core.getPrefix() + "签到天数不足哦");
                     }
@@ -357,5 +369,4 @@ public class MskySign implements CommandExecutor {
         }
         menu.open(p);
     }
-
 }

@@ -148,6 +148,7 @@ public class SqlUtil {
         statement.setObject(1, value);
         statement.setObject(2, p.getName());
         statement.executeUpdate();
+
     }
 
     public static int getIntValue(Player p, String sheet, String column) throws SQLException {

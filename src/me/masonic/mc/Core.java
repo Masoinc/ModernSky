@@ -174,17 +174,17 @@ public class Core extends JavaPlugin {
     private void initSQL() throws SQLException {
         Statement stmt = getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE 'sign';");
-        boolean empty = true;
+        boolean sign_empty = true;
         while (rs.next()) {
             // ResultSet processing here
-            empty = false;
+            sign_empty = false;
         }
 
-        if (empty) {
+        if (sign_empty) {
             // Empty result set
             Statement stmt2 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt2.addBatch(MessageFormat.format(sql, MskySign.getSheetName(), MskySign.getColUserName(), MskySign.getColUserUuid(), MskySign.getColSign()));
+            String sql = "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt2.addBatch(MessageFormat.format(sql, MskySign.getSheetName(), MskySign.getColUserName(), MskySign.getColUserUuid(), MskySign.getColSign(), MskySign.getColSignKits()));
             String sql2 = "alter table {0} add primary key({1});";
             stmt2.addBatch(MessageFormat.format(sql2, MskySign.getSheetName(), MskySign.getColUserUuid()));
             stmt2.executeBatch();
@@ -214,7 +214,7 @@ public class Core extends JavaPlugin {
 
         if (package_empty) {
             Statement stmt4 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL, `{5}` VARCHAR(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL, `{5}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
             stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire(), Package.getColType(), Package.getColRecord()));
             stmt4.addBatch("alter table " + Package.getSHEET() + " add primary key(" + Package.getColUserUuid() + ");");
             stmt4.executeBatch();
