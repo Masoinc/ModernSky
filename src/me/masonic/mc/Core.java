@@ -112,8 +112,8 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Menu(), this);
         getServer().getPluginManager().registerEvents(new Secure(), this);
         getServer().getPluginManager().registerEvents(new InvIcon(), this);
-        getServer().getPluginManager().registerEvents(new Vip(), this);
-        getServer().getPluginManager().registerEvents(new MskyVip(), this);
+//        getServer().getPluginManager().registerEvents(new Vip(), this);
+//        getServer().getPluginManager().registerEvents(new MskyVip(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
@@ -121,7 +121,7 @@ public class Core extends JavaPlugin {
     }
 
     private void registerCmd() {
-        this.getCommand("mskyvip").setExecutor(new MskyVip());
+//        this.getCommand("mskyvip").setExecutor(new MskyVip());
         this.getCommand("mskydr").setExecutor(new MskyDailyReward());
         this.getCommand("mskymsg").setExecutor(new MskyMsg());
         this.getCommand("mskysf").setExecutor(new MskySlimeFun());
@@ -151,6 +151,8 @@ public class Core extends JavaPlugin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        activateConnection();
 //        String URL = this.getConfig().getString("SQL.URL");
 //        String UNAME = this.getConfig().getString("SQL.UNAME");
 //        String UPASSWORD = this.getConfig().getString("SQL.UPASSWORD");
@@ -214,8 +216,8 @@ public class Core extends JavaPlugin {
 
         if (package_empty) {
             Statement stmt4 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(10) NOT NULL, `{4}` VARCHAR(2) NOT NULL, `{5}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire(), Package.getColType(), Package.getColRecord()));
+            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire()));
             stmt4.addBatch("alter table " + Package.getSHEET() + " add primary key(" + Package.getColUserUuid() + ");");
             stmt4.executeBatch();
             stmt4.close();
@@ -231,4 +233,15 @@ public class Core extends JavaPlugin {
         }
     }
 
+    private void activateConnection() {
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            try {
+                Statement stmt = getConnection().createStatement();
+                stmt.executeQuery("SHOW TABLES LIKE 'sign';");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }, 0, 29 * 20);
+        // HikariCP 默认空闲30秒后关闭连接
+    }
 }

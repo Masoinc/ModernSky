@@ -1,5 +1,6 @@
 package me.masonic.mc.Function;
 
+import be.anybody.api.advancedabilities.ability.event.ExplosiveArrowThrowExplosionEvent;
 import me.masonic.mc.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,6 +26,17 @@ public class Ban implements Listener {
     private static final int CLICK_SPAM_DELAY_KICK = 250;
 
     @EventHandler
+    private void onExplosiveArrowShooted(ExplosiveArrowThrowExplosionEvent e) {
+        e.getShooter().sendMessage(e.getShooter().getLocation().getWorld().getName());
+        if (e.getShooter().getLocation().getWorld().getName().equalsIgnoreCase("SKY_Main")) {
+            e.getShooter().sendMessage(Core.getPrefix() + "空岛世界内无法使用此天赋");
+//            e.setCancelled(true);
+        }
+
+
+    }
+
+    @EventHandler
     private void onCraft(CraftItemEvent e) {
         if (e.getRecipe().getResult().getType() == Material.STORAGE_MINECART ||
                 e.getRecipe().getResult().getType() == Material.HOPPER_MINECART) {
@@ -37,7 +49,7 @@ public class Ban implements Listener {
             priority = EventPriority.HIGH
     )
     private void onClick(PlayerInteractEvent e) {
-        if (e.hasBlock() && !(e.getClickedBlock() == null)  && (e.getClickedBlock().getType() == Material.FENCE || e.getClickedBlock().getType() == Material.NETHER_FENCE) && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (e.hasBlock() && !(e.getClickedBlock() == null) && (e.getClickedBlock().getType() == Material.FENCE || e.getClickedBlock().getType() == Material.NETHER_FENCE) && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (System.currentTimeMillis() - SPAM_MAP.getOrDefault(e.getPlayer(), System.currentTimeMillis() - 2000) < CLICK_SPAM_DELAY) {
                 e.getPlayer().sendMessage(Core.getPrefix() + "你点击的太快了");
                 e.setCancelled(true);

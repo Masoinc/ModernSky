@@ -5,7 +5,7 @@ import me.clip.placeholderapi.external.EZPlaceholderHook;
 import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Core;
 import me.masonic.mc.Function.Package;
-import me.masonic.mc.Function.Vip;
+//import me.masonic.mc.Function.Vip;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -19,18 +19,18 @@ public class HookPapi extends EZPlaceholderHook {
 
     @Override
     public String onPlaceholderRequest(Player p, String identifier) {
-        //%ModernSky_getVipRank%
-        if (identifier.equals("getVipRank")) {
-            return Vip.getVipRank$Formatted(p);
-        }
-        //%ModernSky_getVipExpi%
-        if (identifier.equals("getVipExpi")) {
-            try {
-                return Vip.getVip$Expiration(p);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+//        //%ModernSky_getVipRank%
+//        if (identifier.equals("getVipRank")) {
+//            return Vip.getVipRank$Formatted(p);
+//        }
+//        //%ModernSky_getVipExpi%
+//        if (identifier.equals("getVipExpi")) {
+//            try {
+//                return Vip.getVip$Expiration(p);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
         //%ModernSky_getExplore%
         if (identifier.equals("getExplore")) {
             return String.valueOf(Exploration.getExploreValue(p));

@@ -1,26 +1,11 @@
 package me.masonic.mc.Function;
 
-import com.avaje.ebean.RawSql;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
-import me.masonic.mc.Utility.MessageUtil;
 import me.masonic.mc.Utility.SqlUtil;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.SlimefunGuide;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,50 +15,36 @@ import java.util.*;
 
 public class Package implements Listener {
     private static Core plugin;
-
+    private static String type;
     public Package(Core plugin) {
-        this.plugin = plugin;
+        Package.plugin = plugin;
     }
-
+    private static Gson gson = new Gson();
     private final static String COL_USER_NAME = "user_name";
-    private final static String COL_RECORD = "package_record";
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_EXPIRE = "expire";
-    private final static String COL_TYPE = "type";
     private final static String SHEET = "package";
 
     public static String getColUserName() {
         return COL_USER_NAME;
     }
-
     public static String getColUserUuid() {
         return COL_USER_UUID;
     }
-
     public static String getColExpire() {
         return COL_EXPIRE;
     }
-
-    public static String getColType() {
-        return COL_TYPE;
-    }
-
     public static String getSHEET() {
         return SHEET;
     }
 
-    public static String getColRecord() {
-        return COL_RECORD;
-    }
-
     public static String getPackageState(Player p) {
-        if (isExpired(p)) {
+        if (isExpired(p, "A")) {
             return "§7未开通增值包";
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");//这个是你要转成后的时间的格式
-            return "将于 §6" + sdf.format(new Date(Long.parseLong(String.valueOf(getExpire(p))) * 1000)) + " §7过期";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            return "将于 §6" + sdf.format(new Date(Long.parseLong(String.valueOf(getExpire(p, "A"))) * 1000)) + " §7过期";
         }
-
     }
 
     /**
@@ -81,23 +52,31 @@ public class Package implements Listener {
      *
      * @param p 要查询的玩家
      * @return 如果无记录，创建记录并返回true；如果有记录，查询记录是否过期并返回结果
-     *
      */
 
-    public static Boolean isExpired(Player p) {
+    public static Boolean isExpired(Player p, String type) {
         try {
             Boolean exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
-            if (exist) {
-                String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;";
-                ResultSet value = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
-                return (value.getInt(1) < System.currentTimeMillis() / 1000);
-            } else {
-                String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`, `{4}`, `{5}`) VALUE(''{6}'', ''{7}'', {8}, ''{9}'', ''{10}'')";
-                sql = MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPIRE, COL_TYPE, COL_RECORD,  p.getUniqueId().toString(), p.getPlayerListName(), 0, "A", "[]");
-                SqlUtil.update(sql);
+            if (!exist) {
+                insertRecord(p);
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        switch (type) {
+            case "A":
+                try {
+                    String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;";
+                    ResultSet value = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+                    HashMap<String, String> expire_map = gson.fromJson(value.getString(1), new TypeToken<HashMap<String, String>>() {
+                    }.getType());
+                    return expire_map.containsKey(type) && Integer.valueOf(expire_map.get(type)) < System.currentTimeMillis() / 1000;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return true;
         }
         return true;
     }
@@ -107,93 +86,70 @@ public class Package implements Listener {
      *
      * @param p 要查询的玩家
      * @return 如果无记录，返回0；否则返回增值包过期的时间，格式为时间戳(秒)
-     *
      */
-    public static int getExpire(Player p) {
+    public static int getExpire(Player p, String type) {
         try {
             Boolean exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
-            if (exist) {
-                String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;";
-                ResultSet value = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
-                return value.getInt(1);
-            } else {
-                String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`, `{4}`) VALUE(''{5}'', ''{6}'', {7}, ''{8}'')";
-                sql = MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPIRE, COL_TYPE, p.getUniqueId().toString(), p.getPlayerListName(), 0, "A");
-                SqlUtil.update(sql);
+            if (!exist) {
+                insertRecord(p);
+                return 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        switch (type) {
+            case "A":
+                String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;";
+                try {
+                    ResultSet value = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+                    HashMap<String, String> expire_map = gson.fromJson(value.getString(1), new TypeToken<HashMap<String, String>>() {
+                    }.getType());
+                    return expire_map.containsKey(type) ? Integer.valueOf(expire_map.get(type)) : 0;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
+
         return 0;
     }
 
-    public static String sendPackage(Player p, int time) {
+    /**
+     * 发放增值包
+     *
+     * @param p    玩家
+     * @param time 增值包的有效期，单位为天
+     * @param type 增值包类型
+     * @return 增值包发放后的消息
+     */
+    public static String sendPackage(Player p, int time, String type) {
         try {
             Boolean exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
-            if (exist) {
-                String sql = "UPDATE {0} SET {1} = {2} WHERE {3} = ''{4}''";
-                SqlUtil.update(MessageFormat.format(sql, SHEET, COL_EXPIRE, (isExpired(p) ? Long.toString(System.currentTimeMillis() / 1000 + 86400 * time) : Long.toString(getExpire(p) + 86400 * time)), COL_USER_UUID, p.getUniqueId().toString()));
-                return "§7已续费增值包 §8[ §630天 §8]";
-            } else {
-                String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`, `{4}`) VALUE(''{5}'', ''{6}'', {7}, ''{8}'')";
-                sql = MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPIRE, COL_TYPE, p.getUniqueId().toString(), p.getPlayerListName(), Long.toString(System.currentTimeMillis() / 1000 + 86400 * time), "A");
-                SqlUtil.update(sql);
-                return "§7已开通增值包 §8[ §630天 §8]";
+            if (!exist) {
+                insertRecord(p);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "出现异常，请联系管理员 QQ:954590000";
+
+        switch (type) {
+            case "A":
+                HashMap<String, String> expires = new HashMap<>();
+                expires.put("A", Long.toString(isExpired(p, type) ? System.currentTimeMillis() / 1000 + 86400 * time : getExpire(p, type) + 86400 * time));
+                String json = gson.toJson(expires);
+
+                String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
+                SqlUtil.update(MessageFormat.format(sql, SHEET, COL_EXPIRE, json, COL_USER_UUID, p.getUniqueId().toString()));
+                return isExpired(p, type)? "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]" : "§7已续费A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
+
+        }
+        return "";
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        if (isExpired(p)) {
-            return;
-        }
-
-        int current_date = java.util.Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-        if (current_date == 1) {
-            String sql = "DELETE FROM {0} WHERE {1} = ''{2}''";
-            SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
-        }
-
-        Gson gson = new Gson();
-        Boolean exist = null;
-        ArrayList<String> result = null;
-
-        try {
-            exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
-
-            if (exist) {
-
-                String sql = "SELECT {0} FROM {1} WHERE {2} = '{3}' LIMIT 1;";
-                ResultSet sign = SqlUtil.getResults(MessageFormat.format(sql, COL_RECORD, SHEET, COL_USER_UUID, COL_USER_NAME));
-                assert sign != null;
-                result = gson.fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
-                }.getType());
-
-
-
-            }
-            // 发放奖励
-            {
-                Bukkit.getServer().getScheduler().runTaskLater(plugin,
-                        () -> MessageUtil.sendFullMsg(p,
-                                Arrays.asList("    §7你好，亲爱的 §6" + p.getPlayerListName(),
-                                        "    §7今日的增值包奖励: ",
-                                        "    §3尘晶 §7x 180",
-                                        "    §6探索值 §7x 10",
-                                        "    §7已经发放给你啦，请注意查收",
-                                        "    §8     ----基地后勤处")), 20);
-            }
-
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
+    private static void insertRecord(Player p) {
+        String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUE(''{4}'', ''{5}'', ''{6}'')";
+        sql = MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPIRE, p.getUniqueId().toString(), p.getPlayerListName(), "[]");
+        SqlUtil.update(sql);
     }
-
 
 }

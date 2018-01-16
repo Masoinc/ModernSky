@@ -34,6 +34,17 @@ public class Reward {
         return items;
     }
 
+    public static Reward getSignKitReward(int days) {
+        HashMap<String, Integer> item = new HashMap<>();
+        switch (days) {
+            case 3:
+                item.put("sf2", 1);
+                return new Reward(600, 0, item);
+            default:
+                return new Reward(0, 0, item);
+        }
+    }
+
     public static Reward getSignReward(int day) {
         HashMap<String, Integer> item = new HashMap<>();
         List<Integer> money = Arrays.asList(2, 8, 15, 22, 29);
@@ -106,8 +117,7 @@ public class Reward {
         }
     }
 
-    public static List<String> getSignLore(int day) {
-        Reward reward = getSignReward(day);
+    public static List<String> getLore(Reward reward) {
         if (reward == null) {
             return null;
         }
@@ -129,7 +139,24 @@ public class Reward {
         return lores;
     }
 
-    public static void sendReward(Player p, int day) {
+    public static void sendReward(Player p, Reward reward) {
+        if (reward ==null) {return;}
+
+        if (reward.getMoney() != 0) {
+            Core.getEconomy().depositPlayer(p, reward.getMoney());
+        }
+
+        if (reward.getPoint() != 0) {
+            Core.getPlayerPoints().getAPI().give(p.getUniqueId(), reward.getPoint());
+        }
+
+        for (String item : reward.items.keySet()) {
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+        }
+
+    }
+
+    public static void sendSignReward(Player p, int day) {
         Reward reward = getSignReward(day);
         if (reward == null) {
             return;
@@ -148,9 +175,10 @@ public class Reward {
         if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
             Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());
         }
-        if (!Package.isExpired(p)) {
+        if (!Package.isExpired(p,"A")) {
             Exploration.setExploreValue(p, Exploration.getExploreValue(p) + 10);
-            p.sendMessage(Core.getPrefix()+"签到获得了 §610 §7点探索值");
+            p.sendMessage(Core.getPrefix() + "签到获得了 §610 §7点探索值");
         }
     }
 }
+

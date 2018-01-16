@@ -42,7 +42,8 @@ public class MskySign implements CommandExecutor {
     private static int SUM_OF_SIGN = 0;
 
     private static Boolean exist = null;
-    private static ArrayList<String> result = null;
+    private static ArrayList<String> sign_result = null;
+    private static ArrayList<String> kit_result = null;
 
     public static String getColUserName() {
         return COL_USER_NAME;
@@ -73,6 +74,25 @@ public class MskySign implements CommandExecutor {
         }
     }
 
+    private ItemStack getKitIcon(int days) {
+        MyItemsAPI mapi = MyItemsAPI.getInstance();
+        ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem("head_chest").clone();
+        ItemMeta meta = base.getItemMeta();
+
+        meta.setDisplayName("§8[ §7连续签到 §6" + String.valueOf(days) + " §7天奖励 §8]");
+
+        List<String> lores = new ArrayList<>();
+        lores.add("");
+        lores.add("§7▽ 可领取的奖励:");
+        lores.addAll(Reward.getLore(Reward.getSignKitReward(days)));
+        lores.add("");
+        lores.add("§8[ ModernSky §8]");
+
+        meta.setLore(lores);
+        base.setItemMeta(meta);
+        return base;
+    }
+
     /**
      * 渲染签到图标
      *
@@ -87,8 +107,8 @@ public class MskySign implements CommandExecutor {
         List<String> lores = new ArrayList<>();
         lores.add("");
         lores.add("§7▽ " + (today ? "今日" : "签到") + "奖励:");
-        if (Reward.getSignLore(date) != null) {
-            lores.addAll(Reward.getSignLore(date));
+        if (Reward.getLore(Reward.getSignReward(date)) != null) {
+            lores.addAll(Reward.getLore(Reward.getSignReward(date)));
         }
         if (!addition_lores.isEmpty()) {
             lores.addAll(addition_lores);
@@ -167,10 +187,10 @@ public class MskySign implements CommandExecutor {
 
                 ResultSet sign = SqlUtil.getResults("SELECT " + COL_SIGN + " FROM " + SHEET + " WHERE " + COL_USER_UUID + " = '" + p.getUniqueId().toString() + "' LIMIT 1;");
                 assert sign != null;
-                result = gson.fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
+                sign_result = gson.fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
                 }.getType());
 
-                SUM_OF_SIGN = result.size();
+                SUM_OF_SIGN = sign_result.size();
 
 
                 // 往日签到
@@ -180,7 +200,7 @@ public class MskySign implements CommandExecutor {
                         if (i$ == current_date) {
                             continue;
                         }
-                        menu.addItem(i$ - 1, getIcon(i$, result.contains(Integer.toString(i$)), false, lores));
+                        menu.addItem(i$ - 1, getIcon(i$, sign_result.contains(Integer.toString(i$)), false, lores));
                         menu.addMenuClickHandler(i$ - 1, new ChestMenu.MenuClickHandler() {
                             @Override
                             public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -193,7 +213,7 @@ public class MskySign implements CommandExecutor {
                 // 今日签到
                 {
                     // 今天已签到
-                    if (result.contains(Integer.toString(current_date))) {
+                    if (sign_result.contains(Integer.toString(current_date))) {
                         menu.addItem(current_date - 1, getIcon(current_date, true, true, lores));
                         menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                             @Override
@@ -211,14 +231,14 @@ public class MskySign implements CommandExecutor {
                                 ResultSet sign = null;
                                 try {
                                     // 更新记录
-                                    result.add(Integer.toString(current_date));
-                                    String json = gson.toJson(result);
+                                    sign_result.add(Integer.toString(current_date));
+                                    String json = gson.toJson(sign_result);
                                     PreparedStatement stmt = Core.getConnection().prepareStatement("UPDATE " + getSheetName() + " SET " + getColSign() + " = '" + json + "' WHERE " + getColUserUuid() + " = '" + p.getUniqueId().toString() + "'");
                                     stmt.executeUpdate();
 
                                     // 给予奖励
                                     p.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                                    Reward.sendReward(p, current_date);
+                                    Reward.sendSignReward(p, current_date);
                                     menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true, new ArrayList<>()));
                                     menu.addMenuClickHandler(current_date - 1, (player, i, itemStack, clickAction) -> false);
                                 } catch (SQLException e) {
@@ -256,22 +276,20 @@ public class MskySign implements CommandExecutor {
                         @Override
                         public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
                             ArrayList<String> sign = new ArrayList<>(Arrays.asList(Integer.toString(current_date)));
-                            String json = gson.toJson(sign);
+                            String record = gson.toJson(sign);
 
                             // 写入记录
                             try {
-                                PreparedStatement stmt = Core.getConnection().prepareStatement("INSERT INTO " + SHEET + "(" + COL_USER_NAME + ", " + COL_USER_UUID + ", " + COL_SIGN + ") VALUE(?,?,?);");
-                                stmt.setObject(1, p.getName());
-                                stmt.setObject(2, p.getUniqueId().toString());
-                                stmt.setObject(3, json);
-                                stmt.executeUpdate();
+                                String sql = "INSERT INTO {0}(`{1}`,`{2}`,`{3}`,`{4}`) VALUES(''{5}'',''{6}'',''{7}'',''{8}'');";
+                                Statement stmt = Core.getConnection().createStatement();
+                                stmt.execute(MessageFormat.format(sql, SHEET, COL_USER_NAME, COL_USER_UUID, COL_SIGN, COL_SIGN_KITS, p.getPlayerListName(), p.getUniqueId().toString(), record, "[]"));
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
 
                             // 给予奖励
                             p.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                            Reward.sendReward(p, current_date);
+                            Reward.sendSignReward(p, current_date);
                             menu.replaceExistingItem(current_date - 1, getIcon(current_date, true, true, finalLores));
                             menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
                                 @Override
@@ -334,38 +352,48 @@ public class MskySign implements CommandExecutor {
 
         // 累签奖励
         {
-            MyItemsAPI mapi = MyItemsAPI.getInstance();
-            ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem("head_chest");
-            ItemMeta meta = base.getItemMeta();
-            meta.setDisplayName("§8[ §7连续签到 §63 §7天奖励 §8]");
-            lores = Arrays.asList(
-                    "",
-                    "§7▽ 可领取的奖励:",
-                    "§7○ §3黑币 §7x §6600",
-                    "§7○ §8[§d核心§8] §6科技蓝图",
-                    "",
-                    "§8[ModernSky] reward"
-            );
-            meta.setLore(lores);
-            base.setItemMeta(meta);
-            menu.addItem(45, base);
-            menu.addMenuClickHandler(45, new ChestMenu.MenuClickHandler() {
+            List<Integer> slots = new ArrayList<>(Arrays.asList(45, 46, 47, 48, 49));
+            List<Integer> days_of_kits = new ArrayList<>(Arrays.asList(3, 7, 15, 21, 28));
+            int[] day_of_kit = new int[]{3, 7, 15, 21, 28};
+            for (int i = 0; i < slots.size(); i++) {
+                p.sendMessage(String.valueOf(day_of_kit[i]));
+                menu.addItem(slots.get(i), getKitIcon(day_of_kit[i]));
+                menu.addMenuClickHandler(slots.get(i), new ChestMenu.MenuClickHandler() {
 
-                @Override
-                public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-                    if (exist) {
-                        assert result != null;
-                        if (result.size() < 3) {
+                    @Override
+                    public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
+                        if (!exist) {
                             p.sendMessage(Core.getPrefix() + "签到天数不足哦");
-                        } else {
-
+                            return false;
                         }
-                    } else {
-                        p.sendMessage(Core.getPrefix() + "签到天数不足哦");
+                        assert sign_result != null;
+                        if (sign_result.size() < 3) {
+                            p.sendMessage(Core.getPrefix() + "签到天数不足哦");
+                            return false;
+                        }
+
+                        String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}''";
+
+                        try {
+                            ResultSet kit_result = SqlUtil.getResults(MessageFormat.format(sql, COL_SIGN_KITS, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+                            sign_result = gson.fromJson(kit_result.getString(1), new TypeToken<ArrayList<String>>() {
+                            }.getType());
+                            if (sign_result.contains("3")) {
+                                p.sendMessage(Core.getPrefix() + "本月已领取");
+                                return false;
+                            }
+                            // 发放奖励(3)
+
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
+            }
+
         }
         menu.open(p);
     }
