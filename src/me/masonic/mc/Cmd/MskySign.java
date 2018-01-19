@@ -30,8 +30,6 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public class MskySign implements CommandExecutor {
-    private static final int[] PIPE = new int[]{36, 37, 38, 39, 40, 41, 42, 43, 44};
-    private static HashMap<Integer, ItemStack> REWARD = new HashMap<>();
 
     private final static String COL_USER_NAME = "user_name";
     private final static String COL_USER_UUID = "user_uuid";
@@ -63,15 +61,6 @@ public class MskySign implements CommandExecutor {
 
     public static String getSheetName() {
         return SHEET;
-    }
-
-    private void initReward() {
-        MyItemsAPI mapi = MyItemsAPI.getInstance();
-        ItemStack bp_a = mapi.getGameManagerAPI().getItemManagerAPI().getItem("sf1");
-        ItemStack bp_b = mapi.getGameManagerAPI().getItemManagerAPI().getItem("sf2");
-        for (int i = 1; i <= 31; i++) {
-            REWARD.put(i, bp_a);
-        }
     }
 
     private ItemStack getKitIcon(int days) {
@@ -134,7 +123,6 @@ public class MskySign implements CommandExecutor {
                 case 1:
                     switch (args[0]) {
                         case "open":
-                            initReward();
                             try {
                                 openSignMenu(p);
                             } catch (SQLException e) {
@@ -328,6 +316,7 @@ public class MskySign implements CommandExecutor {
         }
 
         // 分割线
+        int[] PIPE = new int[]{36, 37, 38, 39, 40, 41, 42, 43, 44};
         for (int i$ : PIPE) {
             menu.addItem(i$, new CustomItem(new MaterialData(Material.STAINED_GLASS_PANE, (byte) 7), " "));
             menu.addMenuClickHandler(i$, new ChestMenu.MenuClickHandler() {
@@ -340,8 +329,8 @@ public class MskySign implements CommandExecutor {
         }
 
         // 返回
-        menu.addItem(49, new CustomItem(new MaterialData(Material.REDSTONE, (byte) 0), "§8[ §c返回 §8]"));
-        menu.addMenuClickHandler(49, new ChestMenu.MenuClickHandler() {
+        menu.addItem(40, new CustomItem(new MaterialData(Material.REDSTONE, (byte) 0), "§8[ §c返回 §8]"));
+        menu.addMenuClickHandler(40, new ChestMenu.MenuClickHandler() {
 
             @Override
             public boolean onClick(Player p, int arg1, ItemStack arg2, ClickAction arg3) {
@@ -353,21 +342,17 @@ public class MskySign implements CommandExecutor {
         // 累签奖励
         {
             List<Integer> slots = new ArrayList<>(Arrays.asList(45, 46, 47, 48, 49));
-            List<Integer> days_of_kits = new ArrayList<>(Arrays.asList(3, 7, 15, 21, 28));
             int[] day_of_kit = new int[]{3, 7, 15, 21, 28};
             for (int i = 0; i < slots.size(); i++) {
-                p.sendMessage(String.valueOf(day_of_kit[i]));
                 menu.addItem(slots.get(i), getKitIcon(day_of_kit[i]));
+                int finalI = i;
                 menu.addMenuClickHandler(slots.get(i), new ChestMenu.MenuClickHandler() {
 
                     @Override
                     public boolean onClick(Player arg0, int arg1, ItemStack arg2, ClickAction arg3) {
-                        if (!exist) {
-                            p.sendMessage(Core.getPrefix() + "签到天数不足哦");
-                            return false;
-                        }
                         assert sign_result != null;
-                        if (sign_result.size() < 3) {
+
+                        if (!exist || sign_result.size() < 3) {
                             p.sendMessage(Core.getPrefix() + "签到天数不足哦");
                             return false;
                         }
@@ -378,12 +363,20 @@ public class MskySign implements CommandExecutor {
                             ResultSet kit_result = SqlUtil.getResults(MessageFormat.format(sql, COL_SIGN_KITS, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
                             sign_result = gson.fromJson(kit_result.getString(1), new TypeToken<ArrayList<String>>() {
                             }.getType());
-                            if (sign_result.contains("3")) {
+                            if (sign_result.contains(String.valueOf(day_of_kit[finalI]))) {
                                 p.sendMessage(Core.getPrefix() + "本月已领取");
                                 return false;
                             }
-                            // 发放奖励(3)
 
+                            // 发放奖励
+                            Reward.sendReward(p, Reward.getSignKitReward(day_of_kit[finalI]));
+                            p.sendMessage(Core.getPrefix() + "累签奖励已发放~");
+
+                            sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
+                            String json = gson.toJson(sign_result.add(String.valueOf(day_of_kit[finalI])));
+                            Statement stmt = Core.getConnection().createStatement();
+
+                            stmt.execute(MessageFormat.format(sql, SHEET, COL_SIGN_KITS, json, COL_USER_UUID, p.getUniqueId().toString()));
 
                         } catch (SQLException e) {
                             e.printStackTrace();

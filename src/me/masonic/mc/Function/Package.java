@@ -16,35 +16,41 @@ import java.util.*;
 public class Package implements Listener {
     private static Core plugin;
     private static String type;
+
     public Package(Core plugin) {
         Package.plugin = plugin;
     }
+
     private static Gson gson = new Gson();
     private final static String COL_USER_NAME = "user_name";
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_EXPIRE = "expire";
     private final static String SHEET = "package";
 
+    private final static ArrayList<String> AVAILABLE_TYPE = new ArrayList<>(Arrays.asList("A"));
+
     public static String getColUserName() {
         return COL_USER_NAME;
     }
+
     public static String getColUserUuid() {
         return COL_USER_UUID;
     }
+
     public static String getColExpire() {
         return COL_EXPIRE;
     }
+
     public static String getSHEET() {
         return SHEET;
     }
 
-    public static String getPackageState(Player p) {
-        if (isExpired(p, "A")) {
+    public static String getPackageState(Player p, String type) {
+        if (isExpired(p, type)) {
             return "§7未开通增值包";
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            return "将于 §6" + sdf.format(new Date(Long.parseLong(String.valueOf(getExpire(p, "A"))) * 1000)) + " §7过期";
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return "§7将于 §6" + sdf.format(new Date(Long.parseLong(String.valueOf(getExpire(p, type))) * 1000)) + " §7过期";
     }
 
     /**
@@ -140,7 +146,7 @@ public class Package implements Listener {
 
                 String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
                 SqlUtil.update(MessageFormat.format(sql, SHEET, COL_EXPIRE, json, COL_USER_UUID, p.getUniqueId().toString()));
-                return isExpired(p, type)? "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]" : "§7已续费A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
+                return isExpired(p, type) ? "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]" : "§7已续费A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
 
         }
         return "";

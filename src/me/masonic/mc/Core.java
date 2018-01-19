@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.black_ixx.playerpoints.PlayerPoints;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.sql.*;
@@ -139,9 +140,10 @@ public class Core extends JavaPlugin {
     private void registerSQL() {
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/msky_core");
-        ds.setUsername("mc");
-        ds.setPassword("492357816");
+        ds.setJdbcUrl(this.getConfig().getString("SQL.URL"));
+        ds.setUsername(this.getConfig().getString("SQL.UNAME"));
+        ds.setPassword(this.getConfig().getString("SQL.UPASSWORD"));
+
         ds.addDataSourceProperty("cachePrepStmts", "true");
         ds.addDataSourceProperty("prepStmtCacheSize", "250");
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -152,7 +154,7 @@ public class Core extends JavaPlugin {
             e.printStackTrace();
         }
 
-        activateConnection();
+//        activateConnection();
 //        String URL = this.getConfig().getString("SQL.URL");
 //        String UNAME = this.getConfig().getString("SQL.UNAME");
 //        String UPASSWORD = this.getConfig().getString("SQL.UPASSWORD");
@@ -233,15 +235,18 @@ public class Core extends JavaPlugin {
         }
     }
 
-    private void activateConnection() {
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            try {
-                Statement stmt = getConnection().createStatement();
-                stmt.executeQuery("SHOW TABLES LIKE 'sign';");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }, 0, 29 * 20);
+//    private void activateConnection() {
+//        Bukkit.getScheduler().runTask(this, new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Statement stmt = getConnection().createStatement();
+//                    stmt.executeQuery("SHOW TABLES LIKE 'sign';");
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, 0, 29 * 20);
         // HikariCP 默认空闲30秒后关闭连接
-    }
+
 }
