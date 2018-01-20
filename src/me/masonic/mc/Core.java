@@ -8,9 +8,11 @@ import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Function.Package;
 import me.masonic.mc.Hook.HookPapi;
+import me.masonic.mc.Objects.Function;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.sql.*;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 /**
@@ -48,6 +51,13 @@ public class Core extends JavaPlugin {
         CSCoreLibLoader loader = new CSCoreLibLoader(this);
         if (loader.load()) {
             plugin = this;
+
+            if (!this.getDataFolder().exists()) {
+                this.getDataFolder().mkdirs();
+            }
+
+            loadFiles();
+
             this.logger = this.getLogger();
 
             new HookPapi(this).hook(); //Hook Papi
@@ -56,18 +66,13 @@ public class Core extends JavaPlugin {
             registerCmd();
             registerEconomy();
 
-            if (!this.getDataFolder().exists()) {
-                this.getDataFolder().mkdirs();
-            }
-
-            loadFiles();
-
             registerSQL();
 
             hookPlayerPoints();
 
             new Sidebar(this).sendSchedulely();
 
+            activateConnection();
         }
     }
 
@@ -123,7 +128,7 @@ public class Core extends JavaPlugin {
 
     private void registerCmd() {
 //        this.getCommand("mskyvip").setExecutor(new MskyVip());
-        this.getCommand("mskydr").setExecutor(new MskyDailyReward());
+//        this.getCommand("mskydr").setExecutor(new MskyDailyReward());
         this.getCommand("mskymsg").setExecutor(new MskyMsg());
         this.getCommand("mskysf").setExecutor(new MskySlimeFun());
         this.getCommand("mskysign").setExecutor(new MskySign());
@@ -140,9 +145,9 @@ public class Core extends JavaPlugin {
     private void registerSQL() {
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(this.getConfig().getString("SQL.URL"));
-        ds.setUsername(this.getConfig().getString("SQL.UNAME"));
-        ds.setPassword(this.getConfig().getString("SQL.UPASSWORD"));
+        ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL"));
+        ds.setUsername(this.getConfig().getString("SQL.connection.UNAME"));
+        ds.setPassword(this.getConfig().getString("SQL.connection.UPASSWORD"));
 
         ds.addDataSourceProperty("cachePrepStmts", "true");
         ds.addDataSourceProperty("prepStmtCacheSize", "250");
@@ -174,7 +179,6 @@ public class Core extends JavaPlugin {
 //        }
 
     }
-
     private void initSQL() throws SQLException {
         Statement stmt = getConnection().createStatement();
         ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE 'sign';");
@@ -235,18 +239,15 @@ public class Core extends JavaPlugin {
         }
     }
 
-//    private void activateConnection() {
-//        Bukkit.getScheduler().runTask(this, new BukkitRunnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Statement stmt = getConnection().createStatement();
-//                    stmt.executeQuery("SHOW TABLES LIKE 'sign';");
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, 0, 29 * 20);
+    private void activateConnection() {
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            try {
+                Statement stmt = getConnection().createStatement();
+                stmt.executeQuery("SHOW TABLES LIKE 'sign';");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }, 0, 29 * 20);
         // HikariCP 默认空闲30秒后关闭连接
-
+    }
 }

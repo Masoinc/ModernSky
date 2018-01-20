@@ -38,8 +38,18 @@ public class Reward {
         HashMap<String, Integer> item = new HashMap<>();
         switch (days) {
             case 3:
+                item.put("sf1", 1);
+                return new Reward(1500, 0, item);
+            case 7:
+                return new Reward(0, 160, item);
+            case 15:
                 item.put("sf2", 1);
-                return new Reward(600, 0, item);
+                return new Reward(1500, 0, item);
+            case 21:
+                return new Reward(0, 220, item);
+            case 28:
+                item.put("sf2", 1);
+                return new Reward(0, 260, item);
             default:
                 return new Reward(0, 0, item);
         }
@@ -175,10 +185,10 @@ public class Reward {
         if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
             Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());
         }
-        if (!Package.isExpired(p,"A")) {
-            Exploration.setExploreValue(p, Exploration.getExploreValue(p) + 10);
-            p.sendMessage(Core.getPrefix() + "签到获得了 §610 §7点探索值");
-        }
+//        if (!Package.isExpired(p,"A")) {
+//            Exploration.setExploreValue(p, Exploration.getExploreValue(p) + 10);
+//            p.sendMessage(Core.getPrefix() + "签到获得了 §610 §7点探索值");
+//        }
     }
 }
 

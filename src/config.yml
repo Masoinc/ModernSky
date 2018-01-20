@@ -3,6 +3,21 @@
 # DreamCraft Specific Version
 
 SQL:
-  URL: "jdbc:mysql://127.0.0.1:3306/msky_core"
-  UNAME: "mc"
-  UPASSWORD: "492357816"
+  connection:
+    URL: "jdbc:mysql://127.0.0.1:3306/msky_core"
+    UNAME: "mc"
+    UPASSWORD: "492357816"
+  sheet:
+    # 签到
+    sign:
+      sheet: "sign"
+      uuid: "user_uuid"
+      name: "user_name"
+      record: "sign_record"
+      kits: "sign_kits"
+    # 增值包
+    package:
+      sheet: "package"
+      uuid: "user_uuid"
+      name: "user_name"
+      expire: "expire"

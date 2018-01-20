@@ -22,10 +22,10 @@ public class Package implements Listener {
     }
 
     private static Gson gson = new Gson();
-    private final static String COL_USER_NAME = "user_name";
-    private final static String COL_USER_UUID = "user_uuid";
-    private final static String COL_EXPIRE = "expire";
-    private final static String SHEET = "package";
+    private final static String COL_USER_NAME = Core.getInstance().getConfig().getString("SQL.sheet.sign.name");
+    private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.sign.uuid");
+    private final static String COL_EXPIRE = Core.getInstance().getConfig().getString("SQL.sheet.sign.expire");
+    private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.sign.sheet");
 
     private final static ArrayList<String> AVAILABLE_TYPE = new ArrayList<>(Arrays.asList("A"));
 
