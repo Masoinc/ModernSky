@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SqlUtil {
-    private static PreparedStatement statement;
 
     /**
      * 执行语句
@@ -30,7 +29,7 @@ public class SqlUtil {
         } catch (SQLException var7) {
             var7.printStackTrace();
         } finally {
-            closeResources((ResultSet) null, statement);
+            closeResources(null, statement);
         }
 
     }
@@ -42,6 +41,8 @@ public class SqlUtil {
      * @return 获取的结果
      */
     public static ResultSet getResults(String query) throws SQLException {
+
+
         Statement stmt = Core.getConnection().createStatement();
         ResultSet set = stmt.executeQuery(query);
 
@@ -99,7 +100,7 @@ public class SqlUtil {
         if (rs.wasNull()) {
             return false;
         }
-        while (rs.next()) {
+         while (rs.next()) {
             return rs.getInt(1) >= 1;
         }
         return false;

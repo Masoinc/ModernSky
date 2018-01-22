@@ -8,21 +8,19 @@ import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Function.Package;
 import me.masonic.mc.Hook.HookPapi;
-import me.masonic.mc.Objects.Function;
 import net.milkbowl.vault.economy.Economy;
+import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.black_ixx.playerpoints.PlayerPoints;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 /**
@@ -32,7 +30,6 @@ import java.util.logging.Logger;
 public class Core extends JavaPlugin {
 
     private static Core plugin;
-    private static Plugin core;
 
     private static Economy economy = null;
 
@@ -43,8 +40,6 @@ public class Core extends JavaPlugin {
     private static final String PLUGIN_PREFIX = "§8[ §6ModernSky §8] §7";
 
     private static PlayerPoints playerPoints;
-
-    public static Server server = null;
 
     @Override
     public void onEnable() {
@@ -76,10 +71,9 @@ public class Core extends JavaPlugin {
         }
     }
 
-    private boolean hookPlayerPoints() {
+    private void hookPlayerPoints() {
         final Plugin plugin = this.getServer().getPluginManager().getPlugin("PlayerPoints");
         playerPoints = PlayerPoints.class.cast(plugin);
-        return playerPoints != null;
     }
 
     public static PlayerPoints getPlayerPoints() {
@@ -100,10 +94,6 @@ public class Core extends JavaPlugin {
 
     public static Core getInstance() {
         return plugin;
-    }
-
-    public static Plugin getPlugin() {
-        return core;
     }
 
     public Core getCore() {
@@ -179,54 +169,27 @@ public class Core extends JavaPlugin {
 //        }
 
     }
+
     private void initSQL() throws SQLException {
+        createTables(Sign.getSheetName(), Sign.getInitQuery(), Sign.getColUserUuid());
+        createTables(Package.getSheetName(), Package.getInitQuery(), Package.getColUserUuid());
+        createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
+    }
+
+    private static void createTables(String sheet, String init, String col_uuid) throws SQLException {
         Statement stmt = getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE 'sign';");
-        boolean sign_empty = true;
+        ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE '" + sheet + "'");
+        boolean empty = true;
         while (rs.next()) {
-            // ResultSet processing here
-            sign_empty = false;
+            empty = false;
         }
 
-        if (sign_empty) {
-            // Empty result set
-            Statement stmt2 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt2.addBatch(MessageFormat.format(sql, MskySign.getSheetName(), MskySign.getColUserName(), MskySign.getColUserUuid(), MskySign.getColSign(), MskySign.getColSignKits()));
-            String sql2 = "alter table {0} add primary key({1});";
-            stmt2.addBatch(MessageFormat.format(sql2, MskySign.getSheetName(), MskySign.getColUserUuid()));
-            stmt2.executeBatch();
-            stmt2.close();
-        }
-
-        ResultSet explore_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Exploration.getSheet() + "'");
-        boolean explore_empty = true;
-        while (explore_rs.next()) {
-            explore_empty = false;
-        }
-
-        if (explore_empty) {
-            Statement stmt3 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(6) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt3.addBatch(MessageFormat.format(sql, Exploration.getSheet(), Exploration.getColUserName(), Exploration.getColUserUuid(), Exploration.getColExplore()));
-            stmt3.addBatch("alter table " + Exploration.getSheet() + " add primary key(" + Exploration.getColUserUuid() + ");");
-            stmt3.executeBatch();
-            stmt3.close();
-        }
-
-        ResultSet package_rs = stmt.executeQuery("SHOW TABLES LIKE '" + Package.getSHEET() + "'");
-        boolean package_empty = true;
-        while (package_rs.next()) {
-            package_empty = false;
-        }
-
-        if (package_empty) {
-            Statement stmt4 = getConnection().createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            stmt4.addBatch(MessageFormat.format(sql, Package.getSHEET(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire()));
-            stmt4.addBatch("alter table " + Package.getSHEET() + " add primary key(" + Package.getColUserUuid() + ");");
-            stmt4.executeBatch();
-            stmt4.close();
+        if (empty) {
+            Core.getInstance().logger.info("Sheet '" + sheet + "' is not exist, creating...");
+            stmt.addBatch(init);
+            stmt.addBatch(MessageFormat.format("alter table {0} add primary key({1});", sheet, col_uuid));
+            stmt.executeBatch();
+            stmt.close();
         }
     }
 
@@ -241,6 +204,7 @@ public class Core extends JavaPlugin {
 
     private void activateConnection() {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
+            logger.info("连接已刷新");
             try {
                 Statement stmt = getConnection().createStatement();
                 stmt.executeQuery("SHOW TABLES LIKE 'sign';");

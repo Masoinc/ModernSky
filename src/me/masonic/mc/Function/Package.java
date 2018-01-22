@@ -26,8 +26,12 @@ public class Package implements Listener {
     private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.sign.uuid");
     private final static String COL_EXPIRE = Core.getInstance().getConfig().getString("SQL.sheet.sign.expire");
     private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.sign.sheet");
-
+    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Package.getSheetName(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire());
     private final static ArrayList<String> AVAILABLE_TYPE = new ArrayList<>(Arrays.asList("A"));
+
+    public static String getInitQuery() {
+        return INIT_QUERY;
+    }
 
     public static String getColUserName() {
         return COL_USER_NAME;
@@ -41,7 +45,7 @@ public class Package implements Listener {
         return COL_EXPIRE;
     }
 
-    public static String getSHEET() {
+    public static String getSheetName() {
         return SHEET;
     }
 

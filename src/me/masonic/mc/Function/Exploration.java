@@ -17,11 +17,15 @@ public class Exploration {
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_EXPLORE = "exploration";
     private final static String SHEET = "explore";
-
+    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` INT(6) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Exploration.getSheetName(), Exploration.getColUserName(), Exploration.getColUserUuid(), Exploration.getColExplore());
     private String tagname = "";
     private int explore_value = 0;
     private double slimefun_discount = 0;
     private int sign_additional_money = 0;
+
+    public static String getInitQuery() {
+        return INIT_QUERY;
+    }
 
     public String getTagname() {
         return tagname;
@@ -47,7 +51,7 @@ public class Exploration {
         return COL_EXPLORE;
     }
 
-    public static String getSheet() {
+    public static String getSheetName() {
         return SHEET;
     }
 
