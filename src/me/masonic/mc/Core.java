@@ -47,20 +47,21 @@ public class Core extends JavaPlugin {
         if (loader.load()) {
             plugin = this;
 
+            this.logger = this.getLogger();
+
             if (!this.getDataFolder().exists()) {
                 this.getDataFolder().mkdirs();
             }
 
             loadFiles();
 
-            this.logger = this.getLogger();
+
 
             new HookPapi(this).hook(); //Hook Papi
 
             registerEvents();
             registerCmd();
             registerEconomy();
-
             registerSQL();
 
             hookPlayerPoints();
@@ -113,7 +114,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
-        getServer().getPluginManager().registerEvents(new Package(this), this);
+        getServer().getPluginManager().registerEvents(new Package(), this);
     }
 
     private void registerCmd() {
@@ -133,9 +134,8 @@ public class Core extends JavaPlugin {
     }
 
     private void registerSQL() {
-
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL"));
+        ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL")+"?verifyServerCertificate=false&useSSL=false");
         ds.setUsername(this.getConfig().getString("SQL.connection.UNAME"));
         ds.setPassword(this.getConfig().getString("SQL.connection.UPASSWORD"));
 
@@ -148,26 +148,6 @@ public class Core extends JavaPlugin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        activateConnection();
-//        String URL = this.getConfig().getString("SQL.URL");
-//        String UNAME = this.getConfig().getString("SQL.UNAME");
-//        String UPASSWORD = this.getConfig().getString("SQL.UPASSWORD");
-//
-//        try { //初始化驱动
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//            System.err.println("jdbc driver unavailable!");
-//            return;
-//        }
-//        try { //初始化数据库, catch exceptions
-//            connection = DriverManager.getConnection(URL, UNAME, UPASSWORD); //启动链接，链接名 conc
-//            initSQL();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     private void initSQL() throws SQLException {
@@ -178,18 +158,20 @@ public class Core extends JavaPlugin {
 
     private static void createTables(String sheet, String init, String col_uuid) throws SQLException {
         Statement stmt = getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery("SHOW TABLES LIKE '" + sheet + "'");
+        ResultSet rs = stmt.executeQuery(MessageFormat.format("SHOW TABLES LIKE ''{0}''", sheet));
         boolean empty = true;
         while (rs.next()) {
             empty = false;
         }
 
         if (empty) {
-            Core.getInstance().logger.info("Sheet '" + sheet + "' is not exist, creating...");
+            Core.getInstance().logger.info(MessageFormat.format("Sheet ''{0}'' is not exist, creating...", sheet));
             stmt.addBatch(init);
             stmt.addBatch(MessageFormat.format("alter table {0} add primary key({1});", sheet, col_uuid));
             stmt.executeBatch();
             stmt.close();
+        } else {
+            Core.getInstance().logger.info(MessageFormat.format("Sheet ''{0}'' exists, skipped", sheet));
         }
     }
 
@@ -197,14 +179,14 @@ public class Core extends JavaPlugin {
         File config = new File(this.getDataFolder(), "config.yml");
         this.getConfig().options().copyDefaults(true);
         if (!config.exists()) {
-            this.logger.info("创建配置文件中...");
-            this.saveResource("config.yml", false);
+            this.logger.info("creating configs");
+            this.saveResource("config.yml", true);
         }
     }
 
     private void activateConnection() {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
-            logger.info("连接已刷新");
+//            logger.info("Connection expired");
             try {
                 Statement stmt = getConnection().createStatement();
                 stmt.executeQuery("SHOW TABLES LIKE 'sign';");

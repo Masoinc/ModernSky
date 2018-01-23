@@ -11,7 +11,6 @@ public class Privilege {
 
     @EventHandler
     private void onExp(PlayerExpChangeEvent e) {
-
 //        e.setAmount((int) (e.getAmount() * VIPMAP_EXP.get(getVipRank(e.getPlayer()))));
     }
 

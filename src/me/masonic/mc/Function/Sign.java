@@ -8,13 +8,9 @@ import me.masonic.mc.Utility.PermissionUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import me.masonic.mc.Utility.TimeUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -39,7 +35,7 @@ public class Sign {
         return INIT_QUERY;
     }
 
-    public static String getColUserName() {
+    private static String getColUserName() {
         return COL_USER_NAME;
     }
 
@@ -47,11 +43,11 @@ public class Sign {
         return COL_USER_UUID;
     }
 
-    public static String getColSign() {
+    private static String getColSign() {
         return COL_SIGN;
     }
 
-    public static String getColSignKits() {
+    private static String getColSignKits() {
         return COL_SIGN_KITS;
     }
 
@@ -196,44 +192,33 @@ public class Sign {
         if (exist) {
             if (today_signed) {
                 menu.addItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
-                menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
-                    @Override
-                    public boolean onClick(Player pl2, int i, ItemStack itemStack, ClickAction clickAction) {
-                        pl2.sendMessage(Core.getPrefix() + "今天已签到过了哦，明天再来吧");
-                        return false;
-                    }
+                menu.addMenuClickHandler(current_date - 1, (pl2, i, itemStack, clickAction) -> {
+                    pl2.sendMessage(Core.getPrefix() + "今天已签到过了哦，明天再来吧");
+                    return false;
                 });
                 if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
                     p.sendMessage(Core.getPrefix() + "有记录-今日已签到");
                 }
             } else {
                 menu.addItem(current_date - 1, getSignIcon(current_date, false, true, lores));
-                menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
-                    @Override
-                    public boolean onClick(Player p13, int i, ItemStack itemStack, ClickAction clickAction) {
-                        ArrayList<String> sign_dynamic = getSignResult(p);
-                        sign_dynamic.add(Integer.toString(current_date));
-                        String json = new Gson().toJson(sign_dynamic);
+                menu.addMenuClickHandler(current_date - 1, (p13, i, itemStack, clickAction) -> {
+                    ArrayList<String> sign_dynamic = getSignResult(p);
+                    sign_dynamic.add(Integer.toString(current_date));
+                    String json = new Gson().toJson(sign_dynamic);
 
-                        if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
-                            p.sendMessage(Core.getPrefix() + "有记录且未签到时重新写入的json: " + json);
-                        }
-
-                        SqlUtil.update(MessageFormat.format("UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}'';", SHEET, COL_SIGN, json, COL_USER_UUID, p.getUniqueId().toString()));
-
-                        // 给予奖励
-                        p13.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                        Reward.sendSignReward(p13, current_date);
-                        menu.replaceExistingItem(53, getSignStatIcon(String.valueOf(sign_dynamic.size())));
-                        menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
-                        menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
-                            @Override
-                            public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                                return false;
-                            }
-                        });
-                        return false;
+                    if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
+                        p.sendMessage(Core.getPrefix() + "有记录且未签到时重新写入的json: " + json);
                     }
+
+                    SqlUtil.update(MessageFormat.format("UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}'';", SHEET, COL_SIGN, json, COL_USER_UUID, p.getUniqueId().toString()));
+
+                    // 给予奖励
+                    p13.sendMessage(Core.getPrefix() + "签到奖励已发放~");
+                    Reward.sendSignReward(p13, current_date);
+                    menu.replaceExistingItem(53, getSignStatIcon(String.valueOf(sign_dynamic.size())));
+                    menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
+                    menu.addMenuClickHandler(current_date - 1, (player, i12, itemStack12, clickAction12) -> false);
+                    return false;
                 });
                 if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
                     p.sendMessage(Core.getPrefix() + "有记录-今日未签到");
@@ -244,24 +229,21 @@ public class Sign {
                 p.sendMessage(Core.getPrefix() + "无记录");
             }
             menu.addItem(current_date - 1, getSignIcon(current_date, false, true, new ArrayList<>()));
-            menu.addMenuClickHandler(current_date - 1, new ChestMenu.MenuClickHandler() {
-                @Override
-                public boolean onClick(Player p14, int i, ItemStack itemStack, ClickAction clickAction) {
-                    ArrayList<String> sign_init = new ArrayList<>(Collections.singletonList(Integer.toString(current_date)));
-                    String json = new Gson().toJson(sign_init);
+            menu.addMenuClickHandler(current_date - 1, (p14, i, itemStack, clickAction) -> {
+                ArrayList<String> sign_init = new ArrayList<>(Collections.singletonList(Integer.toString(current_date)));
+                String json = new Gson().toJson(sign_init);
 
-                    // 写入记录
-                    String sql = "INSERT INTO {0}(`{1}`,`{2}`,`{3}`,`{4}`) VALUES(''{5}'',''{6}'',''{7}'',''{8}'');";
-                    SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_NAME, COL_USER_UUID, COL_SIGN, COL_SIGN_KITS, p14.getPlayerListName(), p14.getUniqueId().toString(), json, "[]"));
+                // 写入记录
+                String sql = "INSERT INTO {0}(`{1}`,`{2}`,`{3}`,`{4}`) VALUES(''{5}'',''{6}'',''{7}'',''{8}'');";
+                SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_NAME, COL_USER_UUID, COL_SIGN, COL_SIGN_KITS, p14.getPlayerListName(), p14.getUniqueId().toString(), json, "[]"));
 
-                    // 给予奖励
-                    p14.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                    Reward.sendSignReward(p14, current_date);
-                    menu.replaceExistingItem(53, getSignStatIcon("1"));
-                    menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, lores));
-                    menu.addMenuClickHandler(current_date - 1, (player, i1, itemStack1, clickAction1) -> false);
-                    return false;
-                }
+                // 给予奖励
+                p14.sendMessage(Core.getPrefix() + "签到奖励已发放~");
+                Reward.sendSignReward(p14, current_date);
+                menu.replaceExistingItem(53, getSignStatIcon("1"));
+                menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, lores));
+                menu.addMenuClickHandler(current_date - 1, (player, i1, itemStack1, clickAction1) -> false);
+                return false;
             });
         }
 

@@ -25,7 +25,11 @@ public class MskyPackage implements CommandExecutor {
                             Player p = Bukkit.getPlayerExact(args[1]);
                             switch (args[2]) {
                                 case "A":
-                                    MessageUtil.sendFullMsg(p, Package.sendPackage(p, Integer.valueOf(args[3]), args[2]));
+                                    try {
+                                        MessageUtil.sendFullMsg(p, Package.sendPackage(p, Integer.valueOf(args[3]), args[2]));
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
                             }
                             return true;
                     }
