@@ -1,7 +1,17 @@
 package me.masonic.mc.Function;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import me.masonic.mc.Core;
+import me.masonic.mc.Utility.SqlUtil;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerExpChangeEvent;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.HashMap;
 
 /**
  * Mason Project
@@ -9,9 +19,69 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
  */
 public class Privilege {
 
-    @EventHandler
-    private void onExp(PlayerExpChangeEvent e) {
-//        e.setAmount((int) (e.getAmount() * VIPMAP_EXP.get(getVipRank(e.getPlayer()))));
+    private final static String COL_USER_NAME = Core.getInstance().getConfig().getString("SQL.sheet.privilege.name");
+    private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.privilege.uuid");
+    private final static String COL_PRIVILEGE = Core.getInstance().getConfig().getString("SQL.sheet.privilege.privilege");
+    private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.privilege.sheet");
+    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Privilege.getSheetName(), Privilege.getColUserName(), Privilege.getColUserUuid(), Privilege.getColPrivilege());
+
+    public static String getInitQuery() {
+        return INIT_QUERY;
     }
 
+    public static String getColUserName() {
+        return COL_USER_NAME;
+    }
+
+    public static String getColUserUuid() {
+        return COL_USER_UUID;
+    }
+
+    public static String getColPrivilege() {
+        return COL_PRIVILEGE;
+    }
+
+    public static String getSheetName() {
+        return SHEET;
+    }
+
+    private Long expire_time;
+
+    public Privilege(long expire) {
+        this.expire_time = expire;
+    }
+//    public HashMap<String, HashMap<String, Long>> RAW_MAP = new HashMap<>();
+
+    public static HashMap<String, HashMap<String, Long>> getRawmap(Player p) {
+        if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
+            createRecord(p);
+            return new HashMap<>();
+        }
+        String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
+
+        try {
+            ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, COL_PRIVILEGE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+            return new Gson().fromJson(rs.getString(1), new TypeToken<HashMap<String, HashMap<String, Long>>>() {
+            }.getType());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
+
+    }
+
+    private static void createRecord(Player p) {
+        String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUES(''{4}'', ''{5}'', ''{6}'')";
+        SqlUtil.update(MessageFormat.format(sql, SHEET, COL_PRIVILEGE, COL_USER_NAME, COL_USER_UUID, "[]", p.getPlayerListName(), p.getUniqueId().toString()));
+    }
+
+    @EventHandler
+    private void onExp(PlayerExpChangeEvent e) {
+        e.setAmount((int) (e.getAmount() * ExpPriviledge.getPlayerInstance(e.getPlayer()).getAmplifier()));
+    }
+//    public ArrayList<Privilege> getPrivilegeList(Player p) {
+//
+//    }
+
 }
+

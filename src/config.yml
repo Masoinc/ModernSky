@@ -21,3 +21,9 @@ SQL:
       uuid: "user_uuid"
       name: "user_name"
       expire: "expire"
+    # 特权
+    privilege:
+      sheet: "privilege"
+      uuid: "user_uuid"
+      name: "user_name"
+      privilege: "privilege"

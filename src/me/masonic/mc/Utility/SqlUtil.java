@@ -89,19 +89,21 @@ public class SqlUtil {
      * @param column 要查询的列名
      * @return true或false
      */
-    public static boolean ifExist(UUID uid, String sheet, String column) throws SQLException {
-
-        String sql = "SELECT COUNT(*) FROM {0} WHERE {1} = ''{2}'' LIMIT 1;";
-        Statement stmt = Core.getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery(MessageFormat.format(sql, sheet, column, uid));
-        if (rs == null) {
-            return false;
-        }
-        if (rs.wasNull()) {
-            return false;
-        }
-         while (rs.next()) {
-            return rs.getInt(1) >= 1;
+    public static boolean ifExist(UUID uid, String sheet, String column) {
+        try {
+            String sql = "SELECT COUNT(*) FROM {0} WHERE {1} = ''{2}'' LIMIT 1;";
+            ResultSet rs = Core.getConnection().createStatement().executeQuery(MessageFormat.format(sql, sheet, column, uid));
+            if (rs == null) {
+                return false;
+            }
+            if (rs.wasNull()) {
+                return false;
+            }
+            while (rs.next()) {
+                return rs.getInt(1) >= 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }

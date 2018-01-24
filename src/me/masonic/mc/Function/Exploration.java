@@ -78,6 +78,7 @@ public class Exploration {
     private static Exploration EXP_RANK5 = new Exploration("§c魔物杀手", 1200, 0.15, 3000);
 
     public static List<Exploration> EXPLORATION_LIST = new ArrayList<>();
+
     static {
         EXPLORATION_LIST.add(EXP_RANK0);
         EXPLORATION_LIST.add(EXP_RANK1);
@@ -86,6 +87,7 @@ public class Exploration {
         EXPLORATION_LIST.add(EXP_RANK4);
         EXPLORATION_LIST.add(EXP_RANK5);
     }
+
     public static Exploration getExplorationRank(Player p) {
         Exploration rank = EXP_RANK0;
         for (Exploration ranks : EXPLORATION_LIST) {
@@ -95,9 +97,11 @@ public class Exploration {
         }
         return rank;
     }
+
     public static String getExplorePrefix(Player p) {
-        return getExplorationRank(p) == EXP_RANK0 ? "":"§7[ " + getExplorationRank(p).getTagname() + " §7]";
+        return getExplorationRank(p) == EXP_RANK0 ? "" : "§7[ " + getExplorationRank(p).getTagname() + " §7]";
     }
+
     public static String getExploreTag(Player p) {
         return (getExploreValue(p) > 10 ?
                 (getExploreValue(p) > 60 ?
@@ -141,16 +145,12 @@ public class Exploration {
 
     public static void setExploreValue(Player p, int value) {
         String sql = "UPDATE {0} SET {1} = {2} WHERE {3} = ''{4}'';";
-        try {
-            Boolean exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
-            if (exist) {
-                SqlUtil.update(MessageFormat.format(sql, SHEET, COL_EXPLORE, value, COL_USER_UUID, p.getUniqueId().toString()));
-            } else {
-                sql = "INSERT INTO {0}({1}, {2}, {3}) VALUE(''{4}'', ''{5}'', {6})";
-                SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPLORE, p.getUniqueId().toString(), p.getPlayerListName(), value));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Boolean exist = SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID);
+        if (exist) {
+            SqlUtil.update(MessageFormat.format(sql, SHEET, COL_EXPLORE, value, COL_USER_UUID, p.getUniqueId().toString()));
+        } else {
+            sql = "INSERT INTO {0}({1}, {2}, {3}) VALUE(''{4}'', ''{5}'', {6})";
+            SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, COL_USER_NAME, COL_EXPLORE, p.getUniqueId().toString(), p.getPlayerListName(), value));
         }
     }
 
