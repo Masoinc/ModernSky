@@ -17,6 +17,8 @@ import java.sql.SQLException;
  */
 public class HookPapi extends EZPlaceholderHook {
 
+    private final Core Plugin;
+
     @Override
     public String onPlaceholderRequest(Player p, String identifier) {
         switch (identifier.split("_")[1]) {
@@ -61,9 +63,7 @@ public class HookPapi extends EZPlaceholderHook {
         if (identifier.equals("get_Explore_Prefix")) {
             return String.valueOf(Exploration.getExplorePrefix(p));
         }
-
         return null;
-
     }
 
     public HookPapi(Core Plugin) {

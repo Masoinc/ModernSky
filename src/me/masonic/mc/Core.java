@@ -55,8 +55,6 @@ public class Core extends JavaPlugin {
 
             loadFiles();
 
-
-
             new HookPapi(this).hook(); //Hook Papi
 
             registerEvents();

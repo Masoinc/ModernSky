@@ -47,12 +47,23 @@ public class Privilege {
 
     private Long expire_time;
 
+    public Long getExpire_time() {
+        return expire_time;
+    }
+
     public Privilege(long expire) {
         this.expire_time = expire;
     }
 //    public HashMap<String, HashMap<String, Long>> RAW_MAP = new HashMap<>();
 
-    public static HashMap<String, HashMap<String, Long>> getRawmap(Player p) {
+    public static void setRawMap(Player p) {
+        if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
+
+        }
+
+    }
+
+    public static HashMap<String, HashMap<String, Long>> getRawMap(Player p) {
         if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
             createRecord(p);
             return new HashMap<>();
