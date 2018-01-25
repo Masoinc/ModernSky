@@ -114,6 +114,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
         getServer().getPluginManager().registerEvents(new Package(), this);
+        getServer().getPluginManager().registerEvents(new ExpPriviledge(), this);
     }
 
     private void registerCmd() {

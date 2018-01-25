@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import me.masonic.mc.Utility.MessageUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import org.bukkit.entity.Player;
+import net.aufdemrand.denizen.nms.NMSHandler;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -12,6 +15,9 @@ public class ExpPriviledge extends Privilege {
     long amplifier;
     boolean exist;
 
+    public ExpPriviledge() {
+
+    }
     /**
      * @param expire    以秒计的时间戳
      * @param amplifier 经验倍率，默认为100
@@ -35,22 +41,6 @@ public class ExpPriviledge extends Privilege {
         return this.getExpire_time() <= System.currentTimeMillis() / 1000;
     }
 
-    /**
-     * 获取经验特权对象，若无此特权，返回的对象的exist属性为false
-     * 注: 自动创建记录
-     *
-     * @param p 玩家
-     * @return 经验特权
-     */
-    public static ExpPriviledge getPlayerInstance(Player p) {
-        HashMap<String, HashMap<String, Long>> rawmap = Privilege.getRawMap(p);
-        HashMap<String, Long> expmap = rawmap.getOrDefault("exp", new HashMap<>());
-
-        return expmap.containsKey("expire") && expmap.containsKey("amp") ?
-                new ExpPriviledge(expmap.get("expire"), expmap.get("amp"), true) :
-                new ExpPriviledge(0, 100, false);
-    }
-
     public static HashMap<String, Long> getExpRawMap(Player p) {
         HashMap<String, HashMap<String, Long>> rawmap = Privilege.getRawMap(p);
 
@@ -58,15 +48,11 @@ public class ExpPriviledge extends Privilege {
     }
 
     public static String getFormattedAmplifier(Player p) {
-        return (getPlayerInstance(p).getAmplifier() == 1) ?
+        ExpPriviledge exp = Privilege.getPlayerExpInstance(p);
+        return (exp.getAmplifier() == 1) ?
                 "§6100§7%§8[§7基础值§8]" :
-                "§6100§7%§8[§7基础值§8] §7+ §3" + String.valueOf(getPlayerInstance(p).getAmplifier() - 100) + "§7%";
+                "§6100§7%§8[§7基础值§8] §7+ §3" + String.valueOf(exp.getAmplifier() - 100) + "§7%";
     }
-
-//    public static void sendExpPrivilege(Player p, long period) {
-//        if (getPlayerInstance(p).isExist())
-//
-//    }
 
     /**
      * 发放经验特权
@@ -77,13 +63,14 @@ public class ExpPriviledge extends Privilege {
      */
     public static void sendExpPrivilege(Player p, long period, long amplifier) {
         HashMap<String, Long> rawmap = new HashMap<>();
+        ExpPriviledge exp = Privilege.getPlayerExpInstance(p);
         long expire;
-        if (!getPlayerInstance(p).isExist() || getPlayerInstance(p).isExpired()) {
+        if (!exp.isExist() || exp.isExpired()) {
             expire = System.currentTimeMillis() / 1000 + period;
             rawmap.put("amp", amplifier);
         } else {
-            expire = getPlayerInstance(p).getExpire_time() + period;
-            rawmap.put("amp", getPlayerInstance(p).getAmplifier());
+            expire = exp.getExpire_time() + period;
+            rawmap.put("amp", exp.getAmplifier());
         }
         rawmap.put("expire", expire);
         HashMap<String, HashMap<String, Long>> map = Privilege.getRawMap(p);
@@ -95,4 +82,12 @@ public class ExpPriviledge extends Privilege {
         MessageUtil.sendFullMsg(p, Privilege.getSendMsg("exp", expire));
     }
 
+    @EventHandler
+    private void onExp(PlayerExpChangeEvent e) {
+        Player p = e.getPlayer();
+        String msg = MessageFormat.format("§8[§6 经验特权 §8] §7获得的经验: §3+{0}%", Privilege.getPlayerExpInstance(p).getAmplifier() - 100);
+        NMSHandler.getInstance().getPacketHelper().sendActionBarMessage(p, msg);
+        e.setAmount((int) (e.getAmount() * getPlayerExpInstance(e.getPlayer()).getAmplifier()));
+
+    }
 }

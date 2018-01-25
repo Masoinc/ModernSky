@@ -7,6 +7,7 @@ import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Core;
 import me.masonic.mc.Function.Package;
 //import me.masonic.mc.Function.Vip;
+import me.masonic.mc.Function.Privilege;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -21,27 +22,24 @@ public class HookPapi extends EZPlaceholderHook {
 
     @Override
     public String onPlaceholderRequest(Player p, String identifier) {
-        switch (identifier.split("_")[1]) {
+        switch (identifier.split("_")[0]) {
             case "Package":
-                switch (identifier.split("_")[2]) {
-                    // %ModernSky_get_Package_StateA%
+                switch (identifier.split("_")[1]) {
+                    // %ModernSky_Package_StateA%
                     case "StateA":
                         return String.valueOf(Package.getPackageState(p, "A"));
                 }
             case "Privilege":
-                switch (identifier.split("_")[2]) {
-
+                switch (identifier.split("_")[1]) {
                     case "Exp":
-                        switch (identifier.split("_")[3]) {
-                            // %ModernSky_get_Privilege_Exp_amplifier%
+                        switch (identifier.split("_")[2]) {
+                            // %ModernSky_Privilege_Exp_amplifier%
                             case "amplifier":
                                 return ExpPriviledge.getFormattedAmplifier(p);
+                            // %ModernSky_Privilege_Exp_expire%
                             case "expire":
-
+                                return Privilege.getPlayerExpInstance(p).getFormattedExpire();
                         }
-
-                    default:
-                        return null;
                 }
         }
 //        //%ModernSky_getVipRank%
