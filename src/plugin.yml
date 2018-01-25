@@ -29,3 +29,6 @@ commands:
   mskypac:
     description: Package
     usage: /mskypac
+  mskypri:
+    description: Privilege
+    usage: /MskyPri send [Player] [type] [period] [other]

@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.sql.Connection;
@@ -124,6 +125,7 @@ public class Core extends JavaPlugin {
         this.getCommand("mskybs").setExecutor(new MskyBackShop());
         this.getCommand("mskyaa").setExecutor(new MskyAdvancedAbility());
         this.getCommand("mskypac").setExecutor(new MskyPackage());
+        this.getCommand("mskypri").setExecutor(new MskyPrivilege());
     }
 
     private void registerEconomy() {
@@ -133,7 +135,7 @@ public class Core extends JavaPlugin {
 
     private void registerSQL() {
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL")+"?verifyServerCertificate=false&useSSL=false");
+        ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL") + "?verifyServerCertificate=false&useSSL=false");
         ds.setUsername(this.getConfig().getString("SQL.connection.UNAME"));
         ds.setPassword(this.getConfig().getString("SQL.connection.UPASSWORD"));
 
@@ -184,15 +186,19 @@ public class Core extends JavaPlugin {
     }
 
     private void activateConnection() {
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-//            logger.info("Connection expired");
-            try {
-                Statement stmt = getConnection().createStatement();
-                stmt.executeQuery("SHOW TABLES LIKE 'sign';");
-            } catch (SQLException e) {
-                e.printStackTrace();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Statement stmt = getConnection().createStatement();
+                    stmt.executeQuery("SHOW TABLES LIKE 'sign';");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        }, 0, 29 * 20);
+        }.runTaskTimerAsynchronously(this, 0, 580L);
+//            logger.info("Connection expired");
         // HikariCP 默认空闲30秒后关闭连接
     }
 }

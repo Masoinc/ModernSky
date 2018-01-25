@@ -93,15 +93,18 @@ public class SqlUtil {
         try {
             String sql = "SELECT COUNT(*) FROM {0} WHERE {1} = ''{2}'' LIMIT 1;";
             ResultSet rs = Core.getConnection().createStatement().executeQuery(MessageFormat.format(sql, sheet, column, uid));
-            if (rs == null) {
-                return false;
-            }
-            if (rs.wasNull()) {
-                return false;
-            }
+            Boolean empty = true;
             while (rs.next()) {
+                empty = false;
+                if (rs.wasNull()) {
+                    return false;
+                }
                 return rs.getInt(1) >= 1;
             }
+            if (empty) {
+                return false;
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

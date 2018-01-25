@@ -30,9 +30,16 @@ public class HookPapi extends EZPlaceholderHook {
                 }
             case "Privilege":
                 switch (identifier.split("_")[2]) {
-                    // %ModernSky_get_Privilege_Exp%
+
                     case "Exp":
-                        return ExpPriviledge.getFormattedAmplifier(p);
+                        switch (identifier.split("_")[3]) {
+                            // %ModernSky_get_Privilege_Exp_amplifier%
+                            case "amplifier":
+                                return ExpPriviledge.getFormattedAmplifier(p);
+                            case "expire":
+
+                        }
+
                     default:
                         return null;
                 }

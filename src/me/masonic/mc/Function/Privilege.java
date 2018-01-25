@@ -10,7 +10,10 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -51,6 +54,10 @@ public class Privilege {
         return expire_time;
     }
 
+    /**
+     *
+     * @param expire 以秒计
+     */
     public Privilege(long expire) {
         this.expire_time = expire;
     }
@@ -58,11 +65,12 @@ public class Privilege {
 
     public static void setRawMap(Player p) {
         if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
-
         }
-
     }
-
+    /**
+     * @param p
+     * @return
+     */
     public static HashMap<String, HashMap<String, Long>> getRawMap(Player p) {
         if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
             createRecord(p);
@@ -84,6 +92,30 @@ public class Privilege {
     private static void createRecord(Player p) {
         String sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUES(''{4}'', ''{5}'', ''{6}'')";
         SqlUtil.update(MessageFormat.format(sql, SHEET, COL_PRIVILEGE, COL_USER_NAME, COL_USER_UUID, "[]", p.getPlayerListName(), p.getUniqueId().toString()));
+    }
+
+    /**
+     *
+     * @param type 内定类型
+     * @param expire 以秒计
+     * @return
+     */
+    public static String getSendMsg(String type, Long expire) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTimeInMillis(new Timestamp(expire * 1000).getTime());
+
+        StringBuilder t = new StringBuilder();
+        t.append(" §6");
+        t.append(calendar.get(Calendar.YEAR)).append(" §7年 §6");
+        t.append(calendar.get(Calendar.MONTH) + 1).append(" §7月§6 ");
+        t.append(calendar.get(Calendar.DATE)).append(" §7日");
+
+        String raw = "§7已开通{0}§7，有效期至{1}";
+        switch (type) {
+            case "exp":
+                return MessageFormat.format(raw, "经验特权", t);
+        }
+        return "";
     }
 
     @EventHandler
