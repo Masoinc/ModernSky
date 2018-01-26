@@ -22,7 +22,6 @@ public class SqlUtil {
      */
     public static void update(String query) {
         PreparedStatement statement = null;
-
         try {
             statement = Core.getConnection().prepareStatement(query);
             statement.executeUpdate();
@@ -41,7 +40,6 @@ public class SqlUtil {
      * @return 获取的结果
      */
     public static ResultSet getResults(String query) throws SQLException {
-
 
         Statement stmt = Core.getConnection().createStatement();
         ResultSet set = stmt.executeQuery(query);

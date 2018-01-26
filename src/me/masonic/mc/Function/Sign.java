@@ -196,19 +196,12 @@ public class Sign {
                     pl2.sendMessage(Core.getPrefix() + "今天已签到过了哦，明天再来吧");
                     return false;
                 });
-                if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
-                    p.sendMessage(Core.getPrefix() + "有记录-今日已签到");
-                }
             } else {
                 menu.addItem(current_date - 1, getSignIcon(current_date, false, true, lores));
                 menu.addMenuClickHandler(current_date - 1, (p13, i, itemStack, clickAction) -> {
                     ArrayList<String> sign_dynamic = getSignResult(p);
                     sign_dynamic.add(Integer.toString(current_date));
                     String json = new Gson().toJson(sign_dynamic);
-
-                    if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
-                        p.sendMessage(Core.getPrefix() + "有记录且未签到时重新写入的json: " + json);
-                    }
 
                     SqlUtil.update(MessageFormat.format("UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}'';", SHEET, COL_SIGN, json, COL_USER_UUID, p.getUniqueId().toString()));
 
@@ -220,14 +213,8 @@ public class Sign {
                     menu.addMenuClickHandler(current_date - 1, (player, i12, itemStack12, clickAction12) -> false);
                     return false;
                 });
-                if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
-                    p.sendMessage(Core.getPrefix() + "有记录-今日未签到");
-                }
             }
         } else {
-            if (p.getPlayerListName().equalsIgnoreCase("Masonic")) {
-                p.sendMessage(Core.getPrefix() + "无记录");
-            }
             menu.addItem(current_date - 1, getSignIcon(current_date, false, true, new ArrayList<>()));
             menu.addMenuClickHandler(current_date - 1, (p14, i, itemStack, clickAction) -> {
                 ArrayList<String> sign_init = new ArrayList<>(Collections.singletonList(Integer.toString(current_date)));

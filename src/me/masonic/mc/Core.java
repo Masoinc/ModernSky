@@ -7,6 +7,8 @@ import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Function.Package;
+import me.masonic.mc.Function.Privilege.ExpPriviledge;
+import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import me.masonic.mc.Hook.HookPapi;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
@@ -56,7 +58,7 @@ public class Core extends JavaPlugin {
 
             loadFiles();
 
-            new HookPapi(this).hook(); //Hook Papi
+            new HookPapi(this).hook();
 
             registerEvents();
             registerCmd();
@@ -96,10 +98,6 @@ public class Core extends JavaPlugin {
         return plugin;
     }
 
-    public Core getCore() {
-        return this;
-    }
-
     public static Connection getConnection() {
         return connection;
     }
@@ -111,10 +109,10 @@ public class Core extends JavaPlugin {
 //        getServer().getPluginManager().registerEvents(new Vip(), this);
 //        getServer().getPluginManager().registerEvents(new MskyVip(), this);
         getServer().getPluginManager().registerEvents(new Ban(), this);
-        getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
         getServer().getPluginManager().registerEvents(new Package(), this);
         getServer().getPluginManager().registerEvents(new ExpPriviledge(), this);
+        getServer().getPluginManager().registerEvents(new Message(), this);
     }
 
     private void registerCmd() {
@@ -155,7 +153,7 @@ public class Core extends JavaPlugin {
         createTables(Sign.getSheetName(), Sign.getInitQuery(), Sign.getColUserUuid());
         createTables(Package.getSheetName(), Package.getInitQuery(), Package.getColUserUuid());
         createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
-        createTables(Privilege.getSheetName(), Privilege.getInitQuery(), Privilege.getColUserUuid());
+        createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
     }
 
     private static void createTables(String sheet, String init, String col_uuid) throws SQLException {
@@ -178,7 +176,7 @@ public class Core extends JavaPlugin {
     }
 
     private void loadFiles() {
-        File config = new File(this.getDataFolder(), "config.yml");
+        File config = new File( this.getDataFolder(), "config.yml");
         this.getConfig().options().copyDefaults(true);
         if (!config.exists()) {
             this.logger.info("creating configs");
@@ -197,7 +195,9 @@ public class Core extends JavaPlugin {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
             }
+
         }.runTaskTimerAsynchronously(this, 0, 580L);
 //            logger.info("Connection expired");
         // HikariCP 默认空闲30秒后关闭连接

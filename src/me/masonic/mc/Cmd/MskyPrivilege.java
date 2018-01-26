@@ -1,16 +1,15 @@
 package me.masonic.mc.Cmd;
 
-import me.masonic.mc.Function.ExpPriviledge;
-import me.masonic.mc.Function.Package;
-import me.masonic.mc.Function.Privilege;
-import me.masonic.mc.Utility.MessageUtil;
+import me.masonic.mc.Core;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
+import me.masonic.mc.Function.Privilege.ExpPriviledge;
+import me.masonic.mc.Function.Privilege.Privilege;
+import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.SQLException;
 
 public class MskyPrivilege implements CommandExecutor {
     @Override
@@ -18,31 +17,41 @@ public class MskyPrivilege implements CommandExecutor {
     // [period] 以天计
     public boolean onCommand(CommandSender c, Command cmd, String s, String[] args) {
         if ((c instanceof Player && c.isOp()) || c.getName().equalsIgnoreCase("CONSOLE")) {
-            switch (args.length) {
-                // MskyPri open [Player]
-                case 2:
-                    switch (args[0]) {
-                        case "open":
-                        Player p = Bukkit.getPlayerExact(args[1]);
-                        Privilege.openPrivilegeMenu(p);
-                    }
-                case 5:
-                    switch (args[0]) {
+            switch (args[0]) {
+                case "open":
 
-                        case "send":
-                            Player p = Bukkit.getPlayerExact(args[1]);
-                            Long period = Long.valueOf(args[3]) * 86400;
+                    Player p0 = Bukkit.getPlayerExact(args[1]);
+                    PrivilegeManager.openPrivilegeMenu(p0);
+                    return true;
+                case "send":
+                    Player p1 = Bukkit.getPlayerExact(args[2]);
+                    Long period = Long.valueOf(args[3]) * 86400;
+
+                    switch (args[1]) {
+                        // MskyPri send [type] [player] [period] [option]
+                        case "exp":
                             Long amplifier = Long.valueOf(args[4]);
-                            switch (args[2]) {
-                                case "exp":
-                                    ExpPriviledge.sendExpPrivilege(p, period, amplifier);
-
-                            }
+                            ExpPriviledge.send(p1, period, amplifier);
+                            return true;
+                        case "bp":
+                            Long page = Long.valueOf(args[4]);
+                            BackPackPrivilege.send(p1, period, page);
+                            return true;
+                        default:
                             return true;
                     }
+                case "test":
+//                    c.sendMessage(String.valueOf(ExpPriviledge.getInstance((Player) c).isExpired()));
+//                    c.sendMessage(String.valueOf(ExpPriviledge.getInstance((Player) c).getExpire()));
+//                    c.sendMessage(String.valueOf(System.currentTimeMillis() / 1000));
+                    c.sendMessage(String.valueOf(ExpPriviledge.getInstance((Player) c).getAmplifier()));
+                    return true;
+                default:
+                    return true;
             }
+        } else {
+            c.sendMessage(Core.getPrefix() + "Permission Denied");
             return true;
         }
-        return false;
     }
 }

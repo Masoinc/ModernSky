@@ -1,16 +1,13 @@
 package me.masonic.mc.Hook;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import me.clip.placeholderapi.external.EZPlaceholderHook;
-import me.masonic.mc.Function.ExpPriviledge;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
+import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Core;
 import me.masonic.mc.Function.Package;
 //import me.masonic.mc.Function.Vip;
-import me.masonic.mc.Function.Privilege;
 import org.bukkit.entity.Player;
-
-import java.sql.SQLException;
 
 /**
  * Mason Project
@@ -33,12 +30,21 @@ public class HookPapi extends EZPlaceholderHook {
                 switch (identifier.split("_")[1]) {
                     case "Exp":
                         switch (identifier.split("_")[2]) {
-                            // %ModernSky_Privilege_Exp_amplifier%
-                            case "amplifier":
-                                return ExpPriviledge.getFormattedAmplifier(p);
-                            // %ModernSky_Privilege_Exp_expire%
-                            case "expire":
-                                return Privilege.getPlayerExpInstance(p).getFormattedExpire();
+                            // %ModernSky_Privilege_Exp_Amplifier%
+                            case "Amplifier":
+                                return ExpPriviledge.getInstance(p).getFormattedAmplifier();
+                            // %ModernSky_Privilege_Exp_Expire%
+                            case "Expire":
+                                return ExpPriviledge.getInstance(p).getFormattedExpire();
+                        }
+                    case "Backpack":
+                        switch (identifier.split("_")[2]) {
+                            // %ModernSky_Privilege_Backpack_Page%
+                            case "Page":
+                                return BackPackPrivilege.getInstance(p).getPageFormatted();
+                            // %ModernSky_Privilege_Backpack_Expire%
+                            case "Expire":
+                                return BackPackPrivilege.getInstance(p).getFormattedExpire();
                         }
                 }
         }

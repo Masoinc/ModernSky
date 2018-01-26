@@ -1,43 +1,55 @@
 package me.masonic.mc.Function;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.masonic.mc.Core;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Utility.PermissionUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
 public class InvIcon implements Listener {
 
+    static {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Core.getInstance(), PacketType.Play.Client.CLIENT_COMMAND){
+            @Override
+            public void onPacketReceiving(PacketEvent e){
+                if(e.getPacket().getClientCommands().read(0) == EnumWrappers.ClientCommand.OPEN_INVENTORY_ACHIEVEMENT){
+                    giveInvIcon(e.getPlayer());
+                }
+            }
+        });
+    }
     private static ItemStack phone = new ItemStack(Material.WATCH);
 
-    private static ItemStack getBackpack(UUID p) {
+    private static ItemStack getBackpack(Player p) {
         ItemStack backpack = new ItemStack(Material.CHEST);
         ItemMeta bmeta = backpack.getItemMeta();
         bmeta.setDisplayName("§8[ §2随身背包 §8]");
         List<String> lores = Arrays.asList(
                 "",
-                "§7◇ 你的背包目前有: §3" + PermissionUtil.getBackPackPage(Bukkit.getPlayer(p)) + " §7页",
+                "§7◇ 你的背包容量:",
+                "§7◇ " + BackPackPrivilege.getInstance(p).getPageFormatted(),
                 "",
                 "§7◇ 个人专属的随身背包",
                 "§7◇ 空岛等级达到 §350 §7级时开启",
                 "",
-                "§7○ 目前空岛等级: §6Lv." + ASkyBlockAPI.getInstance().getIslandLevel(p),
+                "§7○ 目前空岛等级: §6Lv." + ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()),
                 "",
                 "§8[ModernSky] reward");
         bmeta.setLore(lores);
@@ -74,7 +86,7 @@ public class InvIcon implements Listener {
                     break;
                 case "§7§l菜单":
                     e.setCancelled(true);
-                    ((Player) e.getWhoClicked()).performCommand("bs mskycore");
+                    PermissionUtil.runOp(((Player) e.getWhoClicked()), "bs mskycore");
                     break;
                 default:
             }
@@ -115,10 +127,11 @@ public class InvIcon implements Listener {
     }
 
 
-    private void giveInvIcon(Player p) {
+    private static void giveInvIcon(Player p) {
         p.getInventory().setItem(8, phone);
-        p.getInventory().setItem(17, getBackpack(p.getUniqueId()));
+        p.getInventory().setItem(17, getBackpack(p));
     }
+
 }
 
 

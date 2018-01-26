@@ -1,6 +1,5 @@
 package me.masonic.mc.Objects;
 
-import me.masonic.mc.Function.Privilege;
 import org.bukkit.entity.Player;
 
 /**

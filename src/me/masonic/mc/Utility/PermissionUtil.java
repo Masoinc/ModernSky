@@ -21,9 +21,9 @@ public class PermissionUtil {
     }
 
     public static int getBackPackPage(Player p) {
-        int result = 0;
-        for (int i = 0; i <= 6; i++) {
-            result = (PermissionsEx.getUser(p).has("backpack." + i) ? i : result);
+        int result = 1;
+        for (int i = 2; i <= 10; i++) {
+            result = (PermissionsEx.getUser(p).has("backpack." + String.valueOf(i)) ? i : result);
         }
         return result;
     }
