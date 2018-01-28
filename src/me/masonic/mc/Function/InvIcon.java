@@ -44,7 +44,7 @@ public class InvIcon implements Listener {
         List<String> lores = Arrays.asList(
                 "",
                 "§7◇ 你的背包容量:",
-                "§7◇ " + BackPackPrivilege.getInstance(p).getPageFormatted(),
+                "§7◇ " + BackPackPrivilege.getInstance(p).getFormattedPage(),
                 "",
                 "§7◇ 个人专属的随身背包",
                 "§7◇ 空岛等级达到 §350 §7级时开启",

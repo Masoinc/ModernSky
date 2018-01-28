@@ -8,7 +8,9 @@ import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,6 +79,11 @@ public class PrivilegeManager implements Listener {
 
     }
 
+    static void setRawMap(Player p, HashMap<String, HashMap<String, Long>> map) {
+        String json = new Gson().toJson(map);
+        String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
+        SqlUtil.update(MessageFormat.format(sql, PrivilegeManager.getSheetName(), PrivilegeManager.getColPrivilege(), json, PrivilegeManager.getColUserUuid(), p.getUniqueId().toString()));
+    }
 
 
     private static void createRecord(Player p) {
@@ -85,11 +92,9 @@ public class PrivilegeManager implements Listener {
     }
 
     /**
-     *
      * @param expire 以秒计
-     *
      */
-    public static String getSendMsg(String type, Long expire) {
+    public static String getSendMsg(String keyword, Long expire) {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeInMillis(new Timestamp(expire * 1000).getTime());
 
@@ -100,11 +105,13 @@ public class PrivilegeManager implements Listener {
         t.append(calendar.get(Calendar.DATE)).append(" §7日");
 
         String raw = "§7已开通{0}§7，有效期至{1}";
-        switch (type) {
+        switch (keyword) {
             case "exp":
                 return MessageFormat.format(raw, "经验特权", t);
             case "bp":
                 return MessageFormat.format(raw, "背包加成", t);
+            case "ability":
+                return MessageFormat.format(raw,"天赋加成", t);
         }
         return "";
     }
@@ -116,6 +123,13 @@ public class PrivilegeManager implements Listener {
         Icons.addBaseIcon(menu, "back");
         Icons.addPrivIcon(menu, "pipe");
         menu.open(p);
+    }
+
+    @EventHandler
+    void onJoin(PlayerJoinEvent e) {
+        ExpPriviledge.expireHandler(e.getPlayer());
+        BackPackPrivilege.expireHandler(e.getPlayer());
+        AbilityPrivilege.expireHandler(e.getPlayer());
     }
 }
 

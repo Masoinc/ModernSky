@@ -1,7 +1,6 @@
 package me.masonic.mc.Function.Privilege;
 
 import com.google.gson.Gson;
-import me.masonic.mc.Core;
 import me.masonic.mc.Utility.MessageUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import org.bukkit.entity.Player;
@@ -20,6 +19,10 @@ public class BackPackPrivilege implements Privilege {
     private long page;
     private boolean exist;
     private long expire;
+    private static final String KEYWORD = "bp";
+
+    public BackPackPrivilege() {
+    }
 
     /**
      * @param expire defauly = 0
@@ -34,40 +37,38 @@ public class BackPackPrivilege implements Privilege {
 
     public static BackPackPrivilege getInstance(Player p) {
         HashMap<String, HashMap<String, Long>> rawmap = PrivilegeManager.getRawMap(p);
-        HashMap<String, Long> bpmap = rawmap.getOrDefault("bp", new HashMap<>());
+        HashMap<String, Long> bpmap = rawmap.getOrDefault(KEYWORD, new HashMap<>());
 
-        return bpmap.containsKey("expire") && bpmap.containsKey("page") ?
+        return bpmap.containsKey("expire") && bpmap.containsKey("page") && bpmap.get("expire") > System.currentTimeMillis() / 1000 ?
                 new BackPackPrivilege(bpmap.get("expire"), bpmap.get("page"), true) :
                 new BackPackPrivilege(0L, 1L, false);
     }
 
+    /**
+     *
+     * @param p 玩家
+     * @param period 时长，以秒计
+     * @param page 页数，请输入加成后所得的页数
+     */
     public static void send(Player p, long period, long page) {
         HashMap<String, Long> rawmap = new HashMap<>();
         BackPackPrivilege bp = getInstance(p);
-        long expire;
-        if (!bp.exist || bp.isExpired()) {
-            expire = System.currentTimeMillis() / 1000 + period;
-            rawmap.put("page", page);
-        } else {
-            expire = bp.getExpire() + period;
-            rawmap.put("page", bp.page);
-        }
 
+        long expire = (!bp.exist || bp.isExpired()) ? System.currentTimeMillis() / 1000 + period : bp.getExpire() + period;
+        page = bp.page > page ? bp.page : page;
+        rawmap.put("page", page);
         rawmap.put("expire", expire);
+
         HashMap<String, HashMap<String, Long>> map = PrivilegeManager.getRawMap(p);
-        map.put("bp", rawmap);
+        map.put(KEYWORD, rawmap);
         String json = new Gson().toJson(map);
         String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
 
         SqlUtil.update(MessageFormat.format(sql, PrivilegeManager.getSheetName(), PrivilegeManager.getColPrivilege(), json, PrivilegeManager.getColUserUuid(), p.getUniqueId().toString()));
-        MessageUtil.sendFullMsg(p, PrivilegeManager.getSendMsg("bp", expire));
+        MessageUtil.sendFullMsg(p, PrivilegeManager.getSendMsg(KEYWORD, expire));
 
         PermissionsEx.getUser(p).addPermission("backpack." + String.valueOf(page));
-    }
-
-    @Override
-    public boolean isExpired() {
-        return this.expire <= (System.currentTimeMillis() / 1000);
+        PermissionsEx.getUser(p).addPermission("msky.privilege.backpack");
     }
 
     @Override
@@ -90,7 +91,7 @@ public class BackPackPrivilege implements Privilege {
         return page;
     }
 
-    public String getPageFormatted() {
+    public String getFormattedPage() {
         return (!this.exist || this.isExpired() || this.page == 1) ?
                 "§61 §7页§8[§7基础值§8]" :
                 "§61 §7页§8[§7基础值§8] §7+ §3" + String.valueOf(this.page - 1);
@@ -104,5 +105,25 @@ public class BackPackPrivilege implements Privilege {
     @Override
     public long getExpire() {
         return expire;
+    }
+
+    @Override
+    public boolean isExpired() {
+        return (!exist && this.expire <= (System.currentTimeMillis() / 1000));
+    }
+
+
+    public static void expireHandler(Player p) {
+        if (getInstance(p).exist && getInstance(p).isExpired()) {
+            for (int i = 2; i <= 10; i++) {
+                PermissionsEx.getUser(p).removePermission("backpack." + String.valueOf(i));
+            }
+            MessageUtil.sendFullMsg(p, "您的§8[ §6背包加成 §8]§7奖励已过期了哦");
+            HashMap<String, HashMap<String, Long>> map = PrivilegeManager.getRawMap(p);
+            map.remove(KEYWORD);
+            PrivilegeManager.setRawMap(p, map);
+
+            PermissionsEx.getUser(p).removePermission("msky.privilege.backpack");
+        }
     }
 }

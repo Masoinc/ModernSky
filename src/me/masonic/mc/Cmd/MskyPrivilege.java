@@ -1,10 +1,7 @@
 package me.masonic.mc.Cmd;
 
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Privilege.BackPackPrivilege;
-import me.masonic.mc.Function.Privilege.ExpPriviledge;
-import me.masonic.mc.Function.Privilege.Privilege;
-import me.masonic.mc.Function.Privilege.PrivilegeManager;
+import me.masonic.mc.Function.Privilege.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +16,6 @@ public class MskyPrivilege implements CommandExecutor {
         if ((c instanceof Player && c.isOp()) || c.getName().equalsIgnoreCase("CONSOLE")) {
             switch (args[0]) {
                 case "open":
-
                     Player p0 = Bukkit.getPlayerExact(args[1]);
                     PrivilegeManager.openPrivilegeMenu(p0);
                     return true;
@@ -30,12 +26,20 @@ public class MskyPrivilege implements CommandExecutor {
                     switch (args[1]) {
                         // MskyPri send [type] [player] [period] [option]
                         case "exp":
+                            // MskyPri send exp [player] [period] [amplifier]
                             Long amplifier = Long.valueOf(args[4]);
                             ExpPriviledge.send(p1, period, amplifier);
                             return true;
                         case "bp":
+                            // MskyPri send exp [player] [period] [page]
                             Long page = Long.valueOf(args[4]);
                             BackPackPrivilege.send(p1, period, page);
+                            return true;
+                        case "ab":
+                            // MskyPri send exp [player] [period] [limit] [discount]
+                            Long limit = Long.valueOf(args[4]);
+                            Long discount = Long.valueOf(args[5]);
+                            AbilityPrivilege.send(p1, period, limit, discount);
                             return true;
                         default:
                             return true;

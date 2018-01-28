@@ -1,8 +1,12 @@
 package me.masonic.mc.Function;
 
+import lombok.SneakyThrows;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
+import me.masonic.mc.Function.Privilege.AbilityPrivilege;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
+import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Utility.SqlUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -53,7 +57,7 @@ public class Package implements Listener {
 
         StringBuilder t = new StringBuilder();
         t.append(calendar.get(Calendar.YEAR)).append(" §7年 §6");
-        t.append(calendar.get(Calendar.MONTH) +1).append(" §7月§6 ");
+        t.append(calendar.get(Calendar.MONTH) + 1).append(" §7月§6 ");
         t.append(calendar.get(Calendar.DATE)).append(" §7日");
 
         return "§7将于 §6" + t + " §7过期";
@@ -111,22 +115,28 @@ public class Package implements Listener {
      * @param type 增值包类型
      * @return 增值包发放后的消息
      */
-    public static String sendPackage(Player p, int time, String type) throws SQLException {
+
+    public static String sendPackage(Player p, int time, String type) {
         switch (type) {
             case "A":
+                HashMap<String, String> expires = new HashMap<>();
+                String msg;
+
                 if (isExpired(p, type)) {
-                    HashMap<String, String> expires = new HashMap<>();
                     expires.put("A", Long.toString(((System.currentTimeMillis() / 1000) + 86400 * time)));
-                    String json = new Gson().toJson(expires);
-                    SqlUtil.update(MessageFormat.format("UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''", SHEET, COL_EXPIRE, json, COL_USER_UUID, p.getUniqueId().toString()));
-                    return "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
+                    msg = "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
                 } else {
-                    HashMap<String, String> expires = getPackageInfo(p);
                     expires.put(type, String.valueOf((getExpire(p, type) + 86400 * time)));
+                    msg = "§7已续费A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
                 }
 
+                String json = new Gson().toJson(expires);
+                SqlUtil.update(MessageFormat.format("UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''", SHEET, COL_EXPIRE, json, COL_USER_UUID, p.getUniqueId().toString()));
 
-                return isExpired(p, type) ? "§7已开通A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]" : "§7已续费A类增值包 §8[ §6" + String.valueOf(time) + "天 §8]";
+                ExpPriviledge.send(p, time * 86400, 150);
+                AbilityPrivilege.send(p, time * 86400, 8, 30);
+                BackPackPrivilege.send(p, time * 86400, 4);
+                return msg;
         }
         return "";
     }

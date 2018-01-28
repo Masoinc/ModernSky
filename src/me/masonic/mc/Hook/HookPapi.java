@@ -1,6 +1,7 @@
 package me.masonic.mc.Hook;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
+import me.masonic.mc.Function.Privilege.AbilityPrivilege;
 import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Function.Exploration;
@@ -41,11 +42,35 @@ public class HookPapi extends EZPlaceholderHook {
                         switch (identifier.split("_")[2]) {
                             // %ModernSky_Privilege_Backpack_Page%
                             case "Page":
-                                return BackPackPrivilege.getInstance(p).getPageFormatted();
+                                return BackPackPrivilege.getInstance(p).getFormattedPage();
                             // %ModernSky_Privilege_Backpack_Expire%
                             case "Expire":
                                 return BackPackPrivilege.getInstance(p).getFormattedExpire();
                         }
+                    case "Ability":
+                        switch (identifier.split("_")[2]) {
+                            // %ModernSky_Privilege_Ability_Discount%
+                            case "Discount":
+                                return AbilityPrivilege.getInstance(p).getFormattedDiscount();
+                            // %ModernSky_Privilege_Ability_Limit%
+                            case "Limit":
+                                return AbilityPrivilege.getInstance(p).getFormattedLimit();
+                            case "Expire":
+                            // %ModernSky_Privilege_Ability_Expire%
+                                return AbilityPrivilege.getInstance(p).getFormattedExpire();
+                        }
+
+                }
+            case "Explore":
+                switch (identifier.split("_")[1]) {
+                    // %ModernSky_Explore_Value%
+                    case "Value":
+                        return String.valueOf(Exploration.getExploreValue(p));
+                    // %ModernSky_Explore_Tag%
+                    case "Tag":
+                        return String.valueOf(Exploration.getExploreTag(p));
+                    case "Prefix":
+                        return String.valueOf(Exploration.getExplorePrefix(p));
                 }
         }
 //        //%ModernSky_getVipRank%
@@ -62,18 +87,6 @@ public class HookPapi extends EZPlaceholderHook {
 //        }
         //%ModernSky_getExplore%
 
-        if (identifier.equals("get_Explore")) {
-            return String.valueOf(Exploration.getExploreValue(p));
-        }
-
-        //%ModernSky_getExploreTag%
-        if (identifier.equals("get_Explore_Tag")) {
-            return String.valueOf(Exploration.getExploreTag(p));
-        }
-        //%ModernSky_getExplore_Prefix%
-        if (identifier.equals("get_Explore_Prefix")) {
-            return String.valueOf(Exploration.getExplorePrefix(p));
-        }
         return null;
     }
 

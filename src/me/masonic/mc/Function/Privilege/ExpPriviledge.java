@@ -1,13 +1,12 @@
 package me.masonic.mc.Function.Privilege;
 
-import com.google.gson.Gson;
 import me.masonic.mc.Utility.MessageUtil;
-import me.masonic.mc.Utility.SqlUtil;
-import org.bukkit.entity.Player;
 import net.aufdemrand.denizen.nms.NMSHandler;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -22,7 +21,7 @@ public class ExpPriviledge implements Privilege, Listener {
     private long amplifier;
     private boolean exist;
     private long expire;
-
+    private static String KEYWORD = "exp";
     public ExpPriviledge() {
     }
 
@@ -46,9 +45,9 @@ public class ExpPriviledge implements Privilege, Listener {
      */
     public static ExpPriviledge getInstance(Player p) {
         HashMap<String, HashMap<String, Long>> rawmap = PrivilegeManager.getRawMap(p);
-        HashMap<String, Long> expmap = rawmap.getOrDefault("exp", new HashMap<>());
+        HashMap<String, Long> expmap = rawmap.getOrDefault(KEYWORD, new HashMap<>());
 
-        return expmap.containsKey("expire") && expmap.containsKey("amp") ?
+        return expmap.containsKey("expire") && expmap.containsKey("amp") && expmap.get("expire") > System.currentTimeMillis() / 1000 ?
                 new ExpPriviledge(expmap.get("expire"), expmap.get("amp"), true) :
                 new ExpPriviledge(0, 100, false);
     }
@@ -58,28 +57,24 @@ public class ExpPriviledge implements Privilege, Listener {
      *
      * @param p         玩家
      * @param period    特权时长，以秒计
-     * @param amplifier 经验倍率，默认为1
+     * @param amplifier 经验倍率，默认为100
      */
 
     public static void send(Player p, long period, long amplifier) {
         HashMap<String, Long> rawmap = new HashMap<>();
         ExpPriviledge exp = getInstance(p);
-        long expire;
-        if (!exp.exist || exp.isExpired()) {
-            expire = System.currentTimeMillis() / 1000 + period;
-            rawmap.put("amp", amplifier);
-        } else {
-            expire = exp.getExpire() + period;
-            rawmap.put("amp", exp.getAmplifier());
-        }
-        rawmap.put("expire", expire);
-        HashMap<String, HashMap<String, Long>> map = PrivilegeManager.getRawMap(p);
-        map.put("exp", rawmap);
-        String json = new Gson().toJson(map);
-        String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
 
-        SqlUtil.update(MessageFormat.format(sql, PrivilegeManager.getSheetName(), PrivilegeManager.getColPrivilege(), json, PrivilegeManager.getColUserUuid(), p.getUniqueId().toString()));
-        MessageUtil.sendFullMsg(p, PrivilegeManager.getSendMsg("exp", expire));
+        long expire = (!exp.exist || exp.isExpired()) ? System.currentTimeMillis() / 1000 + period : exp.getExpire() + period;
+        long amp = exp.getAmplifier() > amplifier ? exp.getAmplifier() : amplifier;
+        rawmap.put("amp", amp);
+        rawmap.put("expire", expire);
+
+        HashMap<String, HashMap<String, Long>> map = PrivilegeManager.getRawMap(p);
+        map.put(KEYWORD, rawmap);
+        PrivilegeManager.setRawMap(p, map);
+        MessageUtil.sendFullMsg(p, PrivilegeManager.getSendMsg(KEYWORD, expire));
+
+        PermissionsEx.getUser(p).addPermission("msky.privilege.exp");
     }
 
     @Override
@@ -120,12 +115,12 @@ public class ExpPriviledge implements Privilege, Listener {
 
     @Override
     public boolean isExpired() {
-        return this.expire <= (System.currentTimeMillis() / 1000);
+        return (isExist() && this.expire <= (System.currentTimeMillis() / 1000));
     }
 
     public static HashMap<String, Long> getExpRawMap(Player p) {
         HashMap<String, HashMap<String, Long>> rawmap = PrivilegeManager.getRawMap(p);
-        return rawmap.getOrDefault("exp", new HashMap<>());
+        return rawmap.getOrDefault(KEYWORD, new HashMap<>());
     }
 
     @EventHandler
@@ -140,5 +135,15 @@ public class ExpPriviledge implements Privilege, Listener {
         String msg = MessageFormat.format("§8[§6 经验特权 §8] §7获得的经验: §3+{0}%", getInstance(p).getAmplifier() - 100);
         NMSHandler.getInstance().getPacketHelper().sendActionBarMessage(p, msg);
         e.setAmount((int) (e.getAmount() * getInstance(p).getAmplifier()));
+    }
+
+    public static void expireHandler(Player p) {
+        if (getInstance(p).exist && getInstance(p).isExpired()) {
+            MessageUtil.sendFullMsg(p, "您的§8[ §6经验特权 §8]§7奖励已过期了哦");
+            HashMap<String, HashMap<String, Long>> map = PrivilegeManager.getRawMap(p);
+            map.remove(KEYWORD);
+            PrivilegeManager.setRawMap(p, map);
+            PermissionsEx.getUser(p).removePermission("msky.privilege.exp");
+        }
     }
 }

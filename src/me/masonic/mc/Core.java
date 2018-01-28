@@ -7,6 +7,7 @@ import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Function.Package;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import me.masonic.mc.Hook.HookPapi;
@@ -111,6 +112,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Ban(), this);
         getServer().getPluginManager().registerEvents(new Sidebar(this), this);
         getServer().getPluginManager().registerEvents(new Package(), this);
+        getServer().getPluginManager().registerEvents(new PrivilegeManager(), this);
         getServer().getPluginManager().registerEvents(new ExpPriviledge(), this);
         getServer().getPluginManager().registerEvents(new Message(), this);
     }

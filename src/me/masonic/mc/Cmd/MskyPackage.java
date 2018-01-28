@@ -1,6 +1,7 @@
 package me.masonic.mc.Cmd;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+import me.masonic.mc.Core;
 import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Function.Package;
 import me.masonic.mc.Utility.MessageUtil;
@@ -25,15 +26,13 @@ public class MskyPackage implements CommandExecutor {
                             Player p = Bukkit.getPlayerExact(args[1]);
                             switch (args[2]) {
                                 case "A":
-                                    try {
-                                        MessageUtil.sendFullMsg(p, Package.sendPackage(p, Integer.valueOf(args[3]), args[2]));
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
+                                    MessageUtil.sendFullMsg(p, Package.sendPackage(p, Integer.valueOf(args[3]), args[2]));
                             }
                             return true;
                     }
             }
+        } else {
+            c.sendMessage(Core.getPrefix()+"Permission Denied");
         }
 
 

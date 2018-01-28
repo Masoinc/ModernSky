@@ -11,7 +11,7 @@ public class MessageUtil {
         List<String> msgs = Arrays.asList(
                 "§c§m§l一一§6§m§l一一§e§m§l一一§a§m§l一一§3§m§l一一一一一一一一一一一一§a§m§l一一§e§m§l一一§6§m§l一一§c§m§l一一§7§m§l一一",
                 "",
-                "         " + msg,
+                "         §7" + msg,
                 "",
                 "§c§m§l一一§6§m§l一一§e§m§l一一§a§m§l一一§3§m§l一一一一一一一一一一一一§a§m§l一一§e§m§l一一§6§m§l一一§c§m§l一一§7§m§l一一");
         p.sendMessage((String[]) msgs.toArray());

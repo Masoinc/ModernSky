@@ -32,3 +32,10 @@ commands:
   mskypri:
     description: Privilege
     usage: /mskypri
+permissions:
+  msky.package.a:
+    description: Access to all package A privileges
+    children:
+      msky.privilege.exp: true
+      msky.privilege.backpack: true
+      msky.privilege.ability: true
