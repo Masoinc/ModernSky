@@ -1,7 +1,10 @@
 package me.masonic.mc.Cmd;
 
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Privilege.*;
+import me.masonic.mc.Function.Privilege.AbilityPrivilege;
+import me.masonic.mc.Function.Privilege.BackPackPrivilege;
+import me.masonic.mc.Function.Privilege.ExpPriviledge;
+import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

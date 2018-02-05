@@ -2,7 +2,7 @@ name: ModernSky
 softdepend: [CS-CoreLib, PlayerPoints]
 main: me.masonic.mc.Core
 
-version: 0.2.3
+version: 0.2.5
 
 commands:
   mskyvip:
@@ -32,6 +32,9 @@ commands:
   mskypri:
     description: Privilege
     usage: /mskypri
+  mskycore:
+    description: Info
+    usage: /mskycore
 permissions:
   msky.package.a:
     description: Access to all package A privileges
