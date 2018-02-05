@@ -1,8 +1,6 @@
 package me.masonic.mc.Cmd;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Exploration;
 import me.masonic.mc.Function.Package;
 import me.masonic.mc.Utility.MessageUtil;
 import org.bukkit.Bukkit;
@@ -10,8 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.SQLException;
 
 public class MskyPackage implements CommandExecutor {
     //MskyPac send [id] [type] [duration]
@@ -34,8 +30,6 @@ public class MskyPackage implements CommandExecutor {
         } else {
             c.sendMessage(Core.getPrefix()+"Permission Denied");
         }
-
-
         return false;
     }
 }

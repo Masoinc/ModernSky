@@ -1,5 +1,7 @@
 package me.masonic.mc.Function;
 
+import lombok.Getter;
+import lombok.SneakyThrows;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
@@ -24,12 +26,12 @@ public class Package implements Listener {
     private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.package.uuid");
     private final static String COL_EXPIRE = Core.getInstance().getConfig().getString("SQL.sheet.package.expire");
     private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.package.sheet");
-    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Package.getSheetName(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire());
+    @Getter static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Package.getSheetName(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire());
 //    private final static ArrayList<String> AVAILABLE_TYPE = new ArrayList<>(Arrays.asList("A"));
 
-    public static String getInitQuery() {
-        return INIT_QUERY;
-    }
+//    public static String getInitQuery() {
+//        return INIT_QUERY;
+//    }
 
     public static String getColUserName() {
         return COL_USER_NAME;

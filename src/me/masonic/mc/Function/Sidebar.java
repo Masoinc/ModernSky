@@ -3,8 +3,6 @@ package me.masonic.mc.Function;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.masonic.mc.Core;
 import net.aufdemrand.denizen.nms.impl.Sidebar_v1_11_R1;
-import org.black_ixx.playerpoints.PlayerPoints;
-import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

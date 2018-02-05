@@ -3,14 +3,10 @@ package me.masonic.mc.Cmd;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.masonic.mc.Core;
 import me.masonic.mc.Utility.PermissionUtil;
-import org.black_ixx.bossshop.addon.playershops.PlayerShops;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.sql.SQLException;
 
 public class MskyBackShop implements CommandExecutor {
 

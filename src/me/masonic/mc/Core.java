@@ -128,6 +128,7 @@ public class Core extends JavaPlugin {
         this.getCommand("mskyaa").setExecutor(new MskyAdvancedAbility());
         this.getCommand("mskypac").setExecutor(new MskyPackage());
         this.getCommand("mskypri").setExecutor(new MskyPrivilege());
+        this.getCommand("mskycore").setExecutor(new MskyCore());
     }
 
     private void registerEconomy() {
