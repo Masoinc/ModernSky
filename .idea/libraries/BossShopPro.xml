@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="BossShopPro">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/BossShopPro.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

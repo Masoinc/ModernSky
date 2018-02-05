@@ -1,6 +1,5 @@
 package me.masonic.mc.Function;
 
-import lombok.SneakyThrows;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;

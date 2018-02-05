@@ -11,6 +11,7 @@ import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import me.masonic.mc.Hook.HookPapi;
+import me.masonic.mc.Utility.SqlUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
@@ -168,10 +169,8 @@ public class Core extends JavaPlugin {
 
         if (empty) {
             Core.getInstance().logger.info(MessageFormat.format("Sheet ''{0}'' is not exist, creating...", sheet));
-            stmt.addBatch(init);
-            stmt.addBatch(MessageFormat.format("alter table {0} add primary key({1});", sheet, col_uuid));
-            stmt.executeBatch();
-            stmt.close();
+            SqlUtil.update(init);
+            SqlUtil.update(MessageFormat.format("alter table {0} add primary key({1});", sheet, col_uuid));
         } else {
             Core.getInstance().logger.info(MessageFormat.format("Sheet ''{0}'' exists, skipped", sheet));
         }
