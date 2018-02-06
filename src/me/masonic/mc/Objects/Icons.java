@@ -15,11 +15,11 @@ public class Icons {
         return new CustomItem(Material.AIR, "", 0, 1, new ArrayList<>());
     }
 
-    public static void addBaseIcon(ChestMenu menu, String type) {
+    public static void addBaseIcon(ChestMenu menu, String type, int slot) {
         switch (type) {
             case "back":
-                menu.addItem(49, new CustomItem(Material.REDSTONE, "§8[ §c返回 §8]", 0, 1, new ArrayList<>()));
-                menu.addMenuClickHandler(49, (p15, arg1, arg2, arg3) -> {
+                menu.addItem(slot, new CustomItem(Material.REDSTONE, "§8[ §c返回 §8]", 0, 1, new ArrayList<>()));
+                menu.addMenuClickHandler(slot, (p15, arg1, arg2, arg3) -> {
                     PermissionUtil.runOp(p15, "bs mskycore");
                     return false;
                 });
@@ -36,4 +36,11 @@ public class Icons {
                 }
         }
     }
+    public static void addPipe(ChestMenu menu, int[] slots) {
+        for (int i$ : slots) {
+            menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "", 0, 1, new ArrayList<>()));
+            menu.addMenuClickHandler(i$, (arg0, arg1, arg2, arg3) -> false);
+        }
+    }
+
 }

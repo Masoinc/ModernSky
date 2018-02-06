@@ -1,7 +1,11 @@
 package me.masonic.mc.Utility;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class InventoryUtil {
     public static void takeItem(Inventory inventory, String displayname, int qty) {
@@ -20,4 +24,5 @@ public class InventoryUtil {
             }
         }
     }
+
 }
