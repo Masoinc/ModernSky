@@ -111,7 +111,7 @@ public class PrivilegeManager implements Listener {
             case "bp":
                 return MessageFormat.format(raw, "背包加成", t);
             case "ability":
-                return MessageFormat.format(raw,"天赋加成", t);
+                return MessageFormat.format(raw, "天赋加成", t);
         }
         return "";
     }
@@ -120,7 +120,7 @@ public class PrivilegeManager implements Listener {
         final ChestMenu menu = new ChestMenu(" 增值包与奖励");
 
         menu.addMenuOpeningHandler(p1 -> p1.playSound(p1.getLocation(), Sound.BLOCK_NOTE_HARP, 0.7F, 0.7F));
-        Icons.addBaseIcon(menu, "back");
+        Icons.addBaseIcon(menu, "back", 49);
         Icons.addPrivIcon(menu, "pipe");
         menu.open(p);
     }
