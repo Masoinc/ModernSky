@@ -1,7 +1,5 @@
 package me.masonic.mc.Function;
 
-import lombok.Getter;
-import lombok.SneakyThrows;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
@@ -26,12 +24,16 @@ public class Package implements Listener {
     private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.package.uuid");
     private final static String COL_EXPIRE = Core.getInstance().getConfig().getString("SQL.sheet.package.expire");
     private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.package.sheet");
-    @Getter static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Package.getSheetName(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire());
+    private static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS {0}(`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8", Package.getSheetName(), Package.getColUserName(), Package.getColUserUuid(), Package.getColExpire());
 //    private final static ArrayList<String> AVAILABLE_TYPE = new ArrayList<>(Arrays.asList("A"));
 
 //    public static String getInitQuery() {
 //        return INIT_QUERY;
 //    }
+
+    public static String getInitQuery() {
+        return INIT_QUERY;
+    }
 
     public static String getColUserName() {
         return COL_USER_NAME;
@@ -79,7 +81,7 @@ public class Package implements Listener {
         }
         switch (type) {
             case "A":
-                HashMap<String, String> expire_map = getPackageInfo(p);
+                HashMap<String, String> expire_map = getRawPackage(p);
                 return expire_map.containsKey(type) && Integer.valueOf(expire_map.get(type)) < (System.currentTimeMillis() / 1000);
             default:
                 return true;
@@ -101,7 +103,7 @@ public class Package implements Listener {
 
         switch (type) {
             case "A":
-                HashMap<String, String> expire_map = getPackageInfo(p);
+                HashMap<String, String> expire_map = getRawPackage(p);
                 return expire_map.containsKey(type) ? Integer.valueOf(expire_map.get(type)) : System.currentTimeMillis() / 1000;
         }
 
@@ -148,13 +150,14 @@ public class Package implements Listener {
         SqlUtil.update(sql);
     }
 
-    private static HashMap<String, String> getPackageInfo(Player p) {
+    private static HashMap<String, String> getRawPackage(Player p) {
+        if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
+            return new HashMap<>();
+        }
+        String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
+        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+
         try {
-            if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
-                return new HashMap<>();
-            }
-            String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
-            ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, COL_EXPIRE, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
             assert rs != null;
             return new Gson().fromJson(rs.getString(1), new TypeToken<HashMap<String, String>>() {
             }.getType());

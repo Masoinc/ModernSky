@@ -38,7 +38,7 @@ public class Icons {
     }
     public static void addPipe(ChestMenu menu, int[] slots) {
         for (int i$ : slots) {
-            menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "", 0, 1, new ArrayList<>()));
+            menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "§7", 15, 1, new ArrayList<>()));
             menu.addMenuClickHandler(i$, (arg0, arg1, arg2, arg3) -> false);
         }
     }

@@ -27,3 +27,8 @@ SQL:
       uuid: "user_uuid"
       name: "user_name"
       privilege: "privilege"
+    repository:
+      sheet: "repository"
+      uuid: "user_uuid"
+      name: "user_name"
+      item: "items"

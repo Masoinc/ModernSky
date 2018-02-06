@@ -158,6 +158,7 @@ public class Core extends JavaPlugin {
         createTables(Package.getSheetName(), Package.getInitQuery(), Package.getColUserUuid());
         createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
         createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
+        createTables(Repository.getSheetName(), Repository.getInitQuery(), Repository.getColUserUuid());
     }
 
     private static void createTables(String sheet, String init, String col_uuid) throws SQLException {

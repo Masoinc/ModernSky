@@ -23,13 +23,13 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public class Sign {
-    private final static String COL_USER_NAME = Core.getInstance().getConfig().getString("SQL.sheet.sign.name");
-    private final static String COL_USER_UUID = Core.getInstance().getConfig().getString("SQL.sheet.sign.uuid");
-    private final static String COL_SIGN = Core.getInstance().getConfig().getString("SQL.sheet.sign.record");
-    private final static String COL_SIGN_KITS = Core.getInstance().getConfig().getString("SQL.sheet.sign.kits");
-    private final static String SHEET = Core.getInstance().getConfig().getString("SQL.sheet.sign.sheet");
+    private final static String COL_USER_NAME = "uesr_name";
+    private final static String COL_USER_UUID = "user_uuid";
+    private final static String COL_SIGN = "sign_record";
+    private final static String COL_SIGN_KITS = "sign_kits";
+    private final static String SHEET = "sign";
     private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
-            Sign.getSheetName(), Sign.getColUserName(), Sign.getColUserUuid(), Sign.getColSign(), Sign.getColSignKits());
+            SHEET, COL_USER_NAME, COL_USER_UUID, COL_SIGN, COL_SIGN_KITS);
 
     public static String getInitQuery() {
         return INIT_QUERY;
@@ -132,7 +132,6 @@ public class Sign {
         icon.setItemMeta(meta);
         return icon;
     }
-
 
 
     public static void openSignMenu(Player p) throws SQLException {

@@ -1,8 +1,5 @@
 package me.masonic.mc.Utility;
 
-import be.anybody.advancedabilities.T;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
 
 import java.sql.PreparedStatement;
@@ -10,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class SqlUtil {
@@ -30,7 +26,6 @@ public class SqlUtil {
         } finally {
             closeResources(null, statement);
         }
-
     }
 
     /**
@@ -39,13 +34,18 @@ public class SqlUtil {
      * @param query 要执行的MySQL语句
      * @return 获取的结果
      */
-    public static ResultSet getResults(String query) throws SQLException {
+    public static ResultSet getResults(String query) {
 
-        Statement stmt = Core.getConnection().createStatement();
-        ResultSet set = stmt.executeQuery(query);
+        Statement stmt = null;
+        try {
+            stmt = Core.getConnection().createStatement();
+            ResultSet set = stmt.executeQuery(query);
 
-        while (set.next()) {
-            return set;
+            while (set.next()) {
+                return set;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
