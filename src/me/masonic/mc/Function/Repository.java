@@ -15,9 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Repository {
 
@@ -64,18 +62,22 @@ public class Repository {
         Icons.addBaseIcon(menu, "back", 48);
 
         Repository rp = getInstance(p);
-        int slot = 0, page = 1;
+        int slot = 0;
         for (String iname : rp.items.keySet()) {
             ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem(iname).clone();
-
             ItemMeta meta = base.getItemMeta();
             List<String> lores = meta.getLore();
-            lores.set(lores.size() - 1, "§8>>>>>>>>>>>>>");
+            if (lores != null) {
+                lores.set(lores.size() - 1, "§8>>>>>>>>>>>>>");
+            } else {
+                lores = new ArrayList<>();
+            }
             lores.add("");
             lores.add(MessageFormat.format("§7◇ 仓库目前存有此类物品 §6{0} §7个", rp.items.get(iname)));
             lores.add("");
             lores.add("§8[ ModernSky ] Repository");
             meta.setLore(lores);
+
             base.setItemMeta(meta);
 
             menu.addItem(slot, base);
@@ -108,13 +110,15 @@ public class Repository {
         SqlUtil.update(MessageFormat.format(sql, SHEET, COL_ITEMS, new Gson().toJson(this.items), COL_USER_UUID, this.player.toString()));
     }
 
-    public void saveItem(HashMap<String, Integer> items) {
-        HashMap<String, Integer> crt = this.items;
-        for (String iname : items.keySet()) {
-            crt.compute(iname, (k, v) -> v == null ? items.get(iname) : v + items.get(iname));
+    public void saveItem(HashMap<String, Integer> add) {
+        for (String iname : add.keySet()) {
+            System.out.println(this.items.getOrDefault(iname, 0));
+//            Integer m = this.items.getOrDefault(iname, 0);
+//            int n = m.intValue();
+            this.items.put(iname, add.getOrDefault(iname, 0));
         }
-        this.items = crt;
         this.save();
+
     }
 
     static HashMap<String, Integer> getRawItems(Player p) {
