@@ -1,0 +1,30 @@
+<config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <!--<cache alias="repository_classified">-->
+        <!--<key-type>java.util.UUID</key-type>-->
+        <!--<value-type>java.util.HashMap</value-type>-->
+        <!--<resources>-->
+            <!--<heap unit="entries">2000</heap>-->
+            <!--<offheap unit="MB">100</offheap>-->
+        <!--</resources>-->
+    <!--</cache>-->
+
+    <!--<cache alias="repository_current">-->
+        <!--<key-type>java.util.UUID</key-type>-->
+        <!--<value-type>java.lang.String</value-type>-->
+        <!--<resources>-->
+            <!--<heap unit="entries">2000</heap>-->
+            <!--<offheap unit="MB">100</offheap>-->
+        <!--</resources>-->
+    <!--</cache>-->
+
+    <cache-template name="myDefaults">
+        <key-type>java.lang.Long</key-type>
+        <value-type>java.lang.String</value-type>
+        <heap unit="entries">200</heap>
+    </cache-template>
+
+</config>

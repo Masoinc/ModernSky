@@ -1,17 +1,23 @@
 package me.masonic.mc.Cmd;
 
+import api.praya.myitems.main.MyItemsAPI;
+import me.masonic.mc.Core;
 import me.masonic.mc.Function.Repository;
+import me.masonic.mc.Utility.PermissionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 public class MskyCore implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender c, Command cmd, String s, String[] args) {
+        PermissionUtil.checkPermission(c);
         if (args.length == 0) {
             c.sendMessage("§7-------------------------------------");
             c.sendMessage("");
@@ -37,16 +43,18 @@ public class MskyCore implements CommandExecutor {
                                 put(args[3], Integer.valueOf(args[4]));
                             }
                         });
+                        MyItemsAPI mapi = MyItemsAPI.getInstance();
+                        p.sendMessage(Core.getPrefix() + MessageFormat.format("物资 §8[ {0} §7x §6{1} §8] §7已发放至后勤仓库 ", mapi.getGameManagerAPI().getItemManagerAPI().getItem(args[3]).getItemMeta().getDisplayName(), args[4]));
                         return true;
                     case "test":
                         p = Bukkit.getPlayer(args[2]);
                         Repository.getInstance(p).saveItem(new HashMap<String, Integer>() {
                             {
-                                put("sf1",1);
-                                put("sf2",1);
-                                put("sf3",1);
-                                put("sf4",1);
-                                put("sf5",1);
+                                put("sf1", 1);
+                                put("sf2", 1);
+                                put("sf3", 1);
+                                put("sf4", 1);
+                                put("sf5", 1);
                             }
                         });
                         return true;

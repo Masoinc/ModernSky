@@ -1,5 +1,7 @@
 package me.masonic.mc.Utility;
 
+import me.masonic.mc.Core;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -26,5 +28,14 @@ public class PermissionUtil {
             result = (PermissionsEx.getUser(p).has("backpack." + String.valueOf(i)) ? i : result);
         }
         return result;
+    }
+
+    public static boolean checkPermission(CommandSender c) {
+        if (!(c instanceof Player && c.isOp()) && !c.getName().equalsIgnoreCase("CONSOLE")) {
+            c.sendMessage(Core.getPrefix() + "Permission Denied");
+            return false;
+        } else {
+            return true;
+        }
     }
 }

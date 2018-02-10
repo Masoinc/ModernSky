@@ -1,13 +1,12 @@
 package me.masonic.mc;
 
-//import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
-
+import com.evilmidget38.UUIDFetcher;
+import com.mongodb.MongoClient;
 import com.zaxxer.hikari.HikariDataSource;
 import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 import me.masonic.mc.Cmd.*;
 import me.masonic.mc.Function.*;
 import me.masonic.mc.Function.Package;
-import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;
 import me.masonic.mc.Function.Privilege.PrivilegeManager;
 import me.masonic.mc.Hook.HookPapi;
@@ -19,13 +18,26 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
+import org.ehcache.config.Configuration;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.CacheManagerBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.xml.XmlConfiguration;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -45,6 +57,11 @@ public class Core extends JavaPlugin {
     private static final String PLUGIN_PREFIX = "§8[ §6ModernSky §8] §7";
 
     private static PlayerPoints playerPoints;
+
+    private MongoClient client;
+    private Morphia morphia;
+
+    private static CacheManager cacheManager;
 
     @Override
     public void onEnable() {
@@ -66,6 +83,7 @@ public class Core extends JavaPlugin {
             registerCmd();
             registerEconomy();
             registerSQL();
+            registerCache();
 
             hookPlayerPoints();
 
@@ -147,18 +165,53 @@ public class Core extends JavaPlugin {
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         try {
             connection = ds.getConnection();
-            initSQL();
+            createTables(Sign.getSheetName(), Sign.getInitQuery(), Sign.getColUserUuid());
+            createTables(Package.getSheetName(), Package.getInitQuery(), Package.getColUserUuid());
+            createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
+            createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
+            createTables(Repository.getSheetName(), Repository.getInitQuery(), Repository.getColUserUuid());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void initSQL() throws SQLException {
-        createTables(Sign.getSheetName(), Sign.getInitQuery(), Sign.getColUserUuid());
-        createTables(Package.getSheetName(), Package.getInitQuery(), Package.getColUserUuid());
-        createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
-        createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
-        createTables(Repository.getSheetName(), Repository.getInitQuery(), Repository.getColUserUuid());
+    private void registerMongo() {
+        final Morphia morphia = new Morphia();
+
+        // tell Morphia where to find your classes
+        // can be called multiple times with different packages or classes
+        morphia.mapPackage("org.mongodb.morphia.example");
+
+        client = new MongoClient("localhost", 27017);
+        // create the Datastore connecting to the default port on the local host
+        final Datastore datastore = morphia.createDatastore(client, "ModernSky");
+        datastore.ensureIndexes();
+
+    }
+
+    private void registerCache() {
+//        this.saveResource("ehcache.xml", true);
+//        URL configurl = null;
+//        try {
+//            configurl = new File(this.getDataFolder(), "ehcache.xml").toURI().toURL();
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        assert configurl != null;
+//        Configuration xmlConfig = new XmlConfiguration(configurl);
+//        cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
+
+        cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+                .build();
+
+        cacheManager.init();
+        Repository.initCache();
+
+    }
+
+    public static CacheManager getCacheManager() {
+        return cacheManager;
     }
 
     private static void createTables(String sheet, String init, String col_uuid) throws SQLException {
@@ -179,7 +232,7 @@ public class Core extends JavaPlugin {
     }
 
     private void loadFiles() {
-        File config = new File( this.getDataFolder(), "config.yml");
+        File config = new File(this.getDataFolder(), "config.yml");
         this.getConfig().options().copyDefaults(true);
         if (!config.exists()) {
             this.logger.info("creating configs");

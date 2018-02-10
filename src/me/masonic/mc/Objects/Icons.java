@@ -1,14 +1,20 @@
 package me.masonic.mc.Objects;
 
 import me.masonic.mc.Function.Menu;
+import me.masonic.mc.Function.Repository;
 import me.masonic.mc.Utility.PermissionUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Icons {
     static CustomItem getDefault() {
@@ -36,6 +42,8 @@ public class Icons {
                 }
         }
     }
+
+
     public static void addPipe(ChestMenu menu, int[] slots) {
         for (int i$ : slots) {
             menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "§7", 15, 1, new ArrayList<>()));

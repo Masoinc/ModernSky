@@ -3,14 +3,19 @@ package me.masonic.mc.Function;
 import api.praya.myitems.main.MyItemsAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import me.masonic.mc.Core;
 import me.masonic.mc.Objects.Icons;
 import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,11 +30,14 @@ public class Repository {
     private final static String SHEET = "repository";
     private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_ITEMS);
+    private static Cache<UUID, RepositoryCache> cache;
+    private HashMap<String, Integer> items;
+    private UUID player;
 
-    HashMap<String, Integer> items;
-    UUID player;
+    private final int[] stock = new int[]{0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 
-    public Repository(UUID p, HashMap<String, Integer> items) {
+
+    private Repository(UUID p, HashMap<String, Integer> items) {
         this.items = items;
         this.player = p;
     }
@@ -55,51 +63,35 @@ public class Repository {
     }
 
     public static void openRp(Player p) {
-        MyItemsAPI mapi = MyItemsAPI.getInstance();
 
         final ChestMenu menu = new ChestMenu("    后勤仓库");
         Icons.addPipe(menu, new int[]{7, 16, 25, 34, 43, 52, 45, 46, 47, 49, 50, 51});
         Icons.addBaseIcon(menu, "back", 48);
+        getInstance(p).setCategory(menu);
 
-        Repository rp = getInstance(p);
-        int slot = 0;
-        for (String iname : rp.items.keySet()) {
-            ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem(iname).clone();
-            ItemMeta meta = base.getItemMeta();
-            List<String> lores = meta.getLore();
-            if (lores != null) {
-                lores.set(lores.size() - 1, "§8>>>>>>>>>>>>>");
-            } else {
-                lores = new ArrayList<>();
-            }
-            lores.add("");
-            lores.add(MessageFormat.format("§7◇ 仓库目前存有此类物品 §6{0} §7个", rp.items.get(iname)));
-            lores.add("");
-            lores.add("§8[ ModernSky ] Repository");
-            meta.setLore(lores);
+        getInstance(p).setStock(menu, p, "SLIMEFUN", false);
 
-            base.setItemMeta(meta);
-
-            menu.addItem(slot, base);
-            menu.addMenuClickHandler(slot, (player, i, itemStack, clickAction) -> false);
-
-            slot++;
-            if (slot % 7 == 0) {
-                slot += 2;
-                if (slot >= 35) {
-                    break;
-                }
-            }
-        }
 
         menu.open(p);
+    }
+
+    private static HashMap<String, ArrayList<String>> TYPE_MAP = new HashMap<>();
+
+    static {
+        TYPE_MAP.put("SLIMEFUN", new ArrayList<String>() {
+            {
+                add("sf1");
+                add("sf2");
+            }
+        });
     }
 
     public static Repository getInstance(Player p) {
         return new Repository(p.getUniqueId(), getRawItems(p));
     }
 
-    public void save() {
+
+    private void save() {
         String sql;
         if (!SqlUtil.ifExist(this.player, SHEET, COL_USER_UUID)) {
             sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUES(''{4}'',''{5}'',''{6}'');";
@@ -113,15 +105,15 @@ public class Repository {
     public void saveItem(HashMap<String, Integer> add) {
         for (String iname : add.keySet()) {
             System.out.println(this.items.getOrDefault(iname, 0));
-//            Integer m = this.items.getOrDefault(iname, 0);
-//            int n = m.intValue();
-            this.items.put(iname, add.getOrDefault(iname, 0));
+            // this.items.get(iname)与add.get(iname)相加时会报错
+            // Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+            // 原因尚不明确
+            this.items.put(iname, add.get(iname) + Integer.parseInt(String.valueOf(this.items.getOrDefault(iname, 0))));
         }
         this.save();
-
     }
 
-    static HashMap<String, Integer> getRawItems(Player p) {
+    private static HashMap<String, Integer> getRawItems(Player p) {
         if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
             return new HashMap<>();
         }
@@ -135,8 +127,122 @@ public class Repository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return new HashMap<>();
         }
-        return new HashMap<>();
     }
 
+    private void setStock(ChestMenu menu, Player p, String type, boolean replace) {
+        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(p.getUniqueId()) ? cache.get(p.getUniqueId()).classified_stock : classifier(p);
+        MyItemsAPI mapi = MyItemsAPI.getInstance();
+
+        int slot = 0;
+        if ((!classified_map.containsKey(type)) || classified_map.get(type).size() == 0) {
+            for (int i : stock) {
+                menu.replaceExistingItem(i, new ItemStack(Material.AIR));
+            }
+            return;
+        }
+        for (String iname : classified_map.get(type).keySet()) {
+            ItemStack base = mapi.getGameManagerAPI().getItemManagerAPI().getItem(iname).clone();
+            ItemMeta meta = base.getItemMeta();
+            List<String> lores = meta.getLore();
+
+            if (lores != null) {
+                lores.set(lores.size() - 1, "§8>>>>>>>>>>>>>");
+            } else {
+                lores = new ArrayList<>();
+            }
+
+            lores.add("");
+            lores.add(MessageFormat.format("§7◇ 仓库目前存有此类物品 §6{0} §7个", classified_map.get("SLIMEFUN").get(iname)));
+            lores.add("");
+            lores.add("§8[ ModernSky ] Repository");
+            meta.setLore(lores);
+
+            base.setItemMeta(meta);
+
+            if (replace) {
+                menu.replaceExistingItem(slot, base);
+            } else {
+                menu.addItem(slot, base);
+            }
+            menu.addMenuClickHandler(slot, (player, i, itemStack, clickAction) -> false);
+            slot++;
+            if (slot % 7 == 0) {
+                slot += 2;
+                if (slot >= 35) {
+                    break;
+                }
+            }
+
+        }
+    }
+
+    private void setCategory(ChestMenu menu) {
+        ItemStack sf = new ItemStack(Material.SLIME_BALL);
+        ItemMeta meta = sf.getItemMeta();
+        meta.setDisplayName("§8[ §6粘液科技 §8]");
+        sf.setItemMeta(meta);
+        menu.addItem(8, sf);
+        menu.addMenuClickHandler(8, (p, i, itemStack, clickAction) -> {
+            getInstance(p).setStock(menu, p, "SLIMEFUN", true);
+            return false;
+        });
+
+        ItemStack mt = new ItemStack(Material.IRON_INGOT);
+        meta = mt.getItemMeta();
+        meta.setDisplayName("§8[ §6材料 §8]");
+        mt.setItemMeta(meta);
+        menu.addItem(17, mt);
+        menu.addMenuClickHandler(17, (p, i, itemStack, clickAction) -> {
+            getInstance(p).setStock(menu, p, "MATERIAL", true);
+            return false;
+        });
+
+        ItemStack con = new ItemStack(Material.PAPER);
+        meta = con.getItemMeta();
+        meta.setDisplayName("§8[ §6消耗品 §8]");
+        con.setItemMeta(meta);
+        menu.addItem(26, con);
+        menu.addMenuClickHandler(26, (p, i, itemStack, clickAction) -> {
+            getInstance(p).setStock(menu, p, "CONSUMABLE", true);
+            return false;
+        });
+
+    }
+
+    private HashMap<String, HashMap<String, Integer>> classifier(Player p) {
+        HashMap<String, Integer> src = getInstance(p).items;
+        HashMap<String, HashMap<String, Integer>> output = new HashMap<>();
+        for (String Tk : TYPE_MAP.keySet()) {
+            HashMap<String, Integer> temp = new HashMap<>();
+            // HashMap在遍历时不可删除对象，使用Iterator即可
+            Iterator<String> it = src.keySet().iterator();
+            while (it.hasNext()) {
+                String Sk = it.next();
+                if (TYPE_MAP.get(Tk).contains(Sk)) {
+                    temp.put(Sk, src.get(Sk));
+                    it.remove();
+                }
+            }
+            output.put(Tk, temp);
+        }
+
+        cache.put(p.getUniqueId(), new RepositoryCache(output));
+        return output;
+    }
+
+    public static void initCache() {
+        CacheManager cacheManager = Core.getCacheManager();
+        cache = cacheManager.createCache("repository_cache",
+                CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, RepositoryCache.class, ResourcePoolsBuilder.heap(10)));
+    }
+}
+
+class RepositoryCache {
+    HashMap<String, HashMap<String, Integer>> classified_stock;
+
+    RepositoryCache(HashMap<String, HashMap<String, Integer>> classified_stock) {
+        this.classified_stock = classified_stock;
+    }
 }
