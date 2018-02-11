@@ -9,7 +9,6 @@ import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -20,7 +19,6 @@ import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -71,9 +69,7 @@ public class Repository {
         Icons.addPipe(menu, new int[]{7, 16, 25, 34, 43, 52, 45, 46, 47, 49, 50, 51});
         Icons.addBaseIcon(menu, "back", 48);
 
-        RepositoryCategory.addCateIcon(menu, "SLIMEFUN", );
-        getInstance(p).setStock(menu, p, "SLIMEFUN", false);
-
+        RepositoryCategory.addCateIcon(menu, "SLIMEFUN", p);
 
         menu.open(p);
     }
@@ -134,8 +130,8 @@ public class Repository {
         }
     }
 
-    void setStock(ChestMenu menu, Player p, String type, boolean replace) {
-        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(p.getUniqueId()) ? cache.get(p.getUniqueId()).classified_stock : classifier(p);
+    void setStock(ChestMenu menu, String type, boolean replace) {
+        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(this.player) ? cache.get(this.player).classified_stock : classifier(p);
         MyItemsAPI mapi = MyItemsAPI.getInstance();
 
         int slot = 0;
@@ -236,13 +232,34 @@ enum RepositoryCategory {
     }
 
     public static void addCateIcon(ChestMenu menu, String cursor, Player p) {
-        HashMap<RepositoryCategory, ItemStack> rs = new HashMap<>();
+        HashMap<RepositoryCategory, ItemStack> en_items = new HashMap<>();
+        HashMap<RepositoryCategory, ItemStack> non_en_items = new HashMap<>();
         RepositoryCategory target = null;
         for (RepositoryCategory r : RepositoryCategory.values()) {
-            ItemStack i = new ItemStack(r.m);q q
+            ItemStack i = new ItemStack(r.m);
+            ItemMeta meta = i.getItemMeta();
+            meta.setDisplayName(r.name);
+            i.setItemMeta(meta);
+            non_en_items.put(r, i);
+            meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            i.setItemMeta(meta);
+            en_items.put(r, i);
+        }
 
-        for (RepositoryCategory r2 : rs.keySet()) {
-            RepositoryCategory finalTarget = target;
+
+
+        for (RepositoryCategory r0 : non_en_items.keySet()) {
+            if (r0.codename.equalsIgnoreCase(cursor)) {
+                menu.addItem(r0.slot, en_items.get(r0));
+                Repository.getInstance(p).setStock(menu, r0.codename, false);
+                menu.addMenuClickHandler(r0.slot, (p0, inv, item, action) -> false);
+            } else {
+                menu.addItem(r0.slot, non_en_items.get(r0));
+                menu.addMenuClickHandler(r0.slot, (p0, inv, item, action) -> {
+
+                });
+            }
             menu.addMenuClickHandler(r2.slot, (p0, inv, item, action) -> {
                 ItemMeta meta0 = item.getItemMeta();
                 meta0.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
@@ -256,7 +273,5 @@ enum RepositoryCategory {
                 return false;
             });
         }
-
-
     }
 }

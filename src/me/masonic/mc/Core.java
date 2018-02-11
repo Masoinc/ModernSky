@@ -1,7 +1,5 @@
 package me.masonic.mc;
 
-import com.evilmidget38.UUIDFetcher;
-import com.mongodb.MongoClient;
 import com.zaxxer.hikari.HikariDataSource;
 import me.masonic.mc.CSCoreLibSetup.CSCoreLibLoader;
 import me.masonic.mc.Cmd.*;
@@ -18,26 +16,15 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.ehcache.Cache;
 import org.ehcache.CacheManager;
-import org.ehcache.config.Configuration;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.CacheManagerBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.xml.XmlConfiguration;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -57,9 +44,6 @@ public class Core extends JavaPlugin {
     private static final String PLUGIN_PREFIX = "§8[ §6ModernSky §8] §7";
 
     private static PlayerPoints playerPoints;
-
-    private MongoClient client;
-    private Morphia morphia;
 
     private static CacheManager cacheManager;
 
@@ -170,24 +154,25 @@ public class Core extends JavaPlugin {
             createTables(Exploration.getSheetName(), Exploration.getInitQuery(), Exploration.getColUserUuid());
             createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
             createTables(Repository.getSheetName(), Repository.getInitQuery(), Repository.getColUserUuid());
+            createTables(Vitality.getSheetName(), Vitality.getInitQuery(), Vitality.getColUserUuid());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    private void registerMongo() {
-        final Morphia morphia = new Morphia();
-
-        // tell Morphia where to find your classes
-        // can be called multiple times with different packages or classes
-        morphia.mapPackage("org.mongodb.morphia.example");
-
-        client = new MongoClient("localhost", 27017);
-        // create the Datastore connecting to the default port on the local host
-        final Datastore datastore = morphia.createDatastore(client, "ModernSky");
-        datastore.ensureIndexes();
-
-    }
+//
+//    private void registerMongo() {
+//        final Morphia morphia = new Morphia();
+//
+//        // tell Morphia where to find your classes
+//        // can be called multiple times with different packages or classes
+//        morphia.mapPackage("org.mongodb.morphia.example");
+//
+//        client = new MongoClient("localhost", 27017);
+//        // create the Datastore connecting to the default port on the local host
+//        final Datastore datastore = morphia.createDatastore(client, "ModernSky");
+//        datastore.ensureIndexes();
+//
+//    }
 
     private void registerCache() {
 //        this.saveResource("ehcache.xml", true);

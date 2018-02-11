@@ -10,7 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -64,7 +63,7 @@ public class MskyCore implements CommandExecutor {
             case "vi":
                 switch (args[1]) {
                     case "open":
-                        Vitality.openvi(p);
+                        Vitality.openvi((Player) c);
                 }
         }
         return true;
