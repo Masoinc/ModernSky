@@ -9,7 +9,10 @@ import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Chest;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.ehcache.Cache;
@@ -17,6 +20,7 @@ import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -35,7 +39,6 @@ public class Repository {
     private UUID player;
 
     private final int[] stock = new int[]{0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
-
 
     private Repository(UUID p, HashMap<String, Integer> items) {
         this.items = items;
@@ -67,8 +70,8 @@ public class Repository {
         final ChestMenu menu = new ChestMenu("    后勤仓库");
         Icons.addPipe(menu, new int[]{7, 16, 25, 34, 43, 52, 45, 46, 47, 49, 50, 51});
         Icons.addBaseIcon(menu, "back", 48);
-        getInstance(p).setCategory(menu);
 
+        RepositoryCategory.addCateIcon(menu, "SLIMEFUN", );
         getInstance(p).setStock(menu, p, "SLIMEFUN", false);
 
 
@@ -131,7 +134,7 @@ public class Repository {
         }
     }
 
-    private void setStock(ChestMenu menu, Player p, String type, boolean replace) {
+    void setStock(ChestMenu menu, Player p, String type, boolean replace) {
         HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(p.getUniqueId()) ? cache.get(p.getUniqueId()).classified_stock : classifier(p);
         MyItemsAPI mapi = MyItemsAPI.getInstance();
 
@@ -178,39 +181,6 @@ public class Repository {
         }
     }
 
-    private void setCategory(ChestMenu menu) {
-        ItemStack sf = new ItemStack(Material.SLIME_BALL);
-        ItemMeta meta = sf.getItemMeta();
-        meta.setDisplayName("§8[ §6粘液科技 §8]");
-        sf.setItemMeta(meta);
-        menu.addItem(8, sf);
-        menu.addMenuClickHandler(8, (p, i, itemStack, clickAction) -> {
-            getInstance(p).setStock(menu, p, "SLIMEFUN", true);
-            return false;
-        });
-
-        ItemStack mt = new ItemStack(Material.IRON_INGOT);
-        meta = mt.getItemMeta();
-        meta.setDisplayName("§8[ §6材料 §8]");
-        mt.setItemMeta(meta);
-        menu.addItem(17, mt);
-        menu.addMenuClickHandler(17, (p, i, itemStack, clickAction) -> {
-            getInstance(p).setStock(menu, p, "MATERIAL", true);
-            return false;
-        });
-
-        ItemStack con = new ItemStack(Material.PAPER);
-        meta = con.getItemMeta();
-        meta.setDisplayName("§8[ §6消耗品 §8]");
-        con.setItemMeta(meta);
-        menu.addItem(26, con);
-        menu.addMenuClickHandler(26, (p, i, itemStack, clickAction) -> {
-            getInstance(p).setStock(menu, p, "CONSUMABLE", true);
-            return false;
-        });
-
-    }
-
     private HashMap<String, HashMap<String, Integer>> classifier(Player p) {
         HashMap<String, Integer> src = getInstance(p).items;
         HashMap<String, HashMap<String, Integer>> output = new HashMap<>();
@@ -227,7 +197,6 @@ public class Repository {
             }
             output.put(Tk, temp);
         }
-
         cache.put(p.getUniqueId(), new RepositoryCache(output));
         return output;
     }
@@ -237,12 +206,57 @@ public class Repository {
         cache = cacheManager.createCache("repository_cache",
                 CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, RepositoryCache.class, ResourcePoolsBuilder.heap(10)));
     }
+
 }
+
 
 class RepositoryCache {
     HashMap<String, HashMap<String, Integer>> classified_stock;
 
     RepositoryCache(HashMap<String, HashMap<String, Integer>> classified_stock) {
         this.classified_stock = classified_stock;
+    }
+}
+
+enum RepositoryCategory {
+    SLIMEFUN(Material.SLIME_BALL, "§8[ §6粘液科技 §8]", "SLIMEFUN", 8),
+    MATERIAL(Material.IRON_INGOT, "§8[ §6材料 §8]", "MATERIAL", 17),
+    CONSUMABLE(Material.PAPER, "§8[ §6消耗品 §8]", "CONSUMABLE", 26);
+
+    Material m;
+    String name;
+    String codename;
+    int slot;
+
+    RepositoryCategory(Material m, String name, String codename, int slot) {
+        this.m = m;
+        this.name = name;
+        this.codename = codename;
+        this.slot = slot;
+    }
+
+    public static void addCateIcon(ChestMenu menu, String cursor, Player p) {
+        HashMap<RepositoryCategory, ItemStack> rs = new HashMap<>();
+        RepositoryCategory target = null;
+        for (RepositoryCategory r : RepositoryCategory.values()) {
+            ItemStack i = new ItemStack(r.m);q q
+
+        for (RepositoryCategory r2 : rs.keySet()) {
+            RepositoryCategory finalTarget = target;
+            menu.addMenuClickHandler(r2.slot, (p0, inv, item, action) -> {
+                ItemMeta meta0 = item.getItemMeta();
+                meta0.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+                meta0.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                item.setItemMeta(meta0);
+                for (RepositoryCategory rc : rs.keySet()) {
+                    menu.replaceExistingItem(rc.slot, item);
+                }
+                assert finalTarget != null;
+                menu.replaceExistingItem(finalTarget.slot, item);
+                return false;
+            });
+        }
+
+
     }
 }
