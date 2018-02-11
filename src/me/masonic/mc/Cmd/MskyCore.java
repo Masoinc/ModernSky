@@ -3,6 +3,7 @@ package me.masonic.mc.Cmd;
 import api.praya.myitems.main.MyItemsAPI;
 import me.masonic.mc.Core;
 import me.masonic.mc.Function.Repository;
+import me.masonic.mc.Function.Vitality;
 import me.masonic.mc.Utility.PermissionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -60,7 +61,11 @@ public class MskyCore implements CommandExecutor {
                         return true;
 
                 }
-
+            case "vi":
+                switch (args[1]) {
+                    case "open":
+                        Vitality.openvi(p);
+                }
         }
         return true;
     }
