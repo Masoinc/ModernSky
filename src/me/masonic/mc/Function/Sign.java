@@ -9,6 +9,7 @@ import me.masonic.mc.Utility.SqlUtil;
 import me.masonic.mc.Utility.TimeUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -23,7 +24,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public class Sign {
-    private final static String COL_USER_NAME = "uesr_name";
+    private final static String COL_USER_NAME = "user_name";
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_SIGN = "sign_record";
     private final static String COL_SIGN_KITS = "sign_kits";
@@ -74,7 +75,7 @@ public class Sign {
         List<String> lores = new ArrayList<>();
         lores.add("");
         lores.add("§7▽ 可领取的奖励:");
-        lores.addAll(Reward.getLore(Reward.getSignKitReward(days)));
+        lores.addAll(Reward.getLore(SignReward.getSignKitReward(days)));
         lores.add("");
         lores.add("§8[ ModernSky §8]");
 
@@ -98,7 +99,6 @@ public class Sign {
         meta.setLore(lores);
         stat.setItemMeta(meta);
         return stat;
-
     }
 
     /**
@@ -115,8 +115,8 @@ public class Sign {
         List<String> lores = new ArrayList<>();
         lores.add("");
         lores.add("§7▽ " + (today ? "今日" : "签到") + "奖励:");
-        if (Reward.getLore(Reward.getSignReward(date)) != null) {
-            lores.addAll(Reward.getLore(Reward.getSignReward(date)));
+        if (Reward.getLore(SignReward.getSignReward(date)) != null) {
+            lores.addAll(Reward.getLore(SignReward.getSignReward(date)));
         }
         if (!addition_lores.isEmpty()) {
             lores.addAll(addition_lores);
@@ -134,7 +134,7 @@ public class Sign {
     }
 
 
-    public static void openSignMenu(Player p) throws SQLException {
+    public static void openSignMenu(Player p) {
         final ChestMenu menu = new ChestMenu("   签到 §8[ §6" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "月 §8]");
         int current_date = java.util.Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
@@ -182,13 +182,20 @@ public class Sign {
             });
         }
 
-        // 月度清理数据
-        if (exist && current_date == 1) {
-            String sql = "DELETE from {0} WHERE {1} = ''{2}'';";
-            SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
-        }
-
         if (exist) {
+            // 月度清理数据
+            if (current_date == 1) {
+                clearData(p);
+                return;
+            }
+            for (String d : sign_static) {
+                System.out.println(d);
+                if (Integer.valueOf(d) > current_date) {
+                    clearData(p);
+                    return;
+                }
+            }
+
             if (today_signed) {
                 menu.addItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
                 menu.addMenuClickHandler(current_date - 1, (pl2, i, itemStack, clickAction) -> {
@@ -206,7 +213,7 @@ public class Sign {
 
                     // 给予奖励
                     p13.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                    Reward.sendSignReward(p13, current_date);
+                    SignReward.sendSignReward(p13, current_date);
                     menu.replaceExistingItem(53, getSignStatIcon(String.valueOf(sign_dynamic.size())));
                     menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
                     menu.addMenuClickHandler(current_date - 1, (player, i12, itemStack12, clickAction12) -> false);
@@ -225,7 +232,7 @@ public class Sign {
 
                 // 给予奖励
                 p14.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                Reward.sendSignReward(p14, current_date);
+                SignReward.sendSignReward(p14, current_date);
                 menu.replaceExistingItem(53, getSignStatIcon("1"));
                 menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, lores));
                 menu.addMenuClickHandler(current_date - 1, (player, i1, itemStack1, clickAction1) -> false);
@@ -254,20 +261,16 @@ public class Sign {
                     }
 
                     // 发放奖励
-                    Reward.sendReward(p, Reward.getSignKitReward(KIT_SLOT.get(slot_dynamic)));
+                    Reward.sendReward(p, SignReward.getSignKitReward(KIT_SLOT.get(slot_dynamic)));
                     p.sendMessage(Core.getPrefix() + "累签奖励已发放~");
 
                     String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";
-
                     kit_dynamic.add(String.valueOf(KIT_SLOT.get(slot_dynamic)));
-
-
                     SqlUtil.update(MessageFormat.format(sql, SHEET, COL_SIGN_KITS, new Gson().toJson(kit_dynamic), COL_USER_UUID, p.getUniqueId().toString()));
 
                     return false;
                 });
             }
-
         }
         menu.open(p);
     }
@@ -299,14 +302,14 @@ public class Sign {
      * @return 如果无记录则返回空ArrayList，否则返回记录
      */
     private static ArrayList<String> getSignKitResult(Player p) {
+        if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
+            return new ArrayList<>();
+        }
+        ResultSet sign = SqlUtil.getResults(MessageFormat.format("SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;", COL_SIGN_KITS, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
         try {
-            if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
-                return new ArrayList<>();
-            }
-            ResultSet sign = SqlUtil.getResults(MessageFormat.format("SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;", COL_SIGN_KITS, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+            assert sign != null;
             return new Gson().fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
             }.getType());
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -315,5 +318,136 @@ public class Sign {
             p.sendMessage("Crushed");
         }
         return new ArrayList<>();
+    }
+
+    private static void clearData(Player p) {
+        String sql = "DELETE from {0} WHERE {1} = ''{2}'';";
+        SqlUtil.update(MessageFormat.format(sql, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+        p.closeInventory();
+        openSignMenu(p);
+    }
+}
+
+class SignReward extends Reward {
+    SignReward(int money, int point, HashMap<String, Integer> items) {
+        super(money, point, items);
+    }
+
+    static void sendSignReward(Player p, int day) {
+        Reward reward = getSignReward(day);
+        if (reward == null) {
+            return;
+        }
+        if (reward.getMoney() != 0) {
+            Core.getEconomy().depositPlayer(p, reward.getMoney());
+        }
+
+        if (reward.getPoint() != 0) {
+            Core.getPlayerPoints().getAPI().give(p.getUniqueId(), reward.getPoint());
+        }
+
+        for (String item : reward.getItems().keySet()) {
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+        }
+        if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
+            Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());
+        }
+//        if (!Package.isExpired(p,"A")) {
+//            Exploration.setExploreValue(p, Exploration.getExploreValue(p) + 10);
+//            p.sendMessage(Core.getPrefix() + "签到获得了 §610 §7点探索值");
+//        }
+    }
+
+
+    static Reward getSignKitReward(int days) {
+        HashMap<String, Integer> item = new HashMap<>();
+        switch (days) {
+            case 3:
+                item.put("sf1", 1);
+                return new Reward(1500, 0, item);
+            case 7:
+                return new Reward(0, 160, item);
+            case 15:
+                item.put("sf2", 1);
+                return new Reward(1500, 0, item);
+            case 21:
+                return new Reward(0, 220, item);
+            case 28:
+                item.put("sf2", 1);
+                return new Reward(0, 260, item);
+            default:
+                return new Reward(0, 0, item);
+        }
+    }
+
+    static Reward getSignReward(int day) {
+        HashMap<String, Integer> item = new HashMap<>();
+        List<Integer> money = Arrays.asList(2, 8, 15, 22, 29);
+        List<Integer> dust = Arrays.asList(1, 7, 14, 21, 28);
+        List<Integer> sf1 = Arrays.asList(3, 9, 16, 23);
+        if (money.contains(day)) {
+            return new Reward(1500, 0, item);
+        } else if (dust.contains(day)) {
+            return new Reward(0, 60, item);
+        } else if (sf1.contains(day)) {
+            item.put("sf1", 1);
+            return new Reward(0, 0, item);
+        } else {
+            switch (day) {
+                case 4:
+                    item.put("sf3", 1);
+                    return new Reward(0, 0, item);
+                case 5:
+                    item.put("sf8", 8);
+                    return new Reward(0, 0, item);
+                case 6:
+                    item.put("sf11", 5);
+                    return new Reward(0, 0, item);
+                case 10:
+                    item.put("sf4", 5);
+                    return new Reward(0, 0, item);
+                case 11:
+                    item.put("sf9", 5);
+                    return new Reward(0, 0, item);
+                case 12:
+                    item.put("sf10", 2);
+                    return new Reward(0, 0, item);
+                case 13:
+                    item.put("sf12", 5);
+                    return new Reward(0, 0, item);
+                case 17:
+                    item.put("sf5", 5);
+                    return new Reward(0, 0, item);
+                case 18:
+                    item.put("sf8", 8);
+                    return new Reward(0, 0, item);
+                case 19:
+                    item.put("sf11", 5);
+                    return new Reward(0, 0, item);
+                case 20:
+                    item.put("sf12", 5);
+                    return new Reward(0, 0, item);
+                case 24:
+                    item.put("sf6", 3);
+                    return new Reward(0, 0, item);
+                case 25:
+                    item.put("sf9", 8);
+                    return new Reward(0, 0, item);
+                case 26:
+                    item.put("sf10", 2);
+                    return new Reward(0, 0, item);
+                case 27:
+                    item.put("sf12", 5);
+                    return new Reward(0, 0, item);
+                case 30:
+                    item.put("sf2", 1);
+                    return new Reward(0, 0, item);
+                case 31:
+                    item.put("sf7", 3);
+                    return new Reward(0, 0, item);
+                default:
+                    return null;
+            }
+        }
     }
 }

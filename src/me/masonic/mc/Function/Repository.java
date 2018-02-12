@@ -69,7 +69,7 @@ public class Repository {
         Icons.addPipe(menu, new int[]{7, 16, 25, 34, 43, 52, 45, 46, 47, 49, 50, 51});
         Icons.addBaseIcon(menu, "back", 48);
 
-        RepositoryCategory.addCateIcon(menu, "SLIMEFUN", p);
+        RepositoryCategory.addCateIcon(menu);
 
         menu.open(p);
     }
@@ -130,8 +130,8 @@ public class Repository {
         }
     }
 
-    void setStock(ChestMenu menu, String type, boolean replace) {
-        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(this.player) ? cache.get(this.player).classified_stock : classifier(p);
+    void setStock(ChestMenu menu, String type) {
+        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(this.player) ? cache.get(this.player).classified_stock : classifier(Bukkit.getPlayer(this.player));
         MyItemsAPI mapi = MyItemsAPI.getInstance();
 
         int slot = 0;
@@ -160,11 +160,7 @@ public class Repository {
 
             base.setItemMeta(meta);
 
-            if (replace) {
-                menu.replaceExistingItem(slot, base);
-            } else {
-                menu.addItem(slot, base);
-            }
+            menu.replaceExistingItem(slot, base);
             menu.addMenuClickHandler(slot, (player, i, itemStack, clickAction) -> false);
             slot++;
             if (slot % 7 == 0) {
@@ -219,6 +215,23 @@ enum RepositoryCategory {
     MATERIAL(Material.IRON_INGOT, "§8[ §6材料 §8]", "MATERIAL", 17),
     CONSUMABLE(Material.PAPER, "§8[ §6消耗品 §8]", "CONSUMABLE", 26);
 
+    private static HashMap<RepositoryCategory, ItemStack> en_items = new HashMap<>();
+    private static HashMap<RepositoryCategory, ItemStack> non_en_items = new HashMap<>();
+    static {
+        for (RepositoryCategory r : RepositoryCategory.values()) {
+            ItemStack i = new ItemStack(r.m);
+            ItemMeta meta = i.getItemMeta();
+            meta.setDisplayName(r.name);
+            i.setItemMeta(meta);
+            non_en_items.put(r, i);
+            ItemStack ei = i.clone();
+            meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            ei.setItemMeta(meta);
+            en_items.put(r, ei);
+        }
+    }
+
     Material m;
     String name;
     String codename;
@@ -231,45 +244,14 @@ enum RepositoryCategory {
         this.slot = slot;
     }
 
-    public static void addCateIcon(ChestMenu menu, String cursor, Player p) {
-        HashMap<RepositoryCategory, ItemStack> en_items = new HashMap<>();
-        HashMap<RepositoryCategory, ItemStack> non_en_items = new HashMap<>();
-        RepositoryCategory target = null;
+    public static void addCateIcon(ChestMenu menu) {
         for (RepositoryCategory r : RepositoryCategory.values()) {
-            ItemStack i = new ItemStack(r.m);
-            ItemMeta meta = i.getItemMeta();
-            meta.setDisplayName(r.name);
-            i.setItemMeta(meta);
-            non_en_items.put(r, i);
-            meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            i.setItemMeta(meta);
-            en_items.put(r, i);
-        }
-
-
-
-        for (RepositoryCategory r0 : non_en_items.keySet()) {
-            if (r0.codename.equalsIgnoreCase(cursor)) {
-                menu.addItem(r0.slot, en_items.get(r0));
-                Repository.getInstance(p).setStock(menu, r0.codename, false);
-                menu.addMenuClickHandler(r0.slot, (p0, inv, item, action) -> false);
-            } else {
-                menu.addItem(r0.slot, non_en_items.get(r0));
-                menu.addMenuClickHandler(r0.slot, (p0, inv, item, action) -> {
-
-                });
-            }
-            menu.addMenuClickHandler(r2.slot, (p0, inv, item, action) -> {
-                ItemMeta meta0 = item.getItemMeta();
-                meta0.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-                meta0.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                item.setItemMeta(meta0);
-                for (RepositoryCategory rc : rs.keySet()) {
-                    menu.replaceExistingItem(rc.slot, item);
+            menu.addItem(r.slot, non_en_items.get(r));
+            menu.addMenuClickHandler(r.slot, (p0, inv, item, action) -> {
+                for (RepositoryCategory r0 : non_en_items.keySet()) {
+                    menu.replaceExistingItem(r0.slot, r0.slot == r.slot? en_items.get(r0) : non_en_items.get(r0));
                 }
-                assert finalTarget != null;
-                menu.replaceExistingItem(finalTarget.slot, item);
+                Repository.getInstance(p0).setStock(menu, r.codename);
                 return false;
             });
         }

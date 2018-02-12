@@ -46,7 +46,7 @@ public class Core extends JavaPlugin {
     private static PlayerPoints playerPoints;
 
     private static CacheManager cacheManager;
-
+    private static HikariDataSource ds;
     @Override
     public void onEnable() {
         CSCoreLibLoader loader = new CSCoreLibLoader(this);
@@ -76,7 +76,6 @@ public class Core extends JavaPlugin {
             activateConnection();
         }
     }
-
     private void hookPlayerPoints() {
         final Plugin plugin = this.getServer().getPluginManager().getPlugin("PlayerPoints");
         playerPoints = PlayerPoints.class.cast(plugin);
@@ -88,6 +87,7 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        ds.close();
     }
 
     public static Economy getEconomy() {
@@ -139,7 +139,7 @@ public class Core extends JavaPlugin {
     }
 
     private void registerSQL() {
-        HikariDataSource ds = new HikariDataSource();
+        ds = new HikariDataSource();
         ds.setJdbcUrl(this.getConfig().getString("SQL.connection.URL") + "?verifyServerCertificate=false&useSSL=false");
         ds.setUsername(this.getConfig().getString("SQL.connection.UNAME"));
         ds.setPassword(this.getConfig().getString("SQL.connection.UPASSWORD"));
@@ -158,6 +158,7 @@ public class Core extends JavaPlugin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 //
 //    private void registerMongo() {

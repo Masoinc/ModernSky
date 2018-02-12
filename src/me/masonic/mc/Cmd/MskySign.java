@@ -6,8 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
-
 public class MskySign implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender c, Command cmd, String s, String[] args) {
@@ -17,11 +15,7 @@ public class MskySign implements CommandExecutor {
                 case 1:
                     switch (args[0]) {
                         case "open":
-                            try {
-                                Sign.openSignMenu(p);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
+                            Sign.openSignMenu(p);
                             return true;
                     }
             }

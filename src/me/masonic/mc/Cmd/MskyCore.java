@@ -6,6 +6,7 @@ import me.masonic.mc.Function.Repository;
 import me.masonic.mc.Function.Vitality;
 import me.masonic.mc.Utility.PermissionUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -65,6 +66,9 @@ public class MskyCore implements CommandExecutor {
                     case "open":
                         Vitality.openvi((Player) c);
                 }
+            case "test":
+
+                System.out.println(Material.AIR.name());
         }
         return true;
     }

@@ -1,7 +1,6 @@
 package me.masonic.mc.Function;
 
 import me.masonic.mc.Objects.Icons;
-import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,10 +21,8 @@ public class Vitality {
     private final static String COL_VITALITY = "vitality";
     private final static String COL_PROGRESS = "progress";
     private final static String SHEET = "vitality";
-    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL), `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_VITALITY, COL_PROGRESS);
-
-    private static HashMap<String, Integer>
 
     public static String getColUserName() {
         return COL_USER_NAME;

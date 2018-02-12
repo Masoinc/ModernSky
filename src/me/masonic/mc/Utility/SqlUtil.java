@@ -90,19 +90,23 @@ public class SqlUtil {
     public static boolean ifExist(UUID uid, String sheet, String column) {
         try {
             String sql = "SELECT COUNT(*) FROM {0} WHERE {1} = ''{2}'' LIMIT 1;";
-            ResultSet rs = Core.getConnection().createStatement().executeQuery(MessageFormat.format(sql, sheet, column, uid));
+            PreparedStatement stmt = Core.getConnection().prepareStatement(MessageFormat.format(sql, sheet, column, uid));
+            ResultSet rs = stmt.executeQuery();
+
             Boolean empty = true;
             while (rs.next()) {
                 empty = false;
                 if (rs.wasNull()) {
                     return false;
                 }
-                return rs.getInt(1) >= 1;
+                boolean result = rs.getInt(1) >= 1;
+                stmt.close();
+                return result;
             }
             if (empty) {
+                stmt.close();
                 return false;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
