@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class Message implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        e.setJoinMessage("§8[§6+§8] §7"+e.getPlayer().getName());
+        e.setJoinMessage("§8[§6+§8] §7" + e.getPlayer().getName());
     }
 //    @EventHandler
 //    private void onquit(PlayerQuitEvent e) {

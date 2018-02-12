@@ -28,7 +28,7 @@ public class MskyPackage implements CommandExecutor {
                     }
             }
         } else {
-            c.sendMessage(Core.getPrefix()+"Permission Denied");
+            c.sendMessage(Core.getPrefix() + "Permission Denied");
         }
         return false;
     }

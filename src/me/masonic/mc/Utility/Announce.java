@@ -12,10 +12,11 @@ import java.util.Iterator;
 public abstract class Announce {
     private static Iterator i$;
     private static Player p;
+
     public static void announceMsg(String msg) {
         i$ = Bukkit.getOnlinePlayers().iterator();
-        while(i$.hasNext()) {
-            p = (Player)i$.next();
+        while (i$.hasNext()) {
+            p = (Player) i$.next();
             p.sendMessage(msg);
         }
     }

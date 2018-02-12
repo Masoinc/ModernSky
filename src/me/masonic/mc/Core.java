@@ -47,6 +47,7 @@ public class Core extends JavaPlugin {
 
     private static CacheManager cacheManager;
     private static HikariDataSource ds;
+
     @Override
     public void onEnable() {
         CSCoreLibLoader loader = new CSCoreLibLoader(this);
@@ -76,6 +77,7 @@ public class Core extends JavaPlugin {
             activateConnection();
         }
     }
+
     private void hookPlayerPoints() {
         final Plugin plugin = this.getServer().getPluginManager().getPlugin("PlayerPoints");
         playerPoints = PlayerPoints.class.cast(plugin);

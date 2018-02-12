@@ -5,8 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import java.util.UUID;
-
 /**
  * Mason Project
  * 2017-6-17-0017

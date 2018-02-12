@@ -45,7 +45,7 @@ public class MskyCore implements CommandExecutor {
                             }
                         });
                         MyItemsAPI mapi = MyItemsAPI.getInstance();
-                        p.sendMessage(Core.getPrefix() + MessageFormat.format("物资 §8[ {0} §7x §6{1} §8] §7已发放至后勤仓库 ", mapi.getGameManagerAPI().getItemManagerAPI().getItem(args[3]).getItemMeta().getDisplayName(), args[4]));
+
                         return true;
                     case "test":
                         p = Bukkit.getPlayer(args[2]);

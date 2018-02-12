@@ -7,8 +7,14 @@ public interface Privilege {
     long getExpire();
 
     boolean isExist();
+
     boolean isExpired();
+
     String getFormattedExpire();
-    static void expireHandler(Player p) {};
+
+    static void expireHandler(Player p) {
+    }
+
+    ;
 
 }

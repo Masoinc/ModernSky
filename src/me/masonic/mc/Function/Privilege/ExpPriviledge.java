@@ -22,6 +22,7 @@ public class ExpPriviledge implements Privilege, Listener {
     private boolean exist;
     private long expire;
     private static String KEYWORD = "exp";
+
     public ExpPriviledge() {
     }
 

@@ -170,7 +170,7 @@ public class Sign {
             // 分割线
             int[] PIPE = new int[]{36, 37, 38, 39, 40, 41, 42, 43, 44};
             for (int i$ : PIPE) {
-                menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "", 0, 1, new ArrayList<>()));
+                menu.addItem(i$, new CustomItem(Material.STAINED_GLASS_PANE, "", 15, 1, new ArrayList<>()));
                 menu.addMenuClickHandler(i$, (arg0, arg1, arg2, arg3) -> false);
             }
 
@@ -189,7 +189,6 @@ public class Sign {
                 return;
             }
             for (String d : sign_static) {
-                System.out.println(d);
                 if (Integer.valueOf(d) > current_date) {
                     clearData(p);
                     return;

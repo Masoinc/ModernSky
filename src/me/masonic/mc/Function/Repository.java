@@ -76,6 +76,12 @@ public class Repository {
 
     private static HashMap<String, ArrayList<String>> TYPE_MAP = new HashMap<>();
 
+    public static ArrayList<String> getStorableMap() {
+        return STORABLE_MAP;
+    }
+
+    private static ArrayList<String> STORABLE_MAP = new ArrayList<>();
+
     static {
         TYPE_MAP.put("SLIMEFUN", new ArrayList<String>() {
             {
@@ -83,6 +89,9 @@ public class Repository {
                 add("sf2");
             }
         });
+        for (ArrayList<String> s : TYPE_MAP.values()) {
+            STORABLE_MAP.addAll(s);
+        }
     }
 
     public static Repository getInstance(Player p) {
@@ -102,12 +111,15 @@ public class Repository {
     }
 
     public void saveItem(HashMap<String, Integer> add) {
+        MyItemsAPI mapi = MyItemsAPI.getInstance();
         for (String iname : add.keySet()) {
-            System.out.println(this.items.getOrDefault(iname, 0));
+//            System.out.println(this.items.getOrDefault(iname, 0));
+            Bukkit.getPlayer(this.player).sendMessage(Core.getPrefix() + MessageFormat.format("物资 §8[ {0} §7x §6{1} §8] §7已发放至后勤仓库 ", mapi.getGameManagerAPI().getItemManagerAPI().getItem(iname).getItemMeta().getDisplayName(), add.get(iname)));
             // this.items.get(iname)与add.get(iname)相加时会报错
             // Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
             // 原因尚不明确
             this.items.put(iname, add.get(iname) + Integer.parseInt(String.valueOf(this.items.getOrDefault(iname, 0))));
+
         }
         this.save();
     }
@@ -217,6 +229,7 @@ enum RepositoryCategory {
 
     private static HashMap<RepositoryCategory, ItemStack> en_items = new HashMap<>();
     private static HashMap<RepositoryCategory, ItemStack> non_en_items = new HashMap<>();
+
     static {
         for (RepositoryCategory r : RepositoryCategory.values()) {
             ItemStack i = new ItemStack(r.m);
@@ -249,7 +262,7 @@ enum RepositoryCategory {
             menu.addItem(r.slot, non_en_items.get(r));
             menu.addMenuClickHandler(r.slot, (p0, inv, item, action) -> {
                 for (RepositoryCategory r0 : non_en_items.keySet()) {
-                    menu.replaceExistingItem(r0.slot, r0.slot == r.slot? en_items.get(r0) : non_en_items.get(r0));
+                    menu.replaceExistingItem(r0.slot, r0.slot == r.slot ? en_items.get(r0) : non_en_items.get(r0));
                 }
                 Repository.getInstance(p0).setStock(menu, r.codename);
                 return false;

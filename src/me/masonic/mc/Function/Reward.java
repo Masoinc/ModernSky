@@ -69,7 +69,7 @@ public class Reward {
         return lores;
     }
 
-    public static void sendReward(Player p, Reward reward) {
+    static void sendReward(Player p, Reward reward) {
         if (reward == null) {
             return;
         }
@@ -80,7 +80,13 @@ public class Reward {
             Core.getPlayerPoints().getAPI().give(p.getUniqueId(), reward.getPoint());
         }
         for (String item : reward.items.keySet()) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+            if (Repository.getStorableMap().contains(item)) {
+                Repository.getInstance(p).saveItem(new HashMap<String, Integer>() {{
+                    put(item, reward.getItems().get(item));
+                }});
+            } else {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+            }
         }
         if (reward.raw_items.size() != 0) {
             for (Material m : reward.raw_items.keySet()) {
@@ -89,7 +95,6 @@ public class Reward {
                 p.getInventory().addItem(i);
             }
         }
-
     }
 }
 

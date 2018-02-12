@@ -1,6 +1,5 @@
 package me.masonic.mc.Cmd;
 
-import me.masonic.mc.Core;
 import me.masonic.mc.Function.Privilege.AbilityPrivilege;
 import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;

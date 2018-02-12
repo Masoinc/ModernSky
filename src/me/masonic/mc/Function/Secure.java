@@ -12,7 +12,7 @@ import java.util.List;
  * 2017-6-17-0017
  */
 public class Secure implements Listener {
-    private static List<String> BANNEDCMD = Arrays.asList("/pl", "plugins","/?","/bukkit:?","/bukkit:help","/bukkit:pl","/bukkit:plugins");
+    private static List<String> BANNEDCMD = Arrays.asList("/pl", "plugins", "/?", "/bukkit:?", "/bukkit:help", "/bukkit:pl", "/bukkit:plugins");
 
     @EventHandler
     void onCommand(PlayerCommandPreprocessEvent e) {

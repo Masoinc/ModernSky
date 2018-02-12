@@ -45,10 +45,9 @@ public class BackPackPrivilege implements Privilege {
     }
 
     /**
-     *
-     * @param p 玩家
+     * @param p      玩家
      * @param period 时长，以秒计
-     * @param page 页数，请输入加成后所得的页数
+     * @param page   页数，请输入加成后所得的页数
      */
     public static void send(Player p, long period, long page) {
         HashMap<String, Long> rawmap = new HashMap<>();

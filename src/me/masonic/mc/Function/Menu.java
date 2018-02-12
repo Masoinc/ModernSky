@@ -25,7 +25,7 @@ public class Menu implements Listener {
     void onCommand(PlayerCommandPreprocessEvent e) {
         if (e.getMessage().equals("/help")) {
             e.setCancelled(true);
-            PermissionUtil.runOp(e.getPlayer(),"bs mskycore");
+            PermissionUtil.runOp(e.getPlayer(), "bs mskycore");
         }
     }
 

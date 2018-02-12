@@ -1,14 +1,15 @@
 package me.masonic.mc.Hook;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
+import me.masonic.mc.Core;
+import me.masonic.mc.Function.Exploration;
+import me.masonic.mc.Function.Package;
 import me.masonic.mc.Function.Privilege.AbilityPrivilege;
 import me.masonic.mc.Function.Privilege.BackPackPrivilege;
 import me.masonic.mc.Function.Privilege.ExpPriviledge;
-import me.masonic.mc.Function.Exploration;
-import me.masonic.mc.Core;
-import me.masonic.mc.Function.Package;
-//import me.masonic.mc.Function.Vip;
 import org.bukkit.entity.Player;
+
+//import me.masonic.mc.Function.Vip;
 
 /**
  * Mason Project
@@ -56,7 +57,7 @@ public class HookPapi extends EZPlaceholderHook {
                             case "Limit":
                                 return AbilityPrivilege.getInstance(p).getFormattedLimit();
                             case "Expire":
-                            // %ModernSky_Privilege_Ability_Expire%
+                                // %ModernSky_Privilege_Ability_Expire%
                                 return AbilityPrivilege.getInstance(p).getFormattedExpire();
                         }
 

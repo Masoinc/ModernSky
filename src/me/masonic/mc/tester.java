@@ -2,7 +2,7 @@ package me.masonic.mc;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.*;
+import java.sql.SQLException;
 
 
 public class tester {

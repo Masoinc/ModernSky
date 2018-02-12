@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+
 // - CODENAME
 //   - Progress1 进度
 //   - Progress2 进度
@@ -88,7 +89,7 @@ enum VitalityQuest {
     }}), false),
     POTION1("POTION1", "酿造 3 种药水", 15, new Reward(60, 20, new HashMap<String, Integer>(), new HashMap<Material, Integer>() {{
         put(Material.SAND, 10);
-    }}),false);
+    }}), false);
 
 
     String desc;

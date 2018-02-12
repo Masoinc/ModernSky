@@ -29,15 +29,16 @@ import java.util.List;
 public class InvIcon implements Listener {
 
     static {
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Core.getInstance(), PacketType.Play.Client.CLIENT_COMMAND){
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Core.getInstance(), PacketType.Play.Client.CLIENT_COMMAND) {
             @Override
-            public void onPacketReceiving(PacketEvent e){
-                if(e.getPacket().getClientCommands().read(0) == EnumWrappers.ClientCommand.OPEN_INVENTORY_ACHIEVEMENT){
+            public void onPacketReceiving(PacketEvent e) {
+                if (e.getPacket().getClientCommands().read(0) == EnumWrappers.ClientCommand.OPEN_INVENTORY_ACHIEVEMENT) {
                     giveInvIcon(e.getPlayer());
                 }
             }
         });
     }
+
     private static ItemStack phone = new ItemStack(Material.WATCH);
 
     private static ItemStack getBackpack(Player p) {

@@ -44,7 +44,7 @@ public class Sidebar implements Listener {
                 "§6◇ §7尘晶余额:    ",
                 "§8-> §8[ §3" + Core.getPlayerPoints().getAPI().look(p.getUniqueId()) + "§7 枚 §8]",
                 "",
-                "§8-> §8[ §7空岛等级: §6Lv."+ ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId())+" §8]",
+                "§8-> §8[ §7空岛等级: §6Lv." + ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) + " §8]",
                 "§9",
                 "§8[ModernSky] alpha v0.0.1"));
 

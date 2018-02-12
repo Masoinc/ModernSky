@@ -20,14 +20,14 @@ public class MskyMsg implements CommandExecutor {
                 "  §c§l充值网址: §6§lhttp://ModernX.mcrmb.com  §7(直接点击即可打开)",
                 "",
                 "§6§m§l一一一一一一一一一一一一一一一一一一一一一一一一一一一一");
-        p.sendMessage((String[])ci.toArray());
+        p.sendMessage((String[]) ci.toArray());
     }
 
     @Override
     public boolean onCommand(CommandSender c, Command command, String s, String[] args) {
-        switch(args[0]) {
+        switch (args[0]) {
             case "charge":
-                narrateChargeInfo((Player)c);
+                narrateChargeInfo((Player) c);
                 return true;
         }
         return false;
