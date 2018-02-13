@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="SlimeFun[CN]:jar">
+    <output-path>//Masonic-backend/d/Sklime/plugins</output-path>
+    <root id="archive" name="SlimeFun[CN].jar">
+      <element id="module-output" name="SlimeFun[CN]" />
+      <element id="file-copy" path="$PROJECT_DIR$/../SlimeFun-CN/src/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/../SlimeFun-CN/src/plugin.yml" />
+    </root>
+  </artifact>
+</component>

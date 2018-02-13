@@ -212,7 +212,7 @@ public class Sign {
 
                     // 给予奖励
                     p13.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                    SignReward.sendSignReward(p13, current_date);
+                    SignReward.sendReward(p13, current_date);
                     menu.replaceExistingItem(53, getSignStatIcon(String.valueOf(sign_dynamic.size())));
                     menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, new ArrayList<>()));
                     menu.addMenuClickHandler(current_date - 1, (player, i12, itemStack12, clickAction12) -> false);
@@ -231,7 +231,7 @@ public class Sign {
 
                 // 给予奖励
                 p14.sendMessage(Core.getPrefix() + "签到奖励已发放~");
-                SignReward.sendSignReward(p14, current_date);
+                SignReward.sendReward(p14, current_date);
                 menu.replaceExistingItem(53, getSignStatIcon("1"));
                 menu.replaceExistingItem(current_date - 1, getSignIcon(current_date, true, true, lores));
                 menu.addMenuClickHandler(current_date - 1, (player, i1, itemStack1, clickAction1) -> false);
@@ -332,7 +332,8 @@ class SignReward extends Reward {
         super(money, point, items);
     }
 
-    static void sendSignReward(Player p, int day) {
+
+    static void sendReward(Player p, int day) {
         Reward reward = getSignReward(day);
         if (reward == null) {
             return;
@@ -346,7 +347,13 @@ class SignReward extends Reward {
         }
 
         for (String item : reward.getItems().keySet()) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+            if (Repository.getStorableMap().contains(item)) {
+                Repository.getInstance(p).saveItem(new HashMap<String, Integer>() {{
+                    put(item, reward.getItems().get(item));
+                }});
+            } else {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "myitems:mi load custom " + item + " " + p.getPlayerListName() + " " + reward.getItems().get(item));
+            }
         }
         if (Exploration.getExplorationRank(p).getSign_additional_money() != 0) {
             Core.getEconomy().depositPlayer(p, Exploration.getExplorationRank(p).getSign_additional_money());

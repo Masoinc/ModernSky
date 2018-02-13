@@ -2,40 +2,41 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="ModernSky" />
+      <artifact name="SlimeFun[CN]:jar" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8573a14c-2739-42dd-bc51-3c0016e961c4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Translation" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/SlimeFun_CN__jar.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/ModernSky_jar.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__com_google_code_gson_gson_2_8_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__com_google_guava_guava_21_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__junit_junit_4_10.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__me_clip_placeholderapi_2_6_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_12_SNAPSHOT.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__org_projectlombok_lombok_1_16_16.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_R0_1_SNAPSHOT.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Maven__org_yaml_snakeyaml_1_18.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/CSCoreLibSetup/CSCoreLibLoader.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/CSCoreLibSetup/CSCoreLibLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyAdvancedAbility.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyAdvancedAbility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyBackShop.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyBackShop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ModernSky.iml" afterPath="$PROJECT_DIR$/ModernSky.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyMsg.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyMsg.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPackage.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPackage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPrivilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPrivilege.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySlimeFun.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySlimeFun.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/InvIcon.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/InvIcon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Menu.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Message.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Message.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/BackPackPrivilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/BackPackPrivilege.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/ExpPriviledge.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/ExpPriviledge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/Privilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/Privilege.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Secure.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Secure.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sidebar.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sidebar.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Hook/HookPapi.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Hook/HookPapi.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/Announce.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/Announce.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/InventoryUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/InventoryUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/PermissionUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/PermissionUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/tester.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/tester.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/compiler.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/misc.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/modules.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/SlimeFun[CN].iml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/SlimeFun[CN].iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/Research.java" afterPath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/Research.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/SlimefunItem/SlimefunItem.java" afterPath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/SlimefunItem/SlimefunItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/SlimefunItem/abstractItems/AContainer.java" afterPath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/SlimefunItem/abstractItems/AContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/SlimefunGuide.java" afterPath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/SlimefunGuide.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -66,15 +67,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Repository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java">
+      <file leaf-file-name="HashMap.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/HashMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="134" column="10" lean-forward="false" selection-start-line="134" selection-start-column="10" selection-end-line="134" selection-end-column="11" />
+            <state relative-caret-position="525">
+              <caret line="553" column="13" lean-forward="false" selection-start-line="553" selection-start-column="13" selection-end-line="553" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Research.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/Research.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="479">
+              <caret line="274" column="42" lean-forward="false" selection-start-line="274" selection-start-column="42" selection-end-line="274" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2642#2643#0" expanded="true" />
-                <element signature="e#2677#2678#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,23 +92,11 @@
       <file leaf-file-name="Sign.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2489">
-              <caret line="161" column="29" lean-forward="false" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+            <state relative-caret-position="324">
+              <caret line="349" column="38" lean-forward="false" selection-start-line="349" selection-start-column="38" selection-end-line="349" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#13526#13527#0" expanded="true" />
-                <element signature="e#13568#13569#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reward.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="82" column="20" lean-forward="false" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -108,31 +105,9 @@
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="437">
-              <caret line="54" column="7" lean-forward="false" selection-start-line="54" selection-start-column="7" selection-end-line="54" selection-end-column="7" />
+              <caret line="101" column="25" lean-forward="true" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Icons.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Core.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="831">
-              <caret line="143" column="8" lean-forward="false" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
-              <folding>
-                <marker date="1518420603592" expanded="true" signature="8510:8533" ph="SHOW TABLES " />
               </folding>
             </state>
           </provider>
@@ -141,8 +116,8 @@
       <file leaf-file-name="MskyCore.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -161,8 +136,8 @@
       <file leaf-file-name="SqlUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1938">
-              <caret line="102" column="29" lean-forward="false" selection-start-line="102" selection-start-column="29" selection-end-line="102" selection-end-column="29" />
+            <state relative-caret-position="419">
+              <caret line="104" column="13" lean-forward="false" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -211,13 +186,15 @@
       <find>ingot</find>
       <find>dirt</find>
       <find>blaze</find>
+      <find>cache</find>
+      <find>research</find>
     </findStrings>
     <replaceStrings>
       <replace>.repository</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../SlimeFun-CN" />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -252,14 +229,15 @@
         <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Quest.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java" />
-        <option value="$PROJECT_DIR$/src/me/masonic/mc/Core.java" />
         <option value="$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java" />
         <option value="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySign.java" />
-        <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" />
-        <option value="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" />
-        <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" />
         <option value="$PROJECT_DIR$/src/Translation" />
         <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java" />
+        <option value="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" />
+        <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" />
+        <option value="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" />
+        <option value="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/SlimefunGuide.java" />
+        <option value="$PROJECT_DIR$/src/me/masonic/mc/Core.java" />
       </list>
     </option>
   </component>
@@ -298,9 +276,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="width" value="1390" />
-    <option name="height" value="1013" />
+    <option name="x" value="569" />
+    <option name="y" value="21" />
+    <option name="width" value="1294" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -317,9 +296,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -343,29 +321,45 @@
               <item name="ModernSky" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="mc" type="462c0819:PsiDirectoryNode" />
-              <item name="Cmd" type="462c0819:PsiDirectoryNode" />
+              <item name="Function" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ModernSky" type="b2602c69:ProjectViewProjectNode" />
               <item name="ModernSky" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="mc" type="462c0819:PsiDirectoryNode" />
-              <item name="Function" type="462c0819:PsiDirectoryNode" />
+              <item name="Utility" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ModernSky" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SlimeFun-CN" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ModernSky" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SlimeFun-CN" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ModernSky" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SlimeFun-CN" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Slimefun" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/ehcache.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SlimeFun-CN/src/plugin.yml" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
@@ -394,7 +388,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Remote.ModernSky">
     <configuration name="ModernSky" type="Remote" factoryName="Remote">
       <module name="ModernSky" />
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -528,7 +522,10 @@
       <workItem from="1518084179242" duration="9423000" />
       <workItem from="1518147901603" duration="29823000" />
       <workItem from="1518289255070" duration="12007000" />
-      <workItem from="1518383133328" duration="11096000" />
+      <workItem from="1518383133328" duration="13783000" />
+      <workItem from="1518433995888" duration="3153000" />
+      <workItem from="1518484258004" duration="30000" />
+      <workItem from="1518484307824" duration="11631000" />
     </task>
     <task id="LOCAL-00001" summary="Version 0.2.7&#10;Date 18.2.10">
       <created>1518266458655</created>
@@ -551,11 +548,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518420571285</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Version 0.2.7&#10;Date 18.2.12">
+      <created>1518431218811</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1518431218811</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117185000" />
+    <option name="totallyTimeSpent" value="134686000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -577,12 +581,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1994852" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934132" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934132" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15500794" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15858506" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979408" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861805" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -590,8 +594,8 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -619,8 +623,26 @@
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java</url>
+          <line>349</line>
+          <properties />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/Research.java</url>
+          <line>274</line>
+          <properties />
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/me/masonic/mc/Core.java</url>
+          <line>92</line>
+          <properties />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="32" />
+      <option name="time" value="43" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -629,9 +651,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/Cache.class" />
-    <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/CacheIterationException.class" />
-    <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/CacheManager.class" />
     <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/config/builders/CacheManagerBuilder.class" />
     <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/config/Builder.class" />
     <entry file="jar://$PROJECT_DIR$/libx/ehcache-3.4.0.jar!/org/ehcache/core/EhcacheManager.class" />
@@ -662,13 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ModernSky.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -687,12 +699,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/HashMap.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/ehcache/ehcache/3.4.0/ehcache-3.4.0-sources.jar!/org/ehcache/config/builders/CacheConfigurationBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="60" column="51" lean-forward="false" selection-start-line="60" selection-start-column="51" selection-end-line="60" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,7 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1121">
           <caret line="103" column="30" lean-forward="false" selection-start-line="103" selection-start-column="30" selection-end-line="103" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -784,7 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
           <caret line="205" column="9" lean-forward="false" selection-start-line="205" selection-start-column="9" selection-end-line="205" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -796,41 +804,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1938">
-          <caret line="102" column="29" lean-forward="false" selection-start-line="102" selection-start-column="29" selection-end-line="102" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="54" column="7" lean-forward="false" selection-start-line="54" selection-start-column="7" selection-end-line="54" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="831">
-          <caret line="143" column="8" lean-forward="false" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
-          <folding>
-            <marker date="1518420603592" expanded="true" signature="8510:8533" ph="SHOW TABLES " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -842,43 +820,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="134" column="10" lean-forward="false" selection-start-line="134" selection-start-column="10" selection-end-line="134" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2642#2643#0" expanded="true" />
-            <element signature="e#2677#2678#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2489">
-          <caret line="161" column="29" lean-forward="false" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#13526#13527#0" expanded="true" />
-            <element signature="e#13568#13569#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/spigot-api-1.11.2-R0.1-SNAPSHOT-shaded.jar!/mojang-translations/en_US.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -886,15 +831,121 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2883">
           <caret line="1304" column="23" lean-forward="true" selection-start-line="1304" selection-start-column="23" selection-end-line="1304" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="82" column="20" lean-forward="false" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
+        <state relative-caret-position="774">
+          <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="88" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ModernSky.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="104" column="13" lean-forward="false" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/ehcache-3.4.0.jar!/org/ehcache/CacheManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="15" column="23" lean-forward="false" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="349" column="38" lean-forward="false" selection-start-line="349" selection-start-column="38" selection-end-line="349" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/SlimefunGuide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="861" column="45" lean-forward="true" selection-start-line="861" selection-start-column="45" selection-end-line="861" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2090">
+          <caret line="152" column="15" lean-forward="true" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2030#2031#0" expanded="true" />
+            <element signature="e#2073#2074#0" expanded="true" />
+            <element signature="e#2905#2906#0" expanded="true" />
+            <element signature="e#2940#2941#0" expanded="true" />
+            <element signature="e#9697#9698#0" expanded="true" />
+            <element signature="e#9781#9782#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="68" column="30" lean-forward="true" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1518521930452" expanded="true" signature="8652:8675" ph="SHOW TABLES " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="553" column="13" lean-forward="false" selection-start-line="553" selection-start-column="13" selection-end-line="553" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="101" column="25" lean-forward="true" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Objects/Research.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="274" column="42" lean-forward="false" selection-start-line="274" selection-start-column="42" selection-end-line="274" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -904,7 +955,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>ModernSky</last-edited>
+          <last-edited>SlimeFun[CN]:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -953,7 +1004,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>ModernSky</last-edited>
+          <last-edited>SlimeFun[CN]</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -89,7 +89,10 @@ public class Core extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        ds.close();
+//        logger.info("All caches are cleared.");
+//        ds.close();
+        cacheManager.removeCache("repository_cache");
+        cacheManager.close();
     }
 
     public static Economy getEconomy() {
@@ -177,7 +180,7 @@ public class Core extends JavaPlugin {
 //
 //    }
 
-    private void registerCache() {
+    private static void registerCache() {
 //        this.saveResource("ehcache.xml", true);
 //        URL configurl = null;
 //        try {
@@ -192,7 +195,6 @@ public class Core extends JavaPlugin {
 
         cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
                 .build();
-
         cacheManager.init();
         Repository.initCache();
 
@@ -239,7 +241,6 @@ public class Core extends JavaPlugin {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
             }
 
         }.runTaskTimerAsynchronously(this, 0, 580L);

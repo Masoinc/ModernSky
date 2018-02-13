@@ -26,13 +26,13 @@ import java.util.*;
 
 public class Repository {
 
-    private final static String COL_USER_NAME = "uesr_name";
+    private final static String COL_USER_NAME = "user_name";
     private final static String COL_USER_UUID = "user_uuid";
     private final static String COL_ITEMS = "items";
     private final static String SHEET = "repository";
     private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_ITEMS);
-    private static Cache<UUID, RepositoryCache> cache;
+    static Cache<UUID, RepositoryCache> cache;
     private HashMap<String, Integer> items;
     private UUID player;
 
@@ -41,6 +41,15 @@ public class Repository {
     private Repository(UUID p, HashMap<String, Integer> items) {
         this.items = items;
         this.player = p;
+    }
+
+
+    private HashMap<String, HashMap<String, Integer>> getCache() {
+        return cache.containsKey(this.player) ? cache.get(this.player).classified_stock : classifier(this.player);
+    }
+
+    public static void initCache() {
+        RepositoryCache.initCache();
     }
 
     public static String getColUserName() {
@@ -95,9 +104,12 @@ public class Repository {
     }
 
     public static Repository getInstance(Player p) {
-        return new Repository(p.getUniqueId(), getRawItems(p));
+        return new Repository(p.getUniqueId(), getRawItems(p.getUniqueId()));
     }
 
+    public static Repository getInstance(UUID p) {
+        return new Repository(p, getRawItems(p));
+    }
 
     private void save() {
         String sql;
@@ -118,24 +130,60 @@ public class Repository {
             // this.items.get(iname)与add.get(iname)相加时会报错
             // Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
             // 原因尚不明确
+            // 原因: http://www.cnblogs.com/zhanjindong/p/3803114.html
             this.items.put(iname, add.get(iname) + Integer.parseInt(String.valueOf(this.items.getOrDefault(iname, 0))));
 
         }
+        refreshCache();
         this.save();
     }
 
-    private static HashMap<String, Integer> getRawItems(Player p) {
-        if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
+    public boolean removeItem(String item, int amount) {
+        MyItemsAPI mapi = MyItemsAPI.getInstance();
+
+        if (!this.items.containsKey(item)) {
+            return false;
+        }
+        int stock = Integer.parseInt(String.valueOf(this.items.get(item)));
+        if (stock < amount) {
+            return false;
+        }
+        Bukkit.getPlayer(this.player).sendMessage(Core.getPrefix() + MessageFormat.format("后勤仓库中的物资 §8[ {0} §7x §6{1} §8] §7已被取出使用", mapi.getGameManagerAPI().getItemManagerAPI().getItem(item).getItemMeta().getDisplayName(), amount));
+        this.items.put(item, stock - amount);
+        this.save();
+        refreshCache();
+        return true;
+    }
+
+    public boolean removeItem(HashMap<String, Integer> remove) {
+        MyItemsAPI mapi = MyItemsAPI.getInstance();
+        for (String iname : remove.keySet()) {
+//            System.out.println(this.items.getOrDefault(iname, 0));
+            // this.items.get(iname)与add.get(iname)相加时会报错
+            // Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+            // 原因尚不明确
+            if (!this.items.containsKey(iname) || this.items.get(iname) < remove.get(iname)) {
+                return false;
+            }
+            Bukkit.getPlayer(this.player).sendMessage(Core.getPrefix() + MessageFormat.format("后勤仓库中的物资 §8[ {0} §7x §6{1} §8] §7已被取出使用", mapi.getGameManagerAPI().getItemManagerAPI().getItem(iname).getItemMeta().getDisplayName(), remove.get(iname)));
+
+            this.items.compute(iname, (k, v) -> v - remove.get(iname));
+        }
+        refreshCache();
+        this.save();
+        return true;
+    }
+
+    private static HashMap<String, Integer> getRawItems(UUID p) {
+        if (!SqlUtil.ifExist(p, SHEET, COL_USER_UUID)) {
             return new HashMap<>();
         }
-
         String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
-        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, COL_ITEMS, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, COL_ITEMS, SHEET, COL_USER_UUID, p.toString()));
         assert rs != null;
         try {
             return new Gson().fromJson(rs.getString(1), new TypeToken<HashMap<String, String>>() {
             }.getType());
-
         } catch (SQLException e) {
             e.printStackTrace();
             return new HashMap<>();
@@ -143,7 +191,8 @@ public class Repository {
     }
 
     void setStock(ChestMenu menu, String type) {
-        HashMap<String, HashMap<String, Integer>> classified_map = cache.containsKey(this.player) ? cache.get(this.player).classified_stock : classifier(Bukkit.getPlayer(this.player));
+        HashMap<String, HashMap<String, Integer>> classified_map = getCache();
+        refreshCache();
         MyItemsAPI mapi = MyItemsAPI.getInstance();
 
         int slot = 0;
@@ -185,7 +234,7 @@ public class Repository {
         }
     }
 
-    private HashMap<String, HashMap<String, Integer>> classifier(Player p) {
+    private HashMap<String, HashMap<String, Integer>> classifier(UUID p) {
         HashMap<String, Integer> src = getInstance(p).items;
         HashMap<String, HashMap<String, Integer>> output = new HashMap<>();
         for (String Tk : TYPE_MAP.keySet()) {
@@ -201,14 +250,21 @@ public class Repository {
             }
             output.put(Tk, temp);
         }
-        cache.put(p.getUniqueId(), new RepositoryCache(output));
         return output;
     }
 
-    public static void initCache() {
-        CacheManager cacheManager = Core.getCacheManager();
-        cache = cacheManager.createCache("repository_cache",
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, RepositoryCache.class, ResourcePoolsBuilder.heap(10)));
+    public void refreshCache() {
+        cache.put(this.player, new RepositoryCache(classifier(this.player)));
+    }
+
+
+    public boolean containsAtLeast(String item, int amount) {
+        HashMap<String, Integer> src = items;
+        // http://ask.csdn.net/questions/168262
+        // Integer类型对象与int类型对象直接比较会出错
+        //        return src.containsKey(item) && src.get(item) >= amount;
+
+        return src.containsKey(item) && Integer.parseInt(String.valueOf(src.get(item))) >= amount;
     }
 
 }
@@ -219,6 +275,12 @@ class RepositoryCache {
 
     RepositoryCache(HashMap<String, HashMap<String, Integer>> classified_stock) {
         this.classified_stock = classified_stock;
+    }
+
+    static void initCache() {
+        CacheManager cacheManager = Core.getCacheManager();
+        Repository.cache = cacheManager.createCache("repository_cache",
+                CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, RepositoryCache.class, ResourcePoolsBuilder.heap(10)));
     }
 }
 

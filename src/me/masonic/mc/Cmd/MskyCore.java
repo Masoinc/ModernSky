@@ -1,7 +1,5 @@
 package me.masonic.mc.Cmd;
 
-import api.praya.myitems.main.MyItemsAPI;
-import me.masonic.mc.Core;
 import me.masonic.mc.Function.Repository;
 import me.masonic.mc.Function.Vitality;
 import me.masonic.mc.Utility.PermissionUtil;
@@ -12,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.text.MessageFormat;
 import java.util.HashMap;
 
 public class MskyCore implements CommandExecutor {
@@ -44,8 +41,7 @@ public class MskyCore implements CommandExecutor {
                                 put(args[3], Integer.valueOf(args[4]));
                             }
                         });
-                        MyItemsAPI mapi = MyItemsAPI.getInstance();
-
+                        Repository.getInstance(p).refreshCache();
                         return true;
                     case "test":
                         p = Bukkit.getPlayer(args[2]);

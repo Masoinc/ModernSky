@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ModernSky.iml" filepath="$PROJECT_DIR$/ModernSky.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SlimeFun-CN/SlimeFun[CN].iml" filepath="$PROJECT_DIR$/../SlimeFun-CN/SlimeFun[CN].iml" />
     </modules>
   </component>
 </project>
