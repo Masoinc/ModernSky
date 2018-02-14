@@ -1,7 +1,8 @@
 package me.masonic.mc.Cmd;
 
+import me.masonic.mc.Function.Announce;
 import me.masonic.mc.Function.Repository;
-import me.masonic.mc.Function.Vitality;
+import me.masonic.mc.Function.Vitality.Vitality;
 import me.masonic.mc.Utility.PermissionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -61,10 +62,14 @@ public class MskyCore implements CommandExecutor {
                 switch (args[1]) {
                     case "open":
                         Vitality.openvi((Player) c);
+                        return true;
                 }
             case "test":
-
                 System.out.println(Material.AIR.name());
+                return true;
+            case "an":
+                Announce.openAn((Player) c);
+                return true;
         }
         return true;
     }

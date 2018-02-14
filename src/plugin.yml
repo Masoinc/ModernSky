@@ -2,7 +2,7 @@ name: ModernSky
 softdepend: [CS-CoreLib, PlayerPoints]
 main: me.masonic.mc.Core
 
-version: 0.2.5
+version: 0.2.8
 
 commands:
   mskyvip:

@@ -46,7 +46,7 @@ public class Sidebar implements Listener {
                 "",
                 "§8-> §8[ §7空岛等级: §6Lv." + ASkyBlockAPI.getInstance().getIslandLevel(p.getUniqueId()) + " §8]",
                 "§9",
-                "§8[ModernSky] alpha v0.0.1"));
+                "§8[ModernSky] alpha v" + Core.VERSION));
 
         return info;
     }

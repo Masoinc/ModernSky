@@ -36,20 +36,8 @@ public class Sign {
         return INIT_QUERY;
     }
 
-    private static String getColUserName() {
-        return COL_USER_NAME;
-    }
-
     public static String getColUserUuid() {
         return COL_USER_UUID;
-    }
-
-    private static String getColSign() {
-        return COL_SIGN;
-    }
-
-    private static String getColSignKits() {
-        return COL_SIGN_KITS;
     }
 
     public static String getSheetName() {
@@ -75,7 +63,7 @@ public class Sign {
         List<String> lores = new ArrayList<>();
         lores.add("");
         lores.add("§7▽ 可领取的奖励:");
-        lores.addAll(Reward.getLore(SignReward.getSignKitReward(days)));
+        lores.addAll(SignReward.getSignKitReward(days).getLore());
         lores.add("");
         lores.add("§8[ ModernSky §8]");
 
@@ -115,8 +103,8 @@ public class Sign {
         List<String> lores = new ArrayList<>();
         lores.add("");
         lores.add("§7▽ " + (today ? "今日" : "签到") + "奖励:");
-        if (Reward.getLore(SignReward.getSignReward(date)) != null) {
-            lores.addAll(Reward.getLore(SignReward.getSignReward(date)));
+        if (SignReward.getSignReward(date).getLore() != null) {
+            lores.addAll(SignReward.getSignReward(date).getLore());
         }
         if (!addition_lores.isEmpty()) {
             lores.addAll(addition_lores);
@@ -260,7 +248,7 @@ public class Sign {
                     }
 
                     // 发放奖励
-                    Reward.sendReward(p, SignReward.getSignKitReward(KIT_SLOT.get(slot_dynamic)));
+                    SignReward.getSignKitReward(KIT_SLOT.get(slot_dynamic)).send(p);
                     p.sendMessage(Core.getPrefix() + "累签奖励已发放~");
 
                     String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";

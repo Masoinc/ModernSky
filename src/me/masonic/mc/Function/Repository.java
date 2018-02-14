@@ -26,11 +26,11 @@ import java.util.*;
 
 public class Repository {
 
-    private final static String COL_USER_NAME = "user_name";
-    private final static String COL_USER_UUID = "user_uuid";
-    private final static String COL_ITEMS = "items";
-    private final static String SHEET = "repository";
-    private final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+    public final static String COL_USER_NAME = "user_name";
+    public final static String COL_USER_UUID = "user_uuid";
+    public final static String COL_ITEMS = "items";
+    public final static String SHEET = "repository";
+    public final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_ITEMS);
     static Cache<UUID, RepositoryCache> cache;
     private HashMap<String, Integer> items;
@@ -49,27 +49,7 @@ public class Repository {
     }
 
     public static void initCache() {
-        RepositoryCache.initCache();
-    }
-
-    public static String getColUserName() {
-        return COL_USER_NAME;
-    }
-
-    public static String getColUserUuid() {
-        return COL_USER_UUID;
-    }
-
-    public static String getSheetName() {
-        return SHEET;
-    }
-
-    public static String getColItems() {
-        return COL_ITEMS;
-    }
-
-    public static String getInitQuery() {
-        return INIT_QUERY;
+        RepositoryCache.init();
     }
 
     public static void openRp(Player p) {
@@ -85,7 +65,7 @@ public class Repository {
 
     private static HashMap<String, ArrayList<String>> TYPE_MAP = new HashMap<>();
 
-    public static ArrayList<String> getStorableMap() {
+    static ArrayList<String> getStorableMap() {
         return STORABLE_MAP;
     }
 
@@ -277,7 +257,7 @@ class RepositoryCache {
         this.classified_stock = classified_stock;
     }
 
-    static void initCache() {
+    static void init() {
         CacheManager cacheManager = Core.getCacheManager();
         Repository.cache = cacheManager.createCache("repository_cache",
                 CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, RepositoryCache.class, ResourcePoolsBuilder.heap(10)));
@@ -286,8 +266,8 @@ class RepositoryCache {
 
 enum RepositoryCategory {
     SLIMEFUN(Material.SLIME_BALL, "§8[ §6粘液科技 §8]", "SLIMEFUN", 8),
-    MATERIAL(Material.IRON_INGOT, "§8[ §6材料 §8]", "MATERIAL", 17),
-    CONSUMABLE(Material.PAPER, "§8[ §6消耗品 §8]", "CONSUMABLE", 26);
+    MATERIAL(Material.DIAMOND, "§8[ §6材料 §8]", "MATERIAL", 17),
+    CONSUMABLE(Material.TIPPED_ARROW, "§8[ §6消耗品 §8]", "CONSUMABLE", 26);
 
     private static HashMap<RepositoryCategory, ItemStack> en_items = new HashMap<>();
     private static HashMap<RepositoryCategory, ItemStack> non_en_items = new HashMap<>();
