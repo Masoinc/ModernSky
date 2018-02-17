@@ -8,26 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8573a14c-2739-42dd-bc51-3c0016e961c4" name="Default" comment="Version 0.2.8&#10;Date 18.2.14">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cglib_cglib_nodep_2_2_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_proxytoys_proxytoys_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ehcache_ehcache_3_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongo_java_driver_3_4_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_morphia_morphia_1_3_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_25.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_R0_1_SNAPSHOT.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/CosmicChest__2__CRACKED.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Lottery_1_15_CRACKED.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/MCRMB_GBK_1_1_2_BETA_b6fe9f6.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/PlayerPoints_2_1_5_Mcrmb1_0_9_20170129_.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/denizen_1_0_1_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/ModernSky.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/ModernSky.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/SlimeFun_CN__jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/SlimeFun_CN__jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ModernSky.iml" afterPath="$PROJECT_DIR$/ModernSky.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/ModernSky_jar.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/ModernSky_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/SlimeFun_CN_.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/SlimeFun_CN_.xml" />
@@ -47,15 +33,12 @@
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
     <option name="GROUP_SCHEMA" value="true" />
     <option name="GROUP_CONTENTS" value="false" />
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <expand />
-    <select />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -93,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Vitality.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Vitality.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="537">
-              <caret line="262" column="5" lean-forward="false" selection-start-line="262" selection-start-column="5" selection-end-line="262" selection-end-column="5" />
+            <state relative-caret-position="-52">
+              <caret line="181" column="9" lean-forward="true" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MskyCore.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MskyCore.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="89" column="52" lean-forward="false" selection-start-line="89" selection-start-column="52" selection-end-line="89" selection-end-column="52" />
+            <state relative-caret-position="-38">
+              <caret line="66" column="54" lean-forward="false" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -960,7 +943,7 @@
       <workItem from="1518653037202" duration="3839000" />
       <workItem from="1518834544228" duration="11000" />
       <workItem from="1518839390628" duration="5437000" />
-      <workItem from="1518844954824" duration="3788000" />
+      <workItem from="1518844954824" duration="5601000" />
     </task>
     <task id="LOCAL-00001" summary="Version 0.2.7&#10;Date 18.2.10">
       <created>1518266458655</created>
@@ -1004,11 +987,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518590777788</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Version 0.2.8&#10;Date 18.2.17">
+      <created>1518849267072</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1518849267072</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173843000" />
+    <option name="totallyTimeSpent" value="175656000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1030,7 +1020,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861805" sideWeight="0.49682036" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979408" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1065,7 +1055,8 @@
     <MESSAGE value="Version 0.2.7&#10;Date 18.2.12" />
     <MESSAGE value="Version 0.2.7&#10;Date 18.2.13" />
     <MESSAGE value="Version 0.2.8&#10;Date 18.2.14" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 0.2.8&#10;Date 18.2.14" />
+    <MESSAGE value="Version 0.2.8&#10;Date 18.2.17" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 0.2.8&#10;Date 18.2.17" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1423,21 +1414,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java">
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="537">
-          <caret line="262" column="5" lean-forward="false" selection-start-line="262" selection-start-column="5" selection-end-line="262" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-38">
+          <caret line="66" column="54" lean-forward="false" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="54" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java">
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="89" column="52" lean-forward="false" selection-start-line="89" selection-start-column="52" selection-end-line="89" selection-end-column="52" />
-          <folding />
+        <state relative-caret-position="-52">
+          <caret line="181" column="9" lean-forward="true" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
