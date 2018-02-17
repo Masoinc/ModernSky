@@ -128,6 +128,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ExpPriviledge(), this);
         getServer().getPluginManager().registerEvents(new Message(), this);
         getServer().getPluginManager().registerEvents(Vitality.LISTENER, this);
+        getServer().getPluginManager().registerEvents(Online.LISTENER, this);
     }
 
     private void registerCmd() {
@@ -165,10 +166,10 @@ public class Core extends JavaPlugin {
             createTables(PrivilegeManager.getSheetName(), PrivilegeManager.getInitQuery(), PrivilegeManager.getColUserUuid());
             createTables(Repository.SHEET, Repository.INIT_QUERY, Repository.COL_USER_UUID);
             createTables(Vitality.SHEET, Vitality.INIT_QUERY, Vitality.COL_USER_UUID);
+            createTables(Online.SHEET, Online.INIT_QUERY, Online.COL_USER_UUID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 //
 //    private void registerMongo() {
@@ -203,6 +204,7 @@ public class Core extends JavaPlugin {
         cacheManager.init();
         Repository.initCache();
         Vitality.initCache();
+        Online.initCache();
 
     }
 

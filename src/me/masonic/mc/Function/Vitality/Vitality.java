@@ -3,7 +3,7 @@ package me.masonic.mc.Function.Vitality;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Reward.Reward;
+import me.masonic.mc.Function.Reward;
 import me.masonic.mc.Objects.Icons;
 import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -247,7 +247,7 @@ enum VitalityQuest {
     }}).appendVitality(20)),
     ADVANCEDAB1("§7天选之人 §8- §6I", "ADVANCEDAB1", "解锁任意被动天赋", new Reward(150, 0, new HashMap<String, Integer>() {{
     }}).appendVitality(20)),
-    KILL1("§7天选之人 §8- §6I", "无伤击杀 §620 §7只僵尸", "KILL1", new Reward(120, 0, new HashMap<String, Integer>() {{
+    KILL1("§7天选之人 §8- §6I", "KILL1", "无伤击杀 §620 §7只僵尸", new Reward(120, 0, new HashMap<String, Integer>() {{
     }}).appendVitality(15)),
     POTION1("§7魔法师的必修课 §8- §6I", "POTION1", "酿造 §63 §7种药水", new Reward(60, 20, new HashMap<>()).appendRawItem(new HashMap<Material, Integer>() {{
         put(Material.SAND, 10);
@@ -256,7 +256,6 @@ enum VitalityQuest {
     String desc;
     String codename;
     String display;
-    int vitality;
     Reward reward;
 
     VitalityQuest(String display, String codename, String desc, Reward reward) {
@@ -281,7 +280,7 @@ enum VitalityQuest {
         lores.add("");//;
         lores.add("§7▽ 任务奖励: ");
         lores.addAll(this.reward.getLore());
-        lores.add("§7○ §6活跃度§7 x " + String.valueOf(this.vitality));
+        lores.add("§7○ §6活跃度§7 x " + String.valueOf(this.reward.getVitality()));
         lores.add("");
         lores.add("§8[ ModernSky ] vitality");
         meta.setLore(lores);

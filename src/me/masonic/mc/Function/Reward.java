@@ -1,8 +1,7 @@
-package me.masonic.mc.Function.Reward;
+package me.masonic.mc.Function;
 
 import api.praya.myitems.main.MyItemsAPI;
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Repository;
 import me.masonic.mc.Function.Vitality.Vitality;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -34,6 +33,10 @@ public class Reward {
 
     public int getPoint() {
         return point;
+    }
+
+    public int getVitality() {
+        return vitality;
     }
 
     public HashMap<String, Integer> getItems() {

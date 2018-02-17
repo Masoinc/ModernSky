@@ -4,7 +4,6 @@ import api.praya.myitems.main.MyItemsAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Reward.Reward;
 import me.masonic.mc.Utility.PermissionUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import me.masonic.mc.Utility.TimeUtil;
@@ -262,14 +261,13 @@ public class Sign {
         }
         menu.open(p);
     }
-
-
     private static ArrayList<String> getSignResult(Player p) {
         try {
             if (!SqlUtil.ifExist(p.getUniqueId(), SHEET, COL_USER_UUID)) {
                 return new ArrayList<>();
             }
             ResultSet sign = SqlUtil.getResults(MessageFormat.format("SELECT {0} FROM {1} WHERE {2} = ''{3}'' LIMIT 1;", COL_SIGN, SHEET, COL_USER_UUID, p.getUniqueId().toString()));
+            assert sign != null;
             return new Gson().fromJson(sign.getString(1), new TypeToken<ArrayList<String>>() {
             }.getType());
 
