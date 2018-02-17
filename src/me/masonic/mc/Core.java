@@ -126,7 +126,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PrivilegeManager(), this);
         getServer().getPluginManager().registerEvents(new ExpPriviledge(), this);
         getServer().getPluginManager().registerEvents(new Message(), this);
-        getServer().getPluginManager().registerEvents(Vitality.getListener(), this);
+        getServer().getPluginManager().registerEvents(new Vitality(), this);
     }
 
     private void registerCmd() {

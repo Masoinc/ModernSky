@@ -10,15 +10,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.ehcache.Cache;
 import org.ehcache.CacheManager;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +25,7 @@ import java.util.*;
 //      - Progress1 进度(int/100)
 //      - Progress2 进度
 //      - Progress3 进度
-public class Vitality {
+public class Vitality implements Listener {
 
     public final static String COL_USER_NAME = "user_name";
     public final static String COL_USER_UUID = "user_uuid";
@@ -40,7 +35,7 @@ public class Vitality {
     public final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_VITALITY, COL_PROGRESS_SET);
 
-    static Cache<UUID, VitalityRecord> cache;
+//    static Cache<UUID, VitalityRecord> cache;
 
     static List<Integer> quest_slot = new LinkedList<>(Arrays.asList(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25));
 
@@ -62,9 +57,21 @@ public class Vitality {
         menu.open(p);
     }
 
-    public static VitalityListener getListener() {
-        return new VitalityListener();
-    }
+//    public static VitalityListener getListener() {
+//        return new VitalityListener();
+//    }
+
+//    @EventHandler
+//    private void onJoin(PlayerJoinEvent e) {
+//        Player p = e.getPlayer();
+//        VitalityRecord vr = VitalityRecord.getInstance(p.getUniqueId());
+//
+//        if (vr.getProgress(VitalityQuest.LOGIN1.codename) < 100) {
+//            vr.setProgress(VitalityQuest.LOGIN1.codename, 100);
+//            VitalityQuest.LOGIN1.reward.send(p);
+//            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
+//        }
+//    }
 }
 
 class VitalityRecord {
@@ -94,7 +101,8 @@ class VitalityRecord {
     }
 
     static VitalityRecord getInstance(UUID p) {
-        return Vitality.cache.containsKey(p) ? Vitality.cache.get(p) : new VitalityRecord(p, getProgressRecord(p),0);
+//        return Vitality.cache.containsKey(p) ? Vitality.cache.get(p) : new VitalityRecord(p, getProgressRecord(p),0);
+        return new VitalityRecord(p, getProgressRecord(p),0);
     }
 
     int getProgress(String quest_codename) {
@@ -107,24 +115,24 @@ class VitalityRecord {
         }});
 
         this.save();
-        refreshCache();
+//        refreshCache();
     }
 
-    public void refreshCache() {
-        Vitality.cache.put(this.p, getInstance(p));
-    }
+//    public void refreshCache() {
+//        Vitality.cache.put(this.p, getInstance(p));
+//    }
 
     void save() {
         String sql;
         if (!SqlUtil.ifExist(this.p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
             sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`, `{4}`) VALUES(''{5}'',''{6}'',''{7}'', ''{8}'');";
             SqlUtil.update(MessageFormat.format(sql, Vitality.SHEET, Vitality.COL_USER_NAME, Vitality.COL_USER_UUID, Vitality.COL_PROGRESS_SET,
-                    Vitality.COL_VITALITY, Bukkit.getPlayer(p).getPlayerListName(), p, new Gson().toJson(progress), 0));
+                    Vitality.COL_VITALITY, Bukkit.getPlayer(p).getPlayerListName(), p, new Gson().toJson(progress), this.vitality));
             return;
         }
 
-        sql = "UPDATE {0} SET `{1}` = ''{2}'' WHERE `{3}` = ''{4}'';";
-        SqlUtil.update(MessageFormat.format(sql, Vitality.SHEET, Vitality.COL_PROGRESS_SET, new Gson().toJson(progress), Vitality.COL_USER_UUID, this.p));
+        sql = "UPDATE {0} SET `{1}` = ''{2}'', `{3}` = ''{4}'' WHERE `{5}` = ''{6}'';";
+        SqlUtil.update(MessageFormat.format(sql, Vitality.SHEET, Vitality.COL_PROGRESS_SET, new Gson().toJson(progress), Vitality.COL_VITALITY, this.vitality, Vitality.COL_USER_UUID, this.p));
     }
 
     static HashMap<String, HashMap<String, Integer>> getProgressRecord(UUID p) {
@@ -147,8 +155,8 @@ class VitalityRecord {
 class VitalityCache {
     static void init() {
         CacheManager cacheManager = Core.getCacheManager();
-        Vitality.cache = cacheManager.createCache("vitality_cache",
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, VitalityRecord.class, ResourcePoolsBuilder.heap(10)));
+//        Vitality.cache = cacheManager.createCache("vitality_cache",
+//                CacheConfigurationBuilder.newCacheConfigurationBuilder(UUID.class, VitalityRecord.class, ResourcePoolsBuilder.heap(10)));
     }
 }
 
@@ -211,18 +219,8 @@ enum VitalityQuest {
 
 
 }
-
-class VitalityListener implements Listener {
-
-    @EventHandler
-    private void onJoin(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        VitalityRecord vr = VitalityRecord.getInstance(p.getUniqueId());
-
-        if (vr.getProgress(VitalityQuest.LOGIN1.codename) < 100) {
-            vr.setProgress(VitalityQuest.LOGIN1.codename, 100);
-            VitalityQuest.LOGIN1.reward.send(p);
-            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]奖励已发放", VitalityQuest.LOGIN1.desc));
-        }
-    }
-}
+//
+//class VitalityListener implements Listener {
+//
+//
+//}
