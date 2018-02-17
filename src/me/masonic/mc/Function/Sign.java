@@ -4,6 +4,7 @@ import api.praya.myitems.main.MyItemsAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
+import me.masonic.mc.Function.Reward.Reward;
 import me.masonic.mc.Utility.PermissionUtil;
 import me.masonic.mc.Utility.SqlUtil;
 import me.masonic.mc.Utility.TimeUtil;
@@ -248,7 +249,7 @@ public class Sign {
                     }
 
                     // 发放奖励
-                    SignReward.getSignKitReward(KIT_SLOT.get(slot_dynamic)).send(p);
+                    SignReward.getSignKitReward(KIT_SLOT.get(slot_dynamic)).send(p.getUniqueId());
                     p.sendMessage(Core.getPrefix() + "累签奖励已发放~");
 
                     String sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}''";

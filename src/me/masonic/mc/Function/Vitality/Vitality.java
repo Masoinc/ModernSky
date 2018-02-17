@@ -3,7 +3,7 @@ package me.masonic.mc.Function.Vitality;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.masonic.mc.Core;
-import me.masonic.mc.Function.Reward;
+import me.masonic.mc.Function.Reward.Reward;
 import me.masonic.mc.Objects.Icons;
 import me.masonic.mc.Utility.SqlUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -39,6 +39,7 @@ public class Vitality implements Listener {
             "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_PROGRESS);
 
+    public final static VitalityListener LISTENER = new VitalityListener();
 //    static Cache<UUID, VitalityRecord> cache;
 
     static List<Integer> quest_slot = new LinkedList<>(Arrays.asList(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25));
@@ -51,6 +52,10 @@ public class Vitality implements Listener {
         VitalityRecord.getInstance(p.getUniqueId()).setVitality(v);
     }
 
+    public static void addVitality(UUID p, int v) {
+        VitalityRecord.getInstance(p).addVitality(v);
+    }
+
     public static int getVitality(Player p) {
         return VitalityRecord.getInstance(p.getUniqueId()).vitality;
     }
@@ -61,6 +66,10 @@ public class Vitality implements Listener {
 
     public static int getProgress(Player p, String codename) {
         return VitalityRecord.getInstance(p.getUniqueId()).getProgress(codename);
+    }
+
+    public static VitalityListener getListener() {
+        return new VitalityListener();
     }
 
     public static void openvi(Player p) {
@@ -76,16 +85,6 @@ public class Vitality implements Listener {
             index++;
         }
         menu.open(p);
-    }
-
-    @EventHandler
-    private void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        if (getProgress(p, VitalityQuest.LOGIN1.codename) < 100) {
-            setProgress(p, VitalityQuest.LOGIN1.codename, 100);
-            p.sendMessage(VitalityQuest.valueOf("LOGIN1").reward.toString());
-            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
-        }
     }
 }
 
@@ -135,6 +134,11 @@ class VitalityRecord {
 
     void setVitality(int v) {
         this.vitality = v;
+        this.save();
+    }
+
+    void addVitality(int v) {
+        this.vitality += v;
         this.save();
     }
 
@@ -209,29 +213,43 @@ class VitalityCache {
     }
 }
 
+class VitalityListener implements Listener {
+
+
+    @EventHandler
+    private void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        if (Vitality.getProgress(p, VitalityQuest.LOGIN1.codename) < 100) {
+            Vitality.setProgress(p, VitalityQuest.LOGIN1.codename, 100);
+            VitalityQuest.LOGIN1.reward.send(p.getUniqueId());
+            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
+        }
+    }
+}
+
 enum VitalityQuest {
-    LOGIN1("§7每日打卡 §8- §6I", "LOGIN1", "登入游戏", 5, new Reward(50, 0, new HashMap<String, Integer>() {{
-    }})),
-    PLAY1("§7每日打卡 §8- §6II", "PLAY1", "在线 §61 §7小时", 10, new Reward(100, 20, new HashMap<String, Integer>() {{
-    }})),
-    PLAY2("§7每日打卡 §8- §6III", "PLAY2", "§611:00-13:00 §7期间在线", 5, new Reward(50, 20, new HashMap<String, Integer>() {{
-    }})),
-    PLAY3("§7每日打卡 §8- §6IV", "PLAY3", "§617:00-19:00 §7期间在线", 5, new Reward(100, 20, new HashMap<String, Integer>() {{
-    }})),
-    SLIMEFUN1("§7Technawlgy is pawer §8- §6I", "SLIMEFUN1", "制造任意一种太阳能发电机", 15, new Reward(120, 0, new HashMap<String, Integer>() {{
+    LOGIN1("§7每日打卡 §8- §6I", "LOGIN1", "登入游戏", new Reward(50, 0, new HashMap<String, Integer>() {{
+    }}).appendVitality(5)),
+    PLAY1("§7每日打卡 §8- §6II", "PLAY1", "在线 §61 §7小时", new Reward(100, 20, new HashMap<String, Integer>() {{
+    }}).appendVitality(5)),
+    PLAY2("§7每日打卡 §8- §6III", "PLAY2", "§611:00-13:00 §7期间在线", new Reward(50, 20, new HashMap<String, Integer>() {{
+    }}).appendVitality(5)),
+    PLAY3("§7每日打卡 §8- §6IV", "PLAY3", "§617:00-19:00 §7期间在线", new Reward(100, 20, new HashMap<String, Integer>() {{
+    }}).appendVitality(5)),
+    SLIMEFUN1("§7Technawlgy is pawer §8- §6I", "SLIMEFUN1", "制造任意一种太阳能发电机", new Reward(120, 0, new HashMap<String, Integer>() {{
         put("sf3", 1);
-    }})),
-    SLIMEFUN2("§7Technawlgy is pawer §8- §6II", "SLIMEFUN2", "制造任意一种蓄电池", 15, new Reward(120, 0, new HashMap<String, Integer>() {{
+    }}).appendVitality(15)),
+    SLIMEFUN2("§7Technawlgy is pawer §8- §6II", "SLIMEFUN2", "制造任意一种蓄电池", new Reward(120, 0, new HashMap<String, Integer>() {{
         put("sf13", 4);
-    }})),
-    SLIMEFUN3("§7Magika is pawer §8- §6I", "SLIMEFUN3", "制造 §9末影之尘 §8- §2III §7x3", 20, new Reward(80, 0, new HashMap<String, Integer>() {{
+    }}).appendVitality(15)),
+    SLIMEFUN3("§7Magika is pawer §8- §6I", "SLIMEFUN3", "制造 §9末影之尘 §8- §2III §7x3", new Reward(80, 0, new HashMap<String, Integer>() {{
         put("sf8", 10);
-    }})),
-    ADVANCEDAB1("§7天选之人 §8- §6I", "ADVANCEDAB1", "解锁任意被动天赋", 20, new Reward(150, 0, new HashMap<String, Integer>() {{
-    }})),
-    KILL1("§7天选之人 §8- §6I", "无伤击杀 §620 §7只僵尸", "KILL1", 15, new Reward(120, 0, new HashMap<String, Integer>() {{
-    }})),
-    POTION1("§7魔法师的必修课 §8- §6I", "POTION1", "酿造 §63 §7种药水", 15, new Reward(60, 20, new HashMap<>()).appendRawItem(new HashMap<Material, Integer>() {{
+    }}).appendVitality(20)),
+    ADVANCEDAB1("§7天选之人 §8- §6I", "ADVANCEDAB1", "解锁任意被动天赋", new Reward(150, 0, new HashMap<String, Integer>() {{
+    }}).appendVitality(20)),
+    KILL1("§7天选之人 §8- §6I", "无伤击杀 §620 §7只僵尸", "KILL1", new Reward(120, 0, new HashMap<String, Integer>() {{
+    }}).appendVitality(15)),
+    POTION1("§7魔法师的必修课 §8- §6I", "POTION1", "酿造 §63 §7种药水", new Reward(60, 20, new HashMap<>()).appendRawItem(new HashMap<Material, Integer>() {{
         put(Material.SAND, 10);
     }}));
 
@@ -241,11 +259,10 @@ enum VitalityQuest {
     int vitality;
     Reward reward;
 
-    VitalityQuest(String display, String codename, String desc, int vitality, Reward reward) {
+    VitalityQuest(String display, String codename, String desc, Reward reward) {
         this.display = display;
         this.desc = desc;
         this.codename = codename;
-        this.vitality = vitality;
         this.reward = reward;
     }
 
@@ -271,9 +288,12 @@ enum VitalityQuest {
         icon.setItemMeta(meta);
         return icon;
     }
+
+    void bonousHandler(UUID p) {
+        if (VitalityRecord.getInstance(p).getProgress(this.codename) >= 100) {
+            this.reward.send(p);
+        } else {
+
+        }
+    }
 }
-//
-//class VitalityListener implements Listener {
-//
-//
-//}

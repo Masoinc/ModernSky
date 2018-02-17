@@ -65,7 +65,7 @@ public class Repository {
 
     private static HashMap<String, ArrayList<String>> TYPE_MAP = new HashMap<>();
 
-    static ArrayList<String> getStorableMap() {
+    public static ArrayList<String> getStorableMap() {
         return STORABLE_MAP;
     }
 
