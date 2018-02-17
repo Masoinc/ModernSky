@@ -50,6 +50,7 @@ public class Core extends JavaPlugin {
 
     public final static String VERSION = "0.2.8";
 
+    public final static Boolean DEBUG = true;
 
     @Override
     public void onEnable() {

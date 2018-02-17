@@ -1,5 +1,6 @@
 package me.masonic.mc.Cmd;
 
+import me.masonic.mc.Core;
 import me.masonic.mc.Function.Announce;
 import me.masonic.mc.Function.Repository;
 import me.masonic.mc.Function.Vitality.Vitality;
@@ -62,6 +63,33 @@ public class MskyCore implements CommandExecutor {
                 switch (args[1]) {
                     case "open":
                         Vitality.openvi((Player) c);
+                        return true;
+                    //mskycore vi set [player] [value]
+                    case "set":
+                        if (args.length < 3) {
+                            c.sendMessage(Core.getPrefix() + "参数有误");
+                            return true;
+                        }
+                        p = Bukkit.getPlayer(args[2]);
+                        Vitality.setVitality(p, Integer.parseInt(args[3]));
+                        c.sendMessage(Core.getPrefix() + "活跃度已发放");
+                        return true;
+                    case "progress":
+                        String cname;
+                        switch (args[2]) {
+                            //mskycore vi progress show [player] [codename]
+                            case "show":
+                                p = Bukkit.getPlayer(args[3]);
+                                cname = args[4];
+                                c.sendMessage(Core.getPrefix() + Vitality.getProgress(p, cname));
+                                return true;
+                            //mskycore vi progress set [player] [codename] [progress]
+                            case "set":
+                                p = Bukkit.getPlayer(args[3]);
+                                cname = args[4];
+                                Vitality.setProgress(p, cname, Integer.parseInt(args[5]));
+                                return true;
+                        }
                         return true;
                 }
             case "test":

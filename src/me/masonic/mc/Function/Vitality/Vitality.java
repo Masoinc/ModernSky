@@ -10,7 +10,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.ehcache.CacheManager;
@@ -29,11 +31,11 @@ public class Vitality implements Listener {
 
     public final static String COL_USER_NAME = "user_name";
     public final static String COL_USER_UUID = "user_uuid";
-    public final static String COL_VITALITY = "vitality";
-    public final static String COL_PROGRESS_SET = "progress";
+    public final static String COL_PROGRESS = "progress";
     public final static String SHEET = "vitality";
-    public final static String INIT_QUERY = MessageFormat.format("CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL, `{4}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
-            SHEET, COL_USER_NAME, COL_USER_UUID, COL_VITALITY, COL_PROGRESS_SET);
+    public final static String INIT_QUERY = MessageFormat.format(
+            "CREATE TABLE IF NOT EXISTS `{0}` (`{1}` VARCHAR(32) NOT NULL,`{2}` VARCHAR(40) NOT NULL, `{3}` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+            SHEET, COL_USER_NAME, COL_USER_UUID, COL_PROGRESS);
 
 //    static Cache<UUID, VitalityRecord> cache;
 
@@ -43,10 +45,26 @@ public class Vitality implements Listener {
         VitalityCache.init();
     }
 
+    public static void setVitality(Player p, int v) {
+        VitalityRecord.getInstance(p.getUniqueId()).setVitality(v);
+    }
+
+    public static int getVitality(Player p) {
+        return VitalityRecord.getInstance(p.getUniqueId()).vitality;
+    }
+
+    public static void setProgress(Player p, String codename, int progress) {
+        VitalityRecord.getInstance(p.getUniqueId()).setProgress(codename, progress);
+    }
+
+    public static int getProgress(Player p, String codename) {
+        return VitalityRecord.getInstance(p.getUniqueId()).getProgress(codename);
+    }
+
     public static void openvi(Player p) {
         final ChestMenu menu = new ChestMenu("  日常-活跃度");
         Icons.addBaseIcon(menu, "back", 43);
-        menu.addItem(37,VitalityRecord.getInstance(p.getUniqueId()).getStat());
+        menu.addItem(37, VitalityRecord.getInstance(p.getUniqueId()).getStat());
         menu.addMenuClickHandler(37, (p1, p2, p3, p4) -> false);
         int index = 0;
         for (VitalityQuest vq : VitalityQuest.values()) {
@@ -57,29 +75,23 @@ public class Vitality implements Listener {
         menu.open(p);
     }
 
-//    public static VitalityListener getListener() {
-//        return new VitalityListener();
-//    }
-
-//    @EventHandler
-//    private void onJoin(PlayerJoinEvent e) {
-//        Player p = e.getPlayer();
-//        VitalityRecord vr = VitalityRecord.getInstance(p.getUniqueId());
-//
-//        if (vr.getProgress(VitalityQuest.LOGIN1.codename) < 100) {
-//            vr.setProgress(VitalityQuest.LOGIN1.codename, 100);
-//            VitalityQuest.LOGIN1.reward.send(p);
-//            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
-//        }
-//    }
+    @EventHandler
+    private void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        if (getProgress(p, VitalityQuest.LOGIN1.codename) < 100) {
+            setProgress(p, VitalityQuest.LOGIN1.codename, 100);
+            p.sendMessage(VitalityQuest.valueOf("LOGIN1").reward.toString());
+            p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
+        }
+    }
 }
 
 class VitalityRecord {
-    HashMap<String, HashMap<String, Integer>> progress;
-    UUID p;
+    private HashMap<String, HashMap<String, Integer>> progress;
+    private UUID p;
     int vitality;
 
-    VitalityRecord(UUID p, HashMap<String, HashMap<String, Integer>> progress, int vitality) {
+    private VitalityRecord(UUID p, HashMap<String, HashMap<String, Integer>> progress, int vitality) {
         this.progress = progress;
         this.vitality = vitality;
         this.p = p;
@@ -102,7 +114,7 @@ class VitalityRecord {
 
     static VitalityRecord getInstance(UUID p) {
 //        return Vitality.cache.containsKey(p) ? Vitality.cache.get(p) : new VitalityRecord(p, getProgressRecord(p),0);
-        return new VitalityRecord(p, getProgressRecord(p),0);
+        return new VitalityRecord(p, getProgressRecord(p), getVitalityValue(p));
     }
 
     int getProgress(String quest_codename) {
@@ -113,38 +125,71 @@ class VitalityRecord {
         this.progress.put(quest_codename, new HashMap<String, Integer>() {{
             put("pro1", progress);
         }});
-
         this.save();
 //        refreshCache();
+    }
+
+    void setVitality(int v) {
+        this.vitality = v;
+        this.save();
     }
 
 //    public void refreshCache() {
 //        Vitality.cache.put(this.p, getInstance(p));
 //    }
 
-    void save() {
+    private void save() {
         String sql;
         if (!SqlUtil.ifExist(this.p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
-            sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`, `{4}`) VALUES(''{5}'',''{6}'',''{7}'', ''{8}'');";
-            SqlUtil.update(MessageFormat.format(sql, Vitality.SHEET, Vitality.COL_USER_NAME, Vitality.COL_USER_UUID, Vitality.COL_PROGRESS_SET,
-                    Vitality.COL_VITALITY, Bukkit.getPlayer(p).getPlayerListName(), p, new Gson().toJson(progress), this.vitality));
+            sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUES(''{4}'',''{5}'',''{6}'');";
+            SqlUtil.update(MessageFormat.format(sql,
+                    Vitality.SHEET,
+                    Vitality.COL_USER_NAME,
+                    Vitality.COL_USER_UUID,
+                    Vitality.COL_PROGRESS,
+                    Bukkit.getPlayer(p).getPlayerListName(),
+                    p,
+                    new Gson().toJson(this),
+                    this.vitality));
             return;
         }
-
-        sql = "UPDATE {0} SET `{1}` = ''{2}'', `{3}` = ''{4}'' WHERE `{5}` = ''{6}'';";
-        SqlUtil.update(MessageFormat.format(sql, Vitality.SHEET, Vitality.COL_PROGRESS_SET, new Gson().toJson(progress), Vitality.COL_VITALITY, this.vitality, Vitality.COL_USER_UUID, this.p));
+        sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}'';";
+        SqlUtil.update(MessageFormat.format(sql,
+                Vitality.SHEET,
+                Vitality.COL_PROGRESS,
+                new Gson().toJson(this),
+                Vitality.COL_USER_UUID,
+                this.p));
     }
 
-    static HashMap<String, HashMap<String, Integer>> getProgressRecord(UUID p) {
+    private static int getVitalityValue(UUID p) {
+        if (!SqlUtil.ifExist(p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
+            return 0;
+        }
+        String sql = "SELECT {0} FROM {1} WHERE `{2}` = ''{3}'';";
+        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Vitality.COL_PROGRESS, Vitality.SHEET, Vitality.COL_USER_UUID, p));
+        try {
+            assert rs != null;
+            VitalityRecord vr = new Gson().fromJson(rs.getString(1), new TypeToken<VitalityRecord>() {
+            }.getType());
+            return vr.vitality;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static HashMap<String, HashMap<String, Integer>> getProgressRecord(UUID p) {
         if (!SqlUtil.ifExist(p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
             return new HashMap<>();
         }
         String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
-        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Vitality.COL_PROGRESS_SET, Vitality.SHEET, Vitality.COL_USER_UUID, p));
+        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Vitality.COL_PROGRESS, Vitality.SHEET, Vitality.COL_USER_UUID, p));
         assert rs != null;
         try {
-            return new Gson().fromJson(rs.getString(1), new TypeToken<HashMap<String, HashMap<String, Integer>>>() {
+            VitalityRecord vr = new Gson().fromJson(rs.getString(1), new TypeToken<VitalityRecord>() {
             }.getType());
+            return vr.progress;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -216,8 +261,6 @@ enum VitalityQuest {
         icon.setItemMeta(meta);
         return icon;
     }
-
-
 }
 //
 //class VitalityListener implements Listener {
