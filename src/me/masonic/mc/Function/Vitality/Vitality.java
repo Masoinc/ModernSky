@@ -24,11 +24,17 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.*;
 
-// - COL_PROGRESSSET
-//    - CODENAME
-//      - Progress1 进度(int/100)
-//      - Progress2 进度
-//      - Progress3 进度
+// Data Structure
+// COL_PROGRESS
+// - VitalityRecord(json)
+//   - p: uuid
+//   - vitality: v
+//   - progress:  HashMap<String, Integer>
+//     - quest_codename: progress[100,0,2]
+//     - quest_codename: progress[100]
+
+// 数据存储对象的成员变量必须初始化
+// 使用ResultSet的get方法务必注意结果为空的情况
 public class Vitality implements Listener {
 
     public final static String COL_USER_NAME = "user_name";
@@ -40,7 +46,6 @@ public class Vitality implements Listener {
             SHEET, COL_USER_NAME, COL_USER_UUID, COL_PROGRESS);
 
     public final static VitalityListener LISTENER = new VitalityListener();
-//    static Cache<UUID, VitalityRecord> cache;
 
     static List<Integer> quest_slot = new LinkedList<>(Arrays.asList(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25));
 
@@ -60,12 +65,12 @@ public class Vitality implements Listener {
         return VitalityRecord.getInstance(p.getUniqueId()).vitality;
     }
 
-    public static void setProgress(Player p, String codename, int progress) {
+    public static void setProgress(Player p, String codename, Integer progress) {
         VitalityRecord.getInstance(p.getUniqueId()).setProgress(codename, progress);
     }
 
     public static int getProgress(Player p, String codename) {
-        return VitalityRecord.getInstance(p.getUniqueId()).getProgress(codename);
+        return VitalityRecord.getInstance(p.getUniqueId()).getQuestProgress(codename);
     }
 
     public static VitalityListener getListener() {
@@ -79,7 +84,7 @@ public class Vitality implements Listener {
         menu.addMenuClickHandler(37, (p1, p2, p3, p4) -> false);
         int index = 0;
         for (VitalityQuest vq : VitalityQuest.values()) {
-            boolean completed = VitalityRecord.getInstance(p.getUniqueId()).getProgress(vq.codename) >= 100;
+            boolean completed = VitalityRecord.getInstance(p.getUniqueId()).getQuestProgress(vq.codename) >= 100;
             menu.addItem(quest_slot.get(index), vq.getIcon(completed));
             menu.addMenuClickHandler(quest_slot.get(index), (p1, p2, p3, p4) -> false);
             index++;
@@ -89,14 +94,19 @@ public class Vitality implements Listener {
 }
 
 class VitalityRecord {
-    private HashMap<String, HashMap<String, Integer>> progress;
+    // 类变量使用泛型时要指定类型进行初始化
+    private HashMap<String, Integer> progress = new HashMap();
     private UUID p;
-    int vitality;
+    int vitality = 0;
 
-    private VitalityRecord(UUID p, HashMap<String, HashMap<String, Integer>> progress, int vitality) {
+    private VitalityRecord(UUID p, HashMap<String, Integer> progress, int vitality) {
         this.progress = progress;
         this.vitality = vitality;
         this.p = p;
+    }
+
+    public HashMap<String, Integer> getProgress() {
+        return this.progress;
     }
 
     ItemStack getStat() {
@@ -116,18 +126,19 @@ class VitalityRecord {
     }
 
     static VitalityRecord getInstance(UUID p) {
-//        return Vitality.cache.containsKey(p) ? Vitality.cache.get(p) : new VitalityRecord(p, getProgressRecord(p),0);
         return new VitalityRecord(p, getProgressRecord(p), getVitalityValue(p));
     }
 
-    int getProgress(String quest_codename) {
-        return this.progress.getOrDefault(quest_codename, new HashMap<>()).getOrDefault("pro1", 0);
+    int getQuestProgress(String quest_codename) {
+        HashMap<String, Integer> quest_map = this.getProgress();
+
+        return quest_map == null ? 0 : (quest_map.getOrDefault(quest_codename, 0));
     }
 
-    void setProgress(String quest_codename, int progress) {
-        this.progress.put(quest_codename, new HashMap<String, Integer>() {{
-            put("pro1", progress);
-        }});
+    void setProgress(String quest_codename, Integer progress) {
+        HashMap<String, Integer> quest_map = this.progress;
+        quest_map.put(quest_codename, progress);
+        this.progress = quest_map;
         this.save();
 //        refreshCache();
     }
@@ -150,15 +161,19 @@ class VitalityRecord {
         String sql;
         if (!SqlUtil.ifExist(this.p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
             sql = "INSERT INTO {0}(`{1}`, `{2}`, `{3}`) VALUES(''{4}'',''{5}'',''{6}'');";
-            SqlUtil.update(MessageFormat.format(sql,
+            String sql_processed = MessageFormat.format(sql,
                     Vitality.SHEET,
                     Vitality.COL_USER_NAME,
                     Vitality.COL_USER_UUID,
                     Vitality.COL_PROGRESS,
                     Bukkit.getPlayer(p).getPlayerListName(),
                     p,
-                    new Gson().toJson(this),
-                    this.vitality));
+                    new Gson().toJson(this.progress),
+                    this.vitality);
+            SqlUtil.update(sql_processed);
+            if (Core.SQL_DEBUG) {
+                System.out.println(sql_processed);
+            }
             return;
         }
         sql = "UPDATE {0} SET {1} = ''{2}'' WHERE {3} = ''{4}'';";
@@ -178,30 +193,50 @@ class VitalityRecord {
         ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Vitality.COL_PROGRESS, Vitality.SHEET, Vitality.COL_USER_UUID, p));
         try {
             assert rs != null;
-            VitalityRecord vr = new Gson().fromJson(rs.getString(1), new TypeToken<VitalityRecord>() {
-            }.getType());
-            return vr.vitality;
+            while(rs.next()) {
+                String raw_json = rs.getString(1);
+                VitalityRecord vr = new Gson().fromJson(raw_json, new TypeToken<VitalityRecord>() {
+                }.getType());
+                return vr.vitality;
+            }
+            return 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
 
-    private static HashMap<String, HashMap<String, Integer>> getProgressRecord(UUID p) {
+    /**
+     * 从数据库取得 Progress 记录并翻译
+     *
+     * @param p 玩家
+     * @return HashMap<String, Integer> 格式的 Progress 记录
+     */
+    private static HashMap<String, Integer> getProgressRecord(UUID p) {
+        HashMap<String, Integer> init_map = new HashMap<String, Integer>() {{
+            put("sf8", 10);
+        }};
         if (!SqlUtil.ifExist(p, Vitality.SHEET, Vitality.COL_USER_UUID)) {
-            return new HashMap<>();
+            return init_map;
         }
         String sql = "SELECT {0} FROM {1} WHERE {2} = ''{3}'';";
         ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Vitality.COL_PROGRESS, Vitality.SHEET, Vitality.COL_USER_UUID, p));
         assert rs != null;
         try {
-            VitalityRecord vr = new Gson().fromJson(rs.getString(1), new TypeToken<VitalityRecord>() {
-            }.getType());
-            return vr.progress;
+            // 忘加resultset为空的判断
+            Boolean empty = true;
+            while(rs.next()) {
+                String raw_json = rs.getString(1);
+                VitalityRecord vr = new Gson().fromJson(raw_json, new TypeToken<VitalityRecord>() {
+                }.getType());
+                return vr.progress;
+            }
+            return init_map;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new HashMap<>();
+        return init_map;
     }
 }
 
@@ -214,8 +249,6 @@ class VitalityCache {
 }
 
 class VitalityListener implements Listener {
-
-
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -225,6 +258,8 @@ class VitalityListener implements Listener {
             p.sendMessage(Core.getPrefix() + MessageFormat.format("日常活跃度任务§8[ §6{0} §8]§7奖励已发放", VitalityQuest.LOGIN1.desc));
         }
     }
+
+
 }
 
 enum VitalityQuest {
@@ -289,7 +324,7 @@ enum VitalityQuest {
     }
 
     void bonousHandler(UUID p) {
-        if (VitalityRecord.getInstance(p).getProgress(this.codename) >= 100) {
+        if (VitalityRecord.getInstance(p).getQuestProgress(this.codename) >= 100) {
             this.reward.send(p);
         } else {
 

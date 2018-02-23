@@ -135,7 +135,6 @@ public class InvIcon implements Listener {
         p.getInventory().setItem(8, phone);
         p.getInventory().setItem(17, getBackpack(p));
     }
-
 }
 
 

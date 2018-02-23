@@ -81,15 +81,19 @@ class OnlineStat {
             SqlUtil.update(MessageFormat.format(sql, Online.SHEET, Online.COL_USER_NAME, Online.COL_USER_UUID, Online.COL_ONTIME, Bukkit.getPlayer(p).getPlayerListName(), p, json));
             return new OnlineStat(0, 0, p);
         }
-        sql = "SELECT {0} FROM {1} WHERE `{2}` = ''{3}'';";
-        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Online.COL_ONTIME, Online.COL_USER_UUID, p));
+        sql = "SELECT `{0}` FROM {1} WHERE `{2}` = ''{3}'';";
+        ResultSet rs = SqlUtil.getResults(MessageFormat.format(sql, Online.COL_ONTIME, Online.SHEET, Online.COL_USER_UUID, p));
         try {
             assert rs != null;
-            return new Gson().fromJson(rs.getString(1), new TypeToken<OnlineStat>() {
-            }.getType());
+            while (rs.next()) {
+                String raw_json = rs.getString(1);
+                return new Gson().fromJson(raw_json, new TypeToken<OnlineStat>() {
+                }.getType());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return new OnlineStat(0, 0, p);
     }
 
@@ -110,6 +114,7 @@ class OnlineListener implements Listener {
     @EventHandler
     void onJoin(PlayerJoinEvent e) {
         Online.cache.put(e.getPlayer().getUniqueId(), System.currentTimeMillis());
+        System.out.println(Online.cache.toString());
     }
 
     @EventHandler

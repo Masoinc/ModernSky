@@ -8,14 +8,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8573a14c-2739-42dd-bc51-3c0016e961c4" name="Default" comment="Version 0.2.8&#10;Date 18.2.14">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/CosmicChest__2__CRACKED.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/Lottery_1_15_CRACKED.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/MCRMB_GBK_1_1_2_BETA_b6fe9f6.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/PlayerPoints_2_1_5_Mcrmb1_0_9_20170129_.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/libraries/denizen_1_0_1_SNAPSHOT.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/VitalityListener.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/CSCoreLibSetup/CSCoreLibLoader.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/CSCoreLibSetup/CSCoreLibLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyAdvancedAbility.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyAdvancedAbility.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyBackShop.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyBackShop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyCore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyDailyReward.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyDailyReward.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyMsg.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyMsg.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPackage.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPackage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPrivilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyPrivilege.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySign.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySign.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySlimeFun.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskySlimeFun.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyVip.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Cmd/MskyVip.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Core.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Announce.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Announce.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Ban.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Ban.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Exploration.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Exploration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/InvIcon.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/InvIcon.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Menu.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Menu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Message.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Message.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Online.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Online.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Package.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Package.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/AbilityPrivilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/AbilityPrivilege.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/BackPackPrivilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/BackPackPrivilege.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/ExpPriviledge.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/ExpPriviledge.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/Privilege.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/Privilege.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/PrivilegeManager.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/PrivilegeManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Reward.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Secure.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Secure.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sidebar.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sidebar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vip.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vip.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Hook/HookPapi.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Hook/HookPapi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Objects/DBinfo.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Objects/DBinfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Function.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Function.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Objects/Icons.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Objects/MskyPlayer.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Objects/MskyPlayer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/Announce.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/Announce.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/InventoryUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/InventoryUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/MessageUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/MessageUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/PermissionUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/PermissionUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/SqlUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/Utility/TimeUtil.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/Utility/TimeUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/me/masonic/mc/tester.java" afterPath="$PROJECT_DIR$/src/me/masonic/mc/tester.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/ModernSky_jar.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/ModernSky_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/SlimeFun_CN_.xml" afterPath="$PROJECT_DIR$/../SlimeFun-CN/.idea/artifacts/SlimeFun_CN_.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Setup/ResearchSetup.java" afterPath="$PROJECT_DIR$/../SlimeFun-CN/src/me/mrCookieSlime/Slimefun/Setup/ResearchSetup.java" />
@@ -51,53 +94,44 @@
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
-              <caret line="5" column="26" lean-forward="true" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-              <folding />
+              <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+              <folding>
+                <element signature="e#1486#1487#0" expanded="false" />
+                <element signature="e#1519#1520#0" expanded="false" />
+                <element signature="e#1564#1565#0" expanded="false" />
+                <element signature="e#1600#1601#0" expanded="false" />
+                <element signature="e#1643#1644#0" expanded="false" />
+                <element signature="e#1671#1672#0" expanded="false" />
+                <element signature="e#13294#13295#0" expanded="false" />
+                <element signature="e#13336#13337#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Vitality.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Vitality.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="723">
-              <caret line="293" column="16" lean-forward="true" selection-start-line="293" selection-start-column="16" selection-end-line="293" selection-end-column="16" />
+            <state relative-caret-position="7500">
+              <caret line="322" column="20" lean-forward="false" selection-start-line="322" selection-start-column="20" selection-end-line="322" selection-end-column="20" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1519253297188" expanded="true" signature="836:839" ph="//..." />
+                <marker date="1519253297188" expanded="true" signature="12064:12165" ph="{...}" />
+                <marker date="1519253297188" expanded="true" signature="12064:12167" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Core.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Core.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1863">
-              <caret line="149" column="5" lean-forward="true" selection-start-line="149" selection-start-column="5" selection-end-line="149" selection-end-column="5" />
+            <state relative-caret-position="25">
+              <caret line="150" column="5" lean-forward="false" selection-start-line="150" selection-start-column="5" selection-end-line="150" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1518861976509" expanded="true" signature="9040:9063" ph="SHOW TABLES " />
+                <marker date="1519247362020" expanded="true" signature="9099:9122" ph="SHOW TABLES " />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BungeeOnlineTime.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/BungeeOnlineTime.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-266">
-              <caret line="81" column="39" lean-forward="false" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Utils.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/Utils.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -105,8 +139,31 @@
       <file leaf-file-name="OnlineTimeListener.class" pinned="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeListener.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+            <state relative-caret-position="675">
+              <caret line="38" column="52" lean-forward="false" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MySQL.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/MySQL.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="975">
+              <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
+              <folding>
+                <marker date="1518854153207" expanded="true" signature="2041:2171" ph="SELECT SUM(l... onlineTimes" />
+                <marker date="1518854153207" expanded="true" signature="2977:3113" ph="SELECT uuid,... onlineTimes" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OnlineTimeCommand.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeCommand.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1775">
+              <caret line="85" column="92" lean-forward="false" selection-start-line="85" selection-start-column="92" selection-end-line="85" selection-end-column="92" />
               <folding />
             </state>
           </provider>
@@ -300,7 +357,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -346,8 +402,97 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utility" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Objects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Kotlin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ModernSky" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Function" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -844,7 +989,8 @@
       <workItem from="1518834544228" duration="11000" />
       <workItem from="1518839390628" duration="5437000" />
       <workItem from="1518844954824" duration="11127000" />
-      <workItem from="1518856965829" duration="4586000" />
+      <workItem from="1518856965829" duration="6489000" />
+      <workItem from="1519373622788" duration="58000" />
     </task>
     <task id="LOCAL-00001" summary="Version 0.2.7&#10;Date 18.2.10">
       <created>1518266458655</created>
@@ -916,11 +1062,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518862036309</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Version 0.2.8&#10;Date 18.2.17">
+      <created>1518862626956</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1518862626956</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185768000" />
+    <option name="totallyTimeSpent" value="187729000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -932,12 +1085,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934132" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30260304" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -949,7 +1101,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20842217" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21055438" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275488" sideWeight="0.49682036" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -962,6 +1114,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30260304" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275488" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1003,7 +1156,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/me/masonic/mc/Core.java</url>
-          <line>96</line>
+          <line>97</line>
           <properties />
           <option name="timeStamp" value="39" />
         </line-breakpoint>
@@ -1023,7 +1176,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.ideaLibSources/ehcache-3.4.0-sources.jar!/org/ehcache/core/Ehcache.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/mongodb/mongo-java-driver/3.4.2/mongo-java-driver-3.4.2.jar!/com/mongodb/Mongo.class" />
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Privilege/Privilege.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1126,7 +1278,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1134,7 +1285,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
           <caret line="17" column="47" lean-forward="false" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1227,9 +1377,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="43" column="26" lean-forward="false" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1255,7 +1402,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-38">
           <caret line="66" column="54" lean-forward="false" selection-start-line="66" selection-start-column="54" selection-end-line="66" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1265,30 +1411,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
           <caret line="609" column="13" lean-forward="false" selection-start-line="609" selection-start-column="13" selection-end-line="609" selection-end-column="13" />
-          <folding>
-            <element signature="e#24298#24299#0" expanded="false" />
-            <element signature="e#24363#24364#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Reward/RawReward.java" />
-    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/Utils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeCommand.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="33" column="27" lean-forward="false" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Repository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -1311,34 +1437,16 @@
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Sign.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
-          <caret line="5" column="26" lean-forward="true" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/BungeeOnlineTime.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-266">
-          <caret line="81" column="39" lean-forward="false" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeListener.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1863">
-          <caret line="149" column="5" lean-forward="true" selection-start-line="149" selection-start-column="5" selection-end-line="149" selection-end-column="5" />
+          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1518861976509" expanded="true" signature="9040:9063" ph="SHOW TABLES " />
+            <element signature="e#1486#1487#0" expanded="false" />
+            <element signature="e#1519#1520#0" expanded="false" />
+            <element signature="e#1564#1565#0" expanded="false" />
+            <element signature="e#1600#1601#0" expanded="false" />
+            <element signature="e#1643#1644#0" expanded="false" />
+            <element signature="e#1671#1672#0" expanded="false" />
+            <element signature="e#13294#13295#0" expanded="false" />
+            <element signature="e#13336#13337#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1349,18 +1457,72 @@
           <caret line="107" column="0" lean-forward="true" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4208#4209#0" expanded="true" />
-            <element signature="e#4297#4298#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Function/Vitality/Vitality.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="723">
-          <caret line="293" column="16" lean-forward="true" selection-start-line="293" selection-start-column="16" selection-end-line="293" selection-end-column="16" />
+        <state relative-caret-position="7500">
+          <caret line="322" column="20" lean-forward="false" selection-start-line="322" selection-start-column="20" selection-end-line="322" selection-end-column="20" />
+          <folding>
+            <marker date="1519253297188" expanded="true" signature="836:839" ph="//..." />
+            <marker date="1519253297188" expanded="true" signature="12064:12165" ph="{...}" />
+            <marker date="1519253297188" expanded="true" signature="12064:12167" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/MySQL.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
+          <folding>
+            <marker date="1518854153207" expanded="true" signature="2041:2171" ph="SELECT SUM(l... onlineTimes" />
+            <marker date="1518854153207" expanded="true" signature="2977:3113" ph="SELECT uuid,... onlineTimes" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeListener.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="38" column="52" lean-forward="false" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/Utils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/OnlineTimeCommand.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1775">
+          <caret line="85" column="92" lean-forward="false" selection-start-line="85" selection-start-column="92" selection-end-line="85" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/BungeeOnlineTime-5.5.jar!/lu/r3flexi0n/bungeeonlinetime/BungeeOnlineTime.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="53" column="32" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/me/masonic/mc/Core.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="150" column="5" lean-forward="false" selection-start-line="150" selection-start-column="5" selection-end-line="150" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1519247362020" expanded="true" signature="9099:9122" ph="SHOW TABLES " />
           </folding>
         </state>
       </provider>
